@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "36676984814",
+    "project_id": "online-homebakery",
+    "storage_bucket": "online-homebakery.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:36676984814:android:088ef7705a2a53c7f3b8ff",
+        "android_client_info": {
+          "package_name": "com.example.nihaljumailamrathaju"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "36676984814-s7t9ll58u6davegiveh28j05jhtqdkpn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCbqEYrnpElDLIwhqd3oFfwMaiS2nQdFMM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "36676984814-s7t9ll58u6davegiveh28j05jhtqdkpn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
