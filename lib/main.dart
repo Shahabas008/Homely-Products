@@ -1,13 +1,15 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:nihaljumailamrathaju/create_an_account/loginpage.dart';
-import 'package:nihaljumailamrathaju/create_an_account/signupforcustomer.dart';
-import 'package:nihaljumailamrathaju/create_an_account/signupforseller.dart';
-import 'package:nihaljumailamrathaju/create_an_account/signuppage.dart';
-import 'package:nihaljumailamrathaju/homepage/appbar_bottomnav.dart';
-import 'package:nihaljumailamrathaju/splashscreen/splashscreen.dart';
-import 'package:nihaljumailamrathaju/splashscreen/splashscreen2.dart';
+
 import 'firebase_options.dart';
+//import 'package:nihaljumailamrathaju/create_an_account/signupforcustomer.dart';
+//import 'package:nihaljumailamrathaju/create_an_account/signupforseller.dart';
+//import 'package:nihaljumailamrathaju/create_an_account/signuppage.dart';
+//import 'package:nihaljumailamrathaju/homepage/appbar_bottomnav.dart';
+//import 'package:nihaljumailamrathaju/splashscreen/splashscreen.dart';
+//import 'package:nihaljumailamrathaju/splashscreen/splashscreen2.dart';
+
 
 
 void main() async {

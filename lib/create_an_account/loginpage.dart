@@ -108,7 +108,7 @@ class _LoginpageState extends State<Loginpage> {
                         style: TextStyle(fontSize: 20, color: Colors.black),
                       ),
                       onPressed: () {
-                        Navigator.pushNamed(context, "signuppage");
+                        
                       },
                     )
                   ],
