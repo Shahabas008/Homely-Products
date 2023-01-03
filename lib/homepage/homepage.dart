@@ -1,7 +1,21 @@
+
+
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-class Homepage extends StatelessWidget {
+class Homepage extends StatefulWidget {
   const Homepage({super.key});
+
+  @override
+  State<Homepage> createState() => _HomepageState();
+}
+
+class _HomepageState extends State<Homepage> {
+final user = FirebaseAuth.instance.currentUser!;
+
+
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -31,14 +45,29 @@ class Homepage extends StatelessWidget {
                     IconButton(
                         color: Colors.white,
                         onPressed: () {
-                          //navigating to the notification page
+                         
                         },
                         icon: const Icon(Icons.add_box)),
                   ]),
+                  
             ),
+          ),
+          Center(
+             child: ElevatedButton(
+              
+              onPressed:(){
+            FirebaseAuth.instance.signOut();
+             }
+             
+             , child:const Text('sign out')),
           )
         ],
       ),
     );
   }
+
+
+
+
+
 }

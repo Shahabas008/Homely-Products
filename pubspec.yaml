@@ -38,6 +38,8 @@ dependencies:
   cupertino_icons: ^1.0.2
   bottom_nav_bar: ^1.0.3
   image_picker: ^0.8.6
+  firebase_auth: ^4.2.4
+  cloud_firestore: ^4.3.1
  
 
 dev_dependencies:

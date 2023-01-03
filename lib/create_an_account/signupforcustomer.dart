@@ -1,7 +1,17 @@
-import 'package:flutter/material.dart';
 
-class Signupforcustomer extends StatelessWidget {
+import 'package:flutter/material.dart';
+import 'package:nihaljumailamrathaju/resources/authpagecustomer.dart';
+
+
+class Signupforcustomer extends StatefulWidget {
   const Signupforcustomer({super.key});
+
+  @override
+  State<Signupforcustomer> createState() => _SignupforcustomerState();
+}
+
+class _SignupforcustomerState extends State<Signupforcustomer> {
+
 
   @override
   Widget build(BuildContext context) {
@@ -11,10 +21,15 @@ class Signupforcustomer extends StatelessWidget {
   }
 
   Widget body1(BuildContext context) {
+    final emailController = TextEditingController();
+    final passwordController = TextEditingController();
+    final usernameController = TextEditingController();
+    final phoneNumberController = TextEditingController();
+    final addressController = TextEditingController();
+
     return Center(
       child: SingleChildScrollView(
         child: Column(
-          
           children: <Widget>[
             Container(
               height: 180,
@@ -26,16 +41,16 @@ class Signupforcustomer extends StatelessWidget {
                 height: 50,
               ),
             ),
-            
             Container(
               width: double.infinity,
               height: 600,
-              padding: const EdgeInsets.all(15),
+              padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children:  [
-                  const TextField(
-                    decoration: InputDecoration(
+                children: [
+                  TextFormField(
+                    controller: usernameController,
+                    decoration: const InputDecoration(
                       focusedBorder: OutlineInputBorder(
                         borderSide:
                             BorderSide(color: Color(0xffffafcc), width: 2.0),
@@ -43,8 +58,19 @@ class Signupforcustomer extends StatelessWidget {
                       labelText: 'User Name',
                     ),
                   ),
-                  const TextField(
-                    decoration: InputDecoration(
+                  TextFormField(
+                    controller: emailController,
+                    decoration: const InputDecoration(
+                      focusedBorder: OutlineInputBorder(
+                        borderSide:
+                            BorderSide(color: Color(0xffffafcc), width: 2.0),
+                      ),
+                      labelText: 'E-Mail',
+                    ),
+                  ),
+                  TextFormField(
+                    controller: phoneNumberController,
+                    decoration: const InputDecoration(
                       focusedBorder: OutlineInputBorder(
                         borderSide:
                             BorderSide(color: Color(0xffffafcc), width: 2.0),
@@ -52,8 +78,9 @@ class Signupforcustomer extends StatelessWidget {
                       labelText: 'Phone Number',
                     ),
                   ),
-                  const TextField(
-                    decoration: InputDecoration(
+                  TextFormField(
+                    controller: addressController,
+                    decoration: const InputDecoration(
                       focusedBorder: OutlineInputBorder(
                         borderSide:
                             BorderSide(color: Color(0xffffafcc), width: 2.0),
@@ -61,9 +88,10 @@ class Signupforcustomer extends StatelessWidget {
                       labelText: 'Address',
                     ),
                   ),
-                  const TextField(
+                  TextFormField(
+                    controller: passwordController,
                     obscureText: true,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       focusedBorder: OutlineInputBorder(
                         borderSide:
                             BorderSide(color: Color(0xffffafcc), width: 2.0),
@@ -71,9 +99,9 @@ class Signupforcustomer extends StatelessWidget {
                       labelText: 'Login Password',
                     ),
                   ),
-                  const TextField(
+                  TextFormField(
                     obscureText: true,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       focusedBorder: OutlineInputBorder(
                         borderSide:
                             BorderSide(color: Color(0xffffafcc), width: 2.0),
@@ -81,21 +109,23 @@ class Signupforcustomer extends StatelessWidget {
                       labelText: 'Confirm \n Login Password',
                     ),
                   ),
-                 
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       ElevatedButton(
-                        
-                      style: ElevatedButton.styleFrom(
-                      
-                        backgroundColor:const Color(0xffffafcc),
-                        minimumSize: const Size(70, 40)
-                      ),
-                      child: const Text('Login'),
-                      onPressed: (){
-                         Navigator.pushNamed(context, "homelayout");
-                      }),
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: const Color(0xffffafcc),
+                              minimumSize: const Size(70, 40)),
+                          child: const Text('Login'),
+                          onPressed: () async {
+                            String res = await Authmethods1().signUpusercustomer(
+                                email: emailController.text,
+                                password: passwordController.text,
+                                username: usernameController.text,
+                                phonenumber: phoneNumberController.text,
+                                address: addressController.text);
+                            debugPrint(res);
+                          }),
                     ],
                   )
                 ],

@@ -2,6 +2,11 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:nihaljumailamrathaju/create_an_account/loginpage.dart';
 
+import 'package:nihaljumailamrathaju/create_an_account/signupforcustomer.dart';
+import 'package:nihaljumailamrathaju/create_an_account/signupforseller.dart';
+import 'package:nihaljumailamrathaju/create_an_account/signuppage.dart';
+import 'package:nihaljumailamrathaju/homepage/appbar_bottomnav.dart';
+
 import 'firebase_options.dart';
 //import 'package:nihaljumailamrathaju/create_an_account/signupforcustomer.dart';
 //import 'package:nihaljumailamrathaju/create_an_account/signupforseller.dart';
@@ -15,10 +20,12 @@ import 'firebase_options.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
+    options: DefaultFirebaseOptions.android,
 );
   runApp(const MyApp());
 }
+
+final navigatorKey =GlobalKey<NavigatorState>();
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -27,6 +34,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      navigatorKey: navigatorKey,
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         inputDecorationTheme:const  InputDecorationTheme(
@@ -42,10 +50,10 @@ class MyApp extends StatelessWidget {
         'splashscreen': (context) => const Loginpage(),
         //"splashscreen2":(context) => const Splashscreen2(),
         //'loginpage': (context) => const Loginpage(),
-        //'signuppage':(context) => const Signup(),
-        //'signupforcustomer':(context) => const Signupforcustomer(),
-        //'signupforseller':(context) => const Signupforseller(),
-        //'homelayout':(context) => const Homepagelayout(),
+        'signuppage':(context) => const Signup(),
+        'signupforcustomer':(context) => const Signupforcustomer(),
+        'signupforseller':(context) => const Signupforseller(),
+        'homelayout':(context) => const Homepagelayout(),
 
 
         

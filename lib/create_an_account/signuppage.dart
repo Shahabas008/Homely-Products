@@ -59,7 +59,7 @@ class Signup extends StatelessWidget {
                     minimumSize:const Size(130, 100)
                   ),
                   onPressed: () {
-                    Navigator.pushReplacementNamed(context, "signupforcustomer");
+                      Navigator.pushReplacementNamed(context, "signupforseller");
                   },
                   child: const Text("SELLER"),
                 ),
@@ -68,7 +68,8 @@ class Signup extends StatelessWidget {
                     minimumSize:const Size(100, 100)
                   ),
                   onPressed: () {
-                    Navigator.pushReplacementNamed(context, "signupforseller");
+                    
+                  Navigator.pushReplacementNamed(context, "signupforcustomer");
                   },
                   child: const Text("CUSTOMER"),
                 ),

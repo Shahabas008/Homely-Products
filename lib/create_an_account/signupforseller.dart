@@ -1,7 +1,7 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+
+import 'package:nihaljumailamrathaju/resources/authpageseller.dart';
 
 class Signupforseller extends StatefulWidget {
   const Signupforseller({super.key});
@@ -11,62 +11,61 @@ class Signupforseller extends StatefulWidget {
 }
 
 class _SignupforsellerState extends State<Signupforseller> {
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+  final usernameController = TextEditingController();
+  final phoneNumberController = TextEditingController();
 
-late XFile? selectedimage;
+  late XFile? selectedimage;
 
   _imgFromCamera() async {
-  XFile? image = await ImagePicker().pickImage(
-    source: ImageSource.camera, imageQuality: 50
-  );
+    XFile? image = await ImagePicker()
+        .pickImage(source: ImageSource.camera, imageQuality: 50);
 
-  setState(() {
-    selectedimage = image;
-  });
-}
+    setState(() {
+      selectedimage = image;
+    });
+  }
 
-_imgFromGallery() async {
-  XFile? image = await  ImagePicker().pickImage(
-      source: ImageSource.gallery, imageQuality: 50
-  );
+  _imgFromGallery() async {
+    XFile? image = await ImagePicker()
+        .pickImage(source: ImageSource.gallery, imageQuality: 50);
 
-  setState(() {
-    selectedimage = image;
-  });
-}
+    setState(() {
+      selectedimage = image;
+    });
+  }
 
- 
-void _showPicker(context) {
-  showModalBottomSheet(
-      context: context,
-      builder: (BuildContext bc) {
-        return SafeArea(
-          // ignore: avoid_unnecessary_containers
-          child: Container(
-            child:  Wrap(
-              children: <Widget>[
-                 ListTile(
-                    leading: const Icon(Icons.photo_library),
-                    title: const  Text('Photo Library'),
+  void _showPicker(context) {
+    showModalBottomSheet(
+        context: context,
+        builder: (BuildContext bc) {
+          return SafeArea(
+            // ignore: avoid_unnecessary_containers
+            child: Container(
+              child: Wrap(
+                children: <Widget>[
+                  ListTile(
+                      leading: const Icon(Icons.photo_library),
+                      title: const Text('Photo Library'),
+                      onTap: () {
+                        _imgFromGallery();
+                        Navigator.of(context).pop();
+                      }),
+                  ListTile(
+                    leading: const Icon(Icons.photo_camera),
+                    title: const Text('Camera'),
                     onTap: () {
-                      _imgFromGallery();
+                      _imgFromCamera();
                       Navigator.of(context).pop();
-                    }),
-                 ListTile(
-                  leading:const Icon(Icons.photo_camera),
-                  title: const Text('Camera'),
-                  onTap: () {
-                    _imgFromCamera();
-                    Navigator.of(context).pop();
-                  },
-                ),
-              ],
+                    },
+                  ),
+                ],
+              ),
             ),
-          ),
-        );
-      }
-    );
-}
-
+          );
+        });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -79,7 +78,6 @@ void _showPicker(context) {
     return Center(
       child: SingleChildScrollView(
         child: Column(
-          
           children: <Widget>[
             Container(
               height: 180,
@@ -91,16 +89,16 @@ void _showPicker(context) {
                 height: 50,
               ),
             ),
-            
             Container(
               width: double.infinity,
               height: 600,
               padding: const EdgeInsets.all(15),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children:  [
-                  const TextField(
-                    decoration: InputDecoration(
+                children: [
+                  TextFormField(
+                    controller: usernameController,
+                    decoration: const InputDecoration(
                       focusedBorder: OutlineInputBorder(
                         borderSide:
                             BorderSide(color: Color(0xffffafcc), width: 2.0),
@@ -108,8 +106,9 @@ void _showPicker(context) {
                       labelText: 'User Name',
                     ),
                   ),
-                  const TextField(
-                    decoration: InputDecoration(
+                  TextFormField(
+                    controller: phoneNumberController,
+                    decoration: const InputDecoration(
                       focusedBorder: OutlineInputBorder(
                         borderSide:
                             BorderSide(color: Color(0xffffafcc), width: 2.0),
@@ -117,8 +116,9 @@ void _showPicker(context) {
                       labelText: 'Phone Number',
                     ),
                   ),
-                  const TextField(
-                    decoration: InputDecoration(
+                  TextFormField(
+                    controller: emailController,
+                    decoration: const InputDecoration(
                       focusedBorder: OutlineInputBorder(
                         borderSide:
                             BorderSide(color: Color(0xffffafcc), width: 2.0),
@@ -126,9 +126,10 @@ void _showPicker(context) {
                       labelText: 'E-Mail',
                     ),
                   ),
-                  const TextField(
+                  TextFormField(
+                    controller: passwordController,
                     obscureText: true,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       focusedBorder: OutlineInputBorder(
                         borderSide:
                             BorderSide(color: Color(0xffffafcc), width: 2.0),
@@ -136,9 +137,9 @@ void _showPicker(context) {
                       labelText: 'Login Password',
                     ),
                   ),
-                  const TextField(
+                  TextFormField(
                     obscureText: true,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       focusedBorder: OutlineInputBorder(
                         borderSide:
                             BorderSide(color: Color(0xffffafcc), width: 2.0),
@@ -147,28 +148,31 @@ void _showPicker(context) {
                     ),
                   ),
                   ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      minimumSize:const Size(100, 50),
-                      backgroundColor: const Color(0xffffafcc),
-                    ),
-                        
-
-                    onPressed: (){
-                     _showPicker(context);
-                  },
-                  child: const Text('Upload YOur License')),
+                      style: ElevatedButton.styleFrom(
+                        minimumSize: const Size(100, 50),
+                        backgroundColor: const Color(0xffffafcc),
+                      ),
+                      onPressed: () {
+                        _showPicker(context);
+                      },
+                      child: const Text('Upload YOur License')),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor:const Color(0xffffafcc),
-                        minimumSize: const Size(70, 40)
-                      ),
-                      child: const Text('Login'),
-                      onPressed: (){
-                         Navigator.pushNamed(context, "homelayout");
-                      }),
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: const Color(0xffffafcc),
+                              minimumSize: const Size(70, 40)),
+                          child: const Text('Login'),
+                          onPressed: () async {
+                            String res = await Authmethods2().signUpuserseller(
+                              email: emailController.text,
+                              password: passwordController.text,
+                              username: usernameController.text,
+                              phonenumber: phoneNumberController.text,
+                            );
+                            debugPrint(res);
+                          }),
                     ],
                   )
                 ],
@@ -178,7 +182,5 @@ void _showPicker(context) {
         ),
       ),
     );
-    
   }
-  
 }
