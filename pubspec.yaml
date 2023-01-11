@@ -40,6 +40,12 @@ dependencies:
   image_picker: ^0.8.6
   firebase_auth: ^4.2.4
   cloud_firestore: ^4.3.1
+  image_card: ^0.0.4
+  firebase_storage: ^11.0.10
+  file_picker: ^5.2.4
+  currency_text_input_formatter: ^2.1.8
+  
+  
  
 
 dev_dependencies:
@@ -71,6 +77,13 @@ flutter:
      - assets/cupcake.jpeg
      - assets/splashscreen2.jpg
      - assets/homebakery-bgremoved.png
+     - assets/cakeimage.jpg
+     - assets/icecreamimage.jpg
+     - assets/pizzaimage.jpg
+     - assets/puddinimage.jpg
+     - assets/snacksimage.jpg
+     - assets/sweetsimage.jpg
+      
      
 
   # An image asset can refer to one or more resolution-specific "variants", see

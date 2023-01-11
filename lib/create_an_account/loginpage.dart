@@ -62,6 +62,12 @@ class _LoginpageState extends State<Loginpage> {
                         Container(
                           padding: const EdgeInsets.all(10),
                           child: TextFormField(
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return 'Please enter E-Mail!';
+                              }
+                              return null;
+                            },
                             controller: emailController,
                             decoration: const InputDecoration(
                               focusedBorder: OutlineInputBorder(
@@ -75,6 +81,12 @@ class _LoginpageState extends State<Loginpage> {
                         Container(
                           padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
                           child: TextFormField(
+                             validator: (value) {
+                              if (value!.isEmpty) {
+                                return 'Please enter Password!';
+                              }
+                              return null;
+                            },
                             obscureText: true,
                             controller: passwordController,
                             decoration: const InputDecoration(
@@ -82,7 +94,6 @@ class _LoginpageState extends State<Loginpage> {
                                 borderSide: BorderSide(
                                     color: Color(0xffffafcc), width: 2.0),
                               ),
-                              border: OutlineInputBorder(),
                               labelText: 'Password',
                             ),
                           ),
@@ -128,7 +139,7 @@ class _LoginpageState extends State<Loginpage> {
                                     fontSize: 20, color: Colors.black),
                               ),
                               onPressed: () {
-                                Navigator.pushNamed(context, "signuppage");
+                                Navigator.pushReplacementNamed(context, "signuppage");
                               },
                             )
                           ],
@@ -142,6 +153,16 @@ class _LoginpageState extends State<Loginpage> {
   }
 
   Future signIn() async {
+
+    if (_formKey.currentState!.validate()) {
+      // If the form is valid, display a snackbar. In the real world,
+      // you'd often call a server or save the information in a database.
+      ScaffoldMessenger
+          .of(context)
+          .showSnackBar(const SnackBar(content: Text('Processing Data')));
+    }
+  
+
 
     showDialog(
         context: context,

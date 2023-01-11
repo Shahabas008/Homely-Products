@@ -1,5 +1,4 @@
-
-
+import 'package:image_card/image_card.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -11,11 +10,7 @@ class Homepage extends StatefulWidget {
 }
 
 class _HomepageState extends State<Homepage> {
-final user = FirebaseAuth.instance.currentUser!;
-
-
-
-
+  final user = FirebaseAuth.instance.currentUser;
 
   @override
   Widget build(BuildContext context) {
@@ -45,29 +40,173 @@ final user = FirebaseAuth.instance.currentUser!;
                     IconButton(
                         color: Colors.white,
                         onPressed: () {
-                         
+                          Navigator.pushNamed(context, "additem");
                         },
                         icon: const Icon(Icons.add_box)),
                   ]),
-                  
             ),
           ),
-          Center(
-             child: ElevatedButton(
-              
-              onPressed:(){
-            FirebaseAuth.instance.signOut();
-             }
-             
-             , child:const Text('sign out')),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(0, 30, 0, 0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                FillImageCard(
+                  color: Colors.white,
+
+                  width: 120,
+                  heightImage: 150,
+                  imageProvider: const AssetImage('assets/cakeimage.jpg'),
+                  //tags: [_tag('Category', () {}), _tag('Product', () {})],
+                  title: TextButton(
+                    style: const ButtonStyle(
+                        tapTargetSize: MaterialTapTargetSize.padded),
+                    onPressed: () {
+                      //navigate to the cake section where seller is posted.
+                    },
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: const [
+                        Text(
+                          'CAKES',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, color: Colors.black),
+                        ),
+                      ],
+                    ),
+                  ),
+                  //description: _content(),
+                ),
+                FillImageCard(
+                    width: 120,
+                    heightImage: 150,
+                    imageProvider: const AssetImage('assets/puddinimage.jpg'),
+                    //tags: [_tag('Category', () {}), _tag('Product', () {})],
+                    title: TextButton(
+                      style: const ButtonStyle(
+                          tapTargetSize: MaterialTapTargetSize.padded),
+                      onPressed: () {
+                        //navigate to the cake section where seller is posted.
+                      },
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: const [
+                          Text(
+                            'PUDDINGS',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black),
+                          ),
+                        ],
+                      ),
+                    )),
+                FillImageCard(
+                  width: 120,
+                  heightImage: 150,
+                  imageProvider: const AssetImage('assets/snacksimage.jpg'),
+                  //tags: [_tag('Category', () {}), _tag('Product', () {})],
+                  title: TextButton(
+                    style: const ButtonStyle(
+                        tapTargetSize: MaterialTapTargetSize.padded),
+                    onPressed: () {
+                      //navigate to the cake section where seller is posted.
+                    },
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: const [
+                        Text(
+                          'SNACKS',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, color: Colors.black),
+                        ),
+                      ],
+                    ),
+                  ),
+                )
+              ],
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                FillImageCard(
+                  color: Colors.white,
+
+                  width: 120,
+                  heightImage: 150,
+                  imageProvider: const AssetImage('assets/icecreamimage.jpg'),
+                  //tags: [_tag('Category', () {}), _tag('Product', () {})],
+                  title: TextButton(
+                    style: const ButtonStyle(
+                        tapTargetSize: MaterialTapTargetSize.padded),
+                    onPressed: () {
+                      //navigate to the cake section where seller is posted.
+                    },
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: const [
+                        Text(
+                          'ICE CREAMS',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, color: Colors.black),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                FillImageCard(
+                  width: 120,
+                  heightImage: 150,
+                  imageProvider: const AssetImage('assets/sweetsimage.jpg'),
+                  //tags: [_tag('Category', () {}), _tag('Product', () {})],
+                  title: TextButton(
+                    style: const ButtonStyle(
+                        tapTargetSize: MaterialTapTargetSize.padded),
+                    onPressed: () {
+                      //navigate to the cake section where seller is posted.
+                    },
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: const [
+                        Text(
+                          'SWEETS',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, color: Colors.black),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                FillImageCard(
+                  width: 120,
+                  heightImage: 150,
+                  imageProvider: const AssetImage('assets/pizzaimage.jpg'),
+                  //tags: [_tag('Category', () {}), _tag('Product', () {})],
+                  title: TextButton(
+                    style: const ButtonStyle(
+                        tapTargetSize: MaterialTapTargetSize.padded),
+                    onPressed: () {
+                      //navigate to the cake section where seller is posted.
+                    },
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: const [
+                        Text(
+                          'PIZZA',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, color: Colors.black),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
           )
         ],
       ),
     );
   }
-
-
-
-
-
 }
