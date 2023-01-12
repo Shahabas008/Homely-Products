@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+
 
 
 class Authmethods3 {
@@ -10,7 +10,8 @@ class Authmethods3 {
     required String priceofitem,
     required String netweight,
     required String bakersdescription,
-    required String dropdownValue
+    required String dropdownValue,
+   
   }) async {
     String res = "some Error occured";
     try {
@@ -26,7 +27,9 @@ class Authmethods3 {
           "Net Weight": netweight,
           "Baker Description": bakersdescription,
           
+          
         });
+        
       }
     } catch (err) {
       res = err.toString();

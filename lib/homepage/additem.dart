@@ -1,4 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:nihaljumailamrathaju/resources/authpageforadditem.dart';
@@ -62,9 +64,10 @@ class _AdditempageState extends State<Additempage> {
                     print(path);
                     print(filename);
 
-                    storage
+                   storage
                         .uploadFile(path!, filename)
                         .then((value) => print('Done'));
+               
                   },
                   icon: const Icon(Icons.upload),
                   label: const Text('Upload An Image'),
@@ -134,7 +137,7 @@ class _AdditempageState extends State<Additempage> {
                 TextFormField(
                   controller: netweight,
                   keyboardType: TextInputType.number,
-                  inputFormatters: [FilteringTextInputFormatter.digitsOnly] ,
+                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                   decoration: const InputDecoration(
                     focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide(
@@ -143,7 +146,6 @@ class _AdditempageState extends State<Additempage> {
                     ),
                     labelText: 'Net Weight',
                   ),
-                 
                 ),
                 const SizedBox(
                   height: 30,
@@ -201,14 +203,15 @@ class _AdditempageState extends State<Additempage> {
                 ElevatedButton(
                     onPressed: () async {
                       String res = await Authmethods3().additem(
-                          itemdescription: itemdescription.text,
-                          priceofitem: priceofitem.text,
-                          netweight: netweight.text,
-                          bakersdescription: bakersdescription.text,
-                          dropdownValue: dropdownValue);
+                        itemdescription: itemdescription.text,
+                        priceofitem: priceofitem.text,
+                        netweight: netweight.text,
+                        bakersdescription: bakersdescription.text,
+                        dropdownValue: dropdownValue,
+                      );
+
                       debugPrint(res);
                       push();
-                      
                     },
                     child: const Text('Submit'))
               ],
@@ -218,7 +221,8 @@ class _AdditempageState extends State<Additempage> {
       ),
     ));
   }
-  void push(){
+
+  void push() {
     Navigator.pushNamed(context, "homelayout");
   }
 
