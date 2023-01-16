@@ -1,11 +1,12 @@
+import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:file_picker/file_picker.dart';
-import 'package:firebase_storage/firebase_storage.dart';
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:nihaljumailamrathaju/resources/authpageforadditem.dart';
-import 'package:nihaljumailamrathaju/resources/storage_service.dart';
 import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
+import 'package:path/path.dart';
 
 List<String> list = <String>[
   'Cake',
@@ -24,16 +25,74 @@ class Additempage extends StatefulWidget {
 }
 
 class _AdditempageState extends State<Additempage> {
+  firebase_storage.FirebaseStorage storage =
+      firebase_storage.FirebaseStorage.instance;
+
+  File? _photo;
+  final ImagePicker _picker = ImagePicker();
+
+  Future imgFromGallery() async {
+    final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
+
+    setState(() {
+      if (pickedFile != null) {
+        _photo = File(pickedFile.path());
+        uploadFile();
+      } else {
+        print('No image selected.');
+      }
+    });
+  }
+
+  Future imgFromCamera() async {
+    final pickedFile = await _picker.pickImage(source: ImageSource.camera);
+
+    setState(() {
+      if (pickedFile != null) {
+        _photo = File(pickedFile.path());
+        uploadFile();
+      } else {
+        print('No image selected.');
+      }
+    });
+  }
+
+
+
+
+  Future uploadFile() async {
+    if (_photo == null) return;
+    final fileName = basename(_photo!.path);
+    final destination = 'files/$fileName';
+
+    try {
+      final uploadimage = firebase_storage.FirebaseStorage.instance
+          .ref(destination)
+          .child('file/');
+      await uploadimage.putFile(_photo!);
+
+      final String downloadUrl = await uploadimage.getDownloadURL();
+      await FirebaseFirestore.instance
+          .collection('Add item')
+          .doc(dropdownValue)
+          .collection('item')
+          .add({"url": downloadUrl, "name": fileName});
+    } catch (e) {
+      print('error occured');
+    }
+  }
+
   final itemdescription = TextEditingController();
   final priceofitem = TextEditingController();
   final netweight = TextEditingController();
   final bakersdescription = TextEditingController();
+  final itemname = TextEditingController();
 
   String dropdownValue = list.first;
 
   @override
   Widget build(BuildContext context) {
-    final Storage storage = Storage();
+   
     return SafeArea(
         child: Scaffold(
       backgroundColor: const Color(0xffffafcc),
@@ -44,51 +103,36 @@ class _AdditempageState extends State<Additempage> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                ElevatedButton.icon(
-                  style: ElevatedButton.styleFrom(
-                      minimumSize: const Size(200, 50)),
-                  onPressed: () async {
-                    final results = await FilePicker.platform.pickFiles(
-                      allowMultiple: false,
-                      type: FileType.custom,
-                      allowedExtensions: ["png", "jpg", "jpge", "heic"],
-                    );
-                    if (results == null) {
-                      snackfalse();
-                    } else {
-                      snacktrue();
-                    }
-
-                    final path = results!.files.single.path;
-                    final filename = results.files.single.name;
-                    print(path);
-                    print(filename);
-
-                   storage
-                        .uploadFile(path!, filename)
-                        .then((value) => print('Done'));
-               
-                  },
-                  icon: const Icon(Icons.upload),
-                  label: const Text('Upload An Image'),
-                ),
-                /*FutureBuilder(
-                    future: storage.downloadURL('IMG_20230107_234346.jpg'),
-                    builder: (BuildContext context, AsyncSnapshot<String> snapshot){
-                    if(snapshot.connectionState == ConnectionState.done && snapshot.hasData){
-                      return SizedBox(
-                        width: 20,
-                        height: 20,
-                        child: Image.network(snapshot.data!,
-                        fit: BoxFit.cover,),
-                      );
-            
-                    }
-                    if(snapshot.connectionState == ConnectionState.waiting || !snapshot.hasData){
-                      return const CircularProgressIndicator();
-                    }
-                   return Container();
-                    })*/
+                Center(
+                    child: GestureDetector(
+                        onTap: () {
+                          _showPicker(context);
+                        },
+                        child: CircleAvatar(
+                          radius: 55,
+                          backgroundColor: const Color.fromARGB(255, 0, 0, 0),
+                          child: _photo != null
+                              ? ClipRRect(
+                                  borderRadius: BorderRadius.zero,
+                                  child: Image.file(
+                                    _photo!,
+                                    width: 100,
+                                    height: 100,
+                                    fit: BoxFit.fitHeight,
+                                  ),
+                                )
+                              : Container(
+                                  decoration: BoxDecoration(
+                                      color: Colors.grey[200],
+                                      borderRadius: BorderRadius.circular(50)),
+                                  width: 100,
+                                  height: 100,
+                                  child: Icon(
+                                    Icons.camera_alt,
+                                    color: Colors.grey[800],
+                                  ),
+                                ),
+                        )))
               ],
             ),
             const SizedBox(
@@ -97,6 +141,21 @@ class _AdditempageState extends State<Additempage> {
             Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
+                TextFormField(
+                  controller: itemname,
+                  maxLines: null,
+                  decoration: const InputDecoration(
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                          color: Color.fromARGB(255, 255, 254, 254),
+                          width: 2.0),
+                    ),
+                    labelText: 'Item Name',
+                  ),
+                ),
+                const SizedBox(
+                  height: 30,
+                ),
                 TextFormField(
                   controller: itemdescription,
                   maxLines: null,
@@ -203,12 +262,15 @@ class _AdditempageState extends State<Additempage> {
                 ElevatedButton(
                     onPressed: () async {
                       String res = await Authmethods3().additem(
-                        itemdescription: itemdescription.text,
-                        priceofitem: priceofitem.text,
-                        netweight: netweight.text,
-                        bakersdescription: bakersdescription.text,
-                        dropdownValue: dropdownValue,
-                      );
+                          itemname :itemname.text,
+                          itemdescription: itemdescription.text,
+                          priceofitem: priceofitem.text,
+                          netweight: netweight.text,
+                          bakersdescription: bakersdescription.text,
+                          dropdownValue: dropdownValue,
+                          //fileName: filename,
+                          //downloadUrl: downloadurl
+                          );
 
                       debugPrint(res);
                       push();
@@ -222,17 +284,38 @@ class _AdditempageState extends State<Additempage> {
     ));
   }
 
+  void _showPicker(context) {
+    showModalBottomSheet(
+        context: context,
+        builder: (BuildContext bc) {
+          return SafeArea(
+            // ignore: avoid_unnecessary_containers
+            child: Container(
+              child: Wrap(
+                children: <Widget>[
+                  ListTile(
+                      leading: const Icon(Icons.photo_library),
+                      title: const Text('Gallery'),
+                      onTap: () {
+                        imgFromGallery();
+                        Navigator.of(context).pop();
+                      }),
+                  ListTile(
+                    leading: const Icon(Icons.photo_camera),
+                    title: const Text('Camera'),
+                    onTap: () {
+                      imgFromCamera();
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ],
+              ),
+            ),
+          );
+        });
+  }
+
   void push() {
-    Navigator.pushNamed(context, "homelayout");
-  }
-
-  void snackfalse() {
-    ScaffoldMessenger.of(context)
-        .showSnackBar(const SnackBar(content: Text('NO File Selected.')));
-  }
-
-  void snacktrue() {
-    ScaffoldMessenger.of(context)
-        .showSnackBar(const SnackBar(content: Text('File Uploaded!')));
+    Navigator.pushNamed(this.context, "homelayout");
   }
 }

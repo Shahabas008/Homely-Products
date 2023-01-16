@@ -62,7 +62,7 @@ class _HomepageState extends State<Homepage> {
                     style: const ButtonStyle(
                         tapTargetSize: MaterialTapTargetSize.padded),
                     onPressed: () {
-                      //navigate to the cake section where seller is posted.
+                       Navigator.pushNamed(context, "Cakelistview");
                     },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -86,7 +86,7 @@ class _HomepageState extends State<Homepage> {
                       style: const ButtonStyle(
                           tapTargetSize: MaterialTapTargetSize.padded),
                       onPressed: () {
-                        //navigate to the cake section where seller is posted.
+                         Navigator.pushNamed(context, "Puddinglistview");
                       },
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -109,7 +109,7 @@ class _HomepageState extends State<Homepage> {
                     style: const ButtonStyle(
                         tapTargetSize: MaterialTapTargetSize.padded),
                     onPressed: () {
-                      //navigate to the cake section where seller is posted.
+                     Navigator.pushNamed(context, "Snacklistview");
                     },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -142,7 +142,7 @@ class _HomepageState extends State<Homepage> {
                     style: const ButtonStyle(
                         tapTargetSize: MaterialTapTargetSize.padded),
                     onPressed: () {
-                      //navigate to the cake section where seller is posted.
+                       Navigator.pushNamed(context, "Icecreamlistview");
                     },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -165,7 +165,7 @@ class _HomepageState extends State<Homepage> {
                     style: const ButtonStyle(
                         tapTargetSize: MaterialTapTargetSize.padded),
                     onPressed: () {
-                      //navigate to the cake section where seller is posted.
+                        Navigator.pushNamed(context, "Sweetslistview");
                     },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -188,7 +188,7 @@ class _HomepageState extends State<Homepage> {
                     style: const ButtonStyle(
                         tapTargetSize: MaterialTapTargetSize.padded),
                     onPressed: () {
-                      //navigate to the cake section where seller is posted.
+                       Navigator.pushNamed(context, "Pizzalistview");
                     },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
