@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nihaljumailamrathaju/homepage/cartpage.dart';
 import 'package:nihaljumailamrathaju/homepage/favourites.dart';
 import 'package:nihaljumailamrathaju/homepage/homepage.dart';
 
@@ -14,8 +15,8 @@ class _HomepagelayoutState extends State<Homepagelayout> {
 
   final pages = [
     const Homepage(),
-    const Favorites(),
-    //const mycartpage(),
+    const Favoritepage(),
+    const Cartpage (),
     //const (),
   ];
 

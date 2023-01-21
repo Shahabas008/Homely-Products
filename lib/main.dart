@@ -12,6 +12,7 @@ import 'package:nihaljumailamrathaju/create_an_account/signupforcustomer.dart';
 import 'package:nihaljumailamrathaju/create_an_account/signupforseller.dart';
 import 'package:nihaljumailamrathaju/create_an_account/signuppage.dart';
 import 'package:nihaljumailamrathaju/homepage/appbar_bottomnav.dart';
+
 import 'package:nihaljumailamrathaju/splashscreen/splashscreen2.dart';
 import 'resources/firebase_options.dart';
 

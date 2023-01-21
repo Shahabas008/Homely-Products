@@ -102,7 +102,8 @@ class _SweetslistviewState extends State<Sweetslistview> {
                                                               snapshot
                                                                   .data!
                                                                   .docs[index]
-                                                                  .id)));
+                                                                  .id,
+                                                                  product:snap[index])));
                                             },
                                             child: const Text("Details")),
                                         const TextButton(

@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:nihaljumailamrathaju/additem/cakedetailspage.dart';
 
+
 class Cakelistview extends StatefulWidget {
   const Cakelistview({super.key});
 
@@ -101,12 +102,15 @@ class _CakelistviewState extends State<Cakelistview> {
                                                               snapshot
                                                                   .data!
                                                                   .docs[index]
-                                                                  .id)));
+                                                                  .id,
+                                                                  product: snap[index],)));
                                             },
                                             child: const Text("Details")),
-                                        const TextButton(
-                                            onPressed: null,
-                                            child: Icon(Icons.shopping_cart)),
+                                         TextButton(
+                                            onPressed: (){
+                                          
+                                            },
+                                            child: const Icon(Icons.shopping_cart)),
                                       ],
                                     ),
                                   )

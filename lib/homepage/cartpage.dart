@@ -2,18 +2,18 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-class Favoritepage extends StatefulWidget {
-  const Favoritepage({super.key});
+class Cartpage extends StatefulWidget {
+  const Cartpage({super.key});
 
   @override
-  State<Favoritepage> createState() => _FavoritepageState();
+  State<Cartpage> createState() => _CartpageState();
 }
 
-class _FavoritepageState extends State<Favoritepage> {
+class _CartpageState extends State<Cartpage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xffffafcc),
+      backgroundColor:const Color(0xffffafcc),
         appBar: PreferredSize(
             preferredSize: const Size.fromHeight(80),
             child: AppBar(
@@ -47,32 +47,22 @@ class _FavoritepageState extends State<Favoritepage> {
             )),
       body: StreamBuilder(
         stream: FirebaseFirestore.instance
-            .collection('users-favourite-items')
+            .collection('User-Cart-Item')
             .doc(FirebaseAuth.instance.currentUser!.email)
             .collection("items")
             .snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-          if (snapshot.data == null) {
-            return const Center(
-              child: Text('YOU HAVE NO FAVORITES!',
-              style: TextStyle(
-                color: Colors.purple,
-                fontWeight: FontWeight.bold,
-                fontSize: 20,
-              ),),
-            );
-          }
           if (snapshot.hasError) {
             return const Center(
               child: Text("Something is wrong"),
             );
           }
-
+    
           return ListView.builder(
               itemCount: snapshot.data == null ? 0 : snapshot.data!.docs.length,
               itemBuilder: (_, index) {
                 DocumentSnapshot documentSnapshot = snapshot.data!.docs[index];
-
+    
                 return Card(
                   color: const Color.fromARGB(255, 255, 248, 250),
                   margin: const EdgeInsets.all(20),
@@ -85,8 +75,7 @@ class _FavoritepageState extends State<Favoritepage> {
                         child: Container(
                           decoration: BoxDecoration(
                               image: DecorationImage(
-                                  image:
-                                      NetworkImage(documentSnapshot['images']),
+                                  image: NetworkImage(documentSnapshot['images']),
                                   fit: BoxFit.fill)),
                         ),
                       ),
@@ -116,7 +105,6 @@ class _FavoritepageState extends State<Favoritepage> {
                               Padding(
                                 padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
                                 child: Row(
-                                  
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: <Widget>[
@@ -129,37 +117,39 @@ class _FavoritepageState extends State<Favoritepage> {
                                     GestureDetector(
                                       onTap: () {
                                         FirebaseFirestore.instance
-                                            .collection('users-favourite-items')
+                                            .collection('User-Cart-Item')
                                             .doc(FirebaseAuth
                                                 .instance.currentUser!.email)
                                             .collection("items")
                                             .doc(documentSnapshot.id)
                                             .delete();
+                                           
                                       },
                                       child: const CircleAvatar(
-                                        backgroundColor: Colors.red,
-                                        child: Icon(Icons.favorite,
-                                        color: Color.fromARGB(255, 255, 255, 255),),
+                                        backgroundColor:
+                                            Color.fromARGB(255, 0, 0, 0),
+                                        child: Icon(
+                                          Icons.remove_shopping_cart_outlined,
+                                          color:
+                                              Color.fromARGB(255, 255, 255, 255),
+                                        ),
                                       ),
                                     )
                                   ],
                                 ),
                               ),
-
-                              //       Row(
-                              //   children:  <Widget>[
-                              //     TextButton(
-                              //         onPressed: (){
-
-                              //         },
-                              //         child: const Text('Details')
-                              //       ),
-                              //       const Text(
-                              //         "barcode",
-                              //         style: TextStyle(fontSize: 15.0),
-                              //       ),
-                              //   ],
-                              // ),
+                              Row(
+                                children: const <Widget>[
+                                  /*Text(
+                                      'Barcode : ',
+                                      style: TextStyle(fontWeight: FontWeight.bold),
+                                    ),
+                                    Text(
+                                      "barcode",
+                                      style: TextStyle(fontSize: 15.0),
+                                    ),*/
+                                ],
+                              ),
                             ],
                           ),
                         ),
@@ -172,4 +162,12 @@ class _FavoritepageState extends State<Favoritepage> {
       ),
     );
   }
+
 }
+
+
+
+
+
+
+

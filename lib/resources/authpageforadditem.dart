@@ -10,8 +10,8 @@ class Authmethods3 {
       required String netweight,
       required String bakersdescription,
       required String dropdownValue,
-       //required fileName,
-       // required downloadUrl,
+       required fileName,
+       required downloadUrl,
      }) async {
     String res = "some Error occured";
     try {
@@ -31,8 +31,8 @@ class Authmethods3 {
           "Price of Item": priceofitem,
           "Net Weight": netweight,
           "Baker Description": bakersdescription,
-          //"URl":downloadUrl,
-          //"Image NAme":fileName,
+          "URl":downloadUrl,
+          "Image NAme":fileName,
           
         });
       }

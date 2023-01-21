@@ -30,6 +30,8 @@ class _AdditempageState extends State<Additempage> {
 
   File? _photo;
   final ImagePicker _picker = ImagePicker();
+  String fileName = "";
+  String downloadUrl = "";
 
   Future imgFromGallery() async {
     final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
@@ -62,7 +64,7 @@ class _AdditempageState extends State<Additempage> {
 
   Future uploadFile() async {
     if (_photo == null) return;
-    final fileName = basename(_photo!.path);
+    fileName = basename(_photo!.path);
     final destination = 'files/$fileName';
 
     try {
@@ -71,7 +73,7 @@ class _AdditempageState extends State<Additempage> {
           .child('file/');
       await uploadimage.putFile(_photo!);
 
-      final String downloadUrl = await uploadimage.getDownloadURL();
+      downloadUrl = await uploadimage.getDownloadURL();
       await FirebaseFirestore.instance
           .collection('Add item')
           .doc(dropdownValue)
@@ -268,8 +270,8 @@ class _AdditempageState extends State<Additempage> {
                           netweight: netweight.text,
                           bakersdescription: bakersdescription.text,
                           dropdownValue: dropdownValue,
-                          //fileName: filename,
-                          //downloadUrl: downloadurl
+                          fileName: fileName,
+                          downloadUrl: downloadUrl
                           );
 
                       debugPrint(res);
