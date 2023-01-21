@@ -15,6 +15,9 @@ class _IcecreamlistviewState extends State<Icecreamlistview> {
     var firestore = FirebaseFirestore.instance;
     return SafeArea(
       child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: const Color(0xff7f4ca5),
+        ),
         backgroundColor: const Color(0xfffcf6f5),
         floatingActionButton: null,
         body: StreamBuilder<QuerySnapshot>(
@@ -27,7 +30,20 @@ class _IcecreamlistviewState extends State<Icecreamlistview> {
           builder:
               (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
             if (snapshot.hasData) {
-              final snap = snapshot.data!.docs;
+              if(snapshot.data!.docs.isEmpty || snapshot.data == null){
+                return const Center(
+                child: Text(
+                  '                  OOPS! \n NO PRODUCTS TO SHOW.',
+                  style: TextStyle(
+                    color: Color(0xff7f4ca5),
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                  ),
+                ),
+              );}
+               
+               else{
+                final snap = snapshot.data!.docs;
               return ListView.builder(
                 shrinkWrap: true,
                 primary: false,
@@ -121,7 +137,8 @@ class _IcecreamlistviewState extends State<Icecreamlistview> {
                   );
                 },
                 itemCount: snap.length,
-              );
+              );}
+              
             } else {
               return const Center(
                 child: CircularProgressIndicator(),

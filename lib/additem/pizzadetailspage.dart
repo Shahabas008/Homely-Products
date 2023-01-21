@@ -80,6 +80,7 @@ class _PizzadetailspageState extends State<Pizzadetailspage> {
           return SafeArea(
               child: Scaffold(
                 appBar:  AppBar(
+                  backgroundColor: const Color(0xff7f4ca5),
               actions: [
                 isUserLoggedIn
                     ? StreamBuilder(
@@ -94,12 +95,7 @@ class _PizzadetailspageState extends State<Pizzadetailspage> {
                             AsyncSnapshot<QuerySnapshot> snapshot) {
                           if (snapshot.data == null) {
                             return  Container(
-                              padding: const EdgeInsets.all(200),
-                              child: const Text('YOU HAVE NO FAVOURITES!',
-                              style: TextStyle(
-                                fontSize: 50,
-                                fontWeight: FontWeight.bold,
-                              ),),
+                             
                             );
                           }
                           return Padding(

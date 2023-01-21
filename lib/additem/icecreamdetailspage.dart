@@ -57,7 +57,7 @@ class _IcecreamdetailspageState extends State<Icecreamdetailspage> {
      bool isUserLoggedIn = FirebaseAuth.instance.currentUser != null;
     CollectionReference users = FirebaseFirestore.instance
         .collection('Add item')
-        .doc('Ice Cream')
+        .doc('Ice Cream ')
         .collection('item');
 
     return FutureBuilder<DocumentSnapshot>(
@@ -78,6 +78,7 @@ class _IcecreamdetailspageState extends State<Icecreamdetailspage> {
           return SafeArea(
               child: Scaffold(
                 appBar: AppBar(
+                backgroundColor: const Color(0xff7f4ca5),
               actions: [
                 isUserLoggedIn
                     ? StreamBuilder(
@@ -92,12 +93,7 @@ class _IcecreamdetailspageState extends State<Icecreamdetailspage> {
                             AsyncSnapshot<QuerySnapshot> snapshot) {
                           if (snapshot.data == null) {
                             return  Container(
-                              padding: const EdgeInsets.all(200),
-                              child: const Text('YOU HAVE NO FAVOURITES!',
-                              style: TextStyle(
-                                fontSize: 50,
-                                fontWeight: FontWeight.bold,
-                              ),),
+                              
                             );
                           }
                           return Padding(

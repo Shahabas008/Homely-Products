@@ -52,13 +52,22 @@ class _CartpageState extends State<Cartpage> {
             .collection("items")
             .snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-          if (snapshot.hasError) {
-            return const Center(
-              child: Text("Something is wrong"),
-            );
-          }
-    
-          return ListView.builder(
+
+if(snapshot.hasData){ 
+  if (snapshot.data == null || snapshot.data!.docs.isEmpty){
+    return const Center(
+              child: Text('YOUR CART IS EMPTY!',
+              style: TextStyle(
+                color: Color(0xff7f4ca5),
+                fontWeight: FontWeight.bold,
+                fontSize: 20,
+              ),),
+            );}
+          
+  
+  
+ 
+ else{ return ListView.builder(
               itemCount: snapshot.data == null ? 0 : snapshot.data!.docs.length,
               itemBuilder: (_, index) {
                 DocumentSnapshot documentSnapshot = snapshot.data!.docs[index];
@@ -67,7 +76,7 @@ class _CartpageState extends State<Cartpage> {
                   color: const Color.fromARGB(255, 255, 248, 250),
                   margin: const EdgeInsets.all(20),
                   child: Container(
-                    height: 120,
+                    height: 140,
                     padding: const EdgeInsets.all(0),
                     child: Row(children: [
                       Expanded(
@@ -139,15 +148,19 @@ class _CartpageState extends State<Cartpage> {
                                 ),
                               ),
                               Row(
-                                children: const <Widget>[
-                                  /*Text(
-                                      'Barcode : ',
-                                      style: TextStyle(fontWeight: FontWeight.bold),
+                                children:  <Widget>[
+                                  TextButton(
+                                    onPressed: (){
+                                      //
+                                    },
+                                    child:const Text('Order'),
+                                     
+                                      
                                     ),
-                                    Text(
-                                      "barcode",
-                                      style: TextStyle(fontSize: 15.0),
-                                    ),*/
+                                    // Text(
+                                    //   "barcode",
+                                    //   style: TextStyle(fontSize: 15.0),
+                                    // ),
                                 ],
                               ),
                             ],
@@ -157,17 +170,24 @@ class _CartpageState extends State<Cartpage> {
                     ]),
                   ),
                 );
-              });
-        },
-      ),
-    );
-  }
-
+              });}
+              }
+              else{
+                 return const Center(child: CircularProgressIndicator());
+              }
+     
 }
 
+       
+        
+        ));}
+      
+    
+  
 
 
 
 
 
 
+}

@@ -81,7 +81,7 @@ class _CakedetailspageState extends State<Cakedetailspage> {
           return SafeArea(
               child: Scaffold(
             appBar: AppBar(
-              elevation: 0,
+              backgroundColor: const Color(0xff7f4ca5),
 
               actions: [
                 isUserLoggedIn

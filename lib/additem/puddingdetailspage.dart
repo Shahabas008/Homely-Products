@@ -79,6 +79,7 @@ class _PuddingdetailspageState extends State<Puddingdetailspage> {
           return SafeArea(
               child: Scaffold(
                 appBar: AppBar(
+                 backgroundColor:  const Color(0xff7f4ca5),
               actions: [
                 isUserLoggedIn
                     ? StreamBuilder(
