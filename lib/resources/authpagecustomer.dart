@@ -1,11 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-
 class Authmethods1 {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-  
 
 
   Future<String> signUpusercustomer({
@@ -15,9 +13,6 @@ class Authmethods1 {
     required String phonenumber,
     required String address,
   }) async {
-
-
-
     String res = "some Error occured";
     try {
       if (email.isNotEmpty ||
@@ -30,13 +25,19 @@ class Authmethods1 {
             email: email, password: password);
 
         //adding user details to the firestore
-        await _firestore.collection('Users').doc("Customers").collection("user").doc(cred.user!.uid).set({
+        await _firestore
+            .collection('Users')
+            .doc("Customers")
+            .collection("user")
+            .doc(email)
+            .set({
           "user name": username,
           "E-mail": email,
           "Phone number": phonenumber,
           "Address": address,
           "Password": password,
           "uid": cred.user!.uid,
+          "categorys": 'customer',
         });
       }
     } catch (err) {

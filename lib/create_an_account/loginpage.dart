@@ -1,8 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
-
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:nihaljumailamrathaju/create_an_account/signuppage.dart';
 import 'package:nihaljumailamrathaju/homepage/appbar_bottomnav.dart';
-import 'package:nihaljumailamrathaju/main.dart';
 
 class Loginpage extends StatefulWidget {
   const Loginpage({Key? key}) : super(key: key);
@@ -81,7 +81,7 @@ class _LoginpageState extends State<Loginpage> {
                         Container(
                           padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
                           child: TextFormField(
-                             validator: (value) {
+                            validator: (value) {
                               if (value!.isEmpty) {
                                 return 'Please enter Password!';
                               }
@@ -139,7 +139,7 @@ class _LoginpageState extends State<Loginpage> {
                                     fontSize: 20, color: Colors.black),
                               ),
                               onPressed: () {
-                                Navigator.pushReplacementNamed(context, "signuppage");
+                               Get.to(const Signup());
                               },
                             )
                           ],
@@ -153,31 +153,65 @@ class _LoginpageState extends State<Loginpage> {
   }
 
   Future signIn() async {
-
-    if (_formKey.currentState!.validate()) {
-      // If the form is valid, display a snackbar. In the real world,
-      // you'd often call a server or save the information in a database.
-      ScaffoldMessenger
-          .of(context)
-          .showSnackBar(const SnackBar(content: Text('Processing Data')));
-    }
-  
-
-
     showDialog(
         context: context,
-        builder: (context) => const Center(
-              child: CircularProgressIndicator(),
-            ));
+        builder: ((context) {
+          return const Center(
+              child: CircularProgressIndicator(
+            color: Colors.purple,
+          ));
+        }));
+    _formKey.currentState!.validate();
 
     try {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: emailController.text.trim(),
           password: passwordController.text.trim());
+      Get.showSnackbar(GetSnackBar(
+        margin: const EdgeInsets.all(15),
+        borderRadius: 8,
+        backgroundColor: Colors.green.shade400,
+        message: 'Logged In Successfully',
+        duration: const Duration(seconds: 2),
+      ));
     } on FirebaseAuthException catch (e) {
-      // ignore: avoid_print
-      print(e);
+      switch (e.code) {
+        case "invalid-email":
+          return Get.showSnackbar(
+            const GetSnackBar(
+              margin: EdgeInsets.all(15),
+              borderRadius: 8,
+              message:
+                  ('Your username or password is incorrect. Please try again.'),
+              duration: Duration(seconds: 3),
+              backgroundColor: Colors.red,
+            ),
+          );
+
+        case "wrong-password":
+          return Get.showSnackbar(
+            const GetSnackBar(
+              margin: EdgeInsets.all(15),
+              borderRadius: 8,
+              message: ('The password is invalid for the given email'),
+              duration: Duration(seconds: 3),
+              backgroundColor: Colors.red,
+            ),
+          );
+
+        case "user-not-found":
+          return Get.showSnackbar(
+            const GetSnackBar(
+              margin: EdgeInsets.all(15),
+              borderRadius: 8,
+              message: ('There is no user corresponding to the given email.'),
+              duration: Duration(seconds: 3),
+              backgroundColor: Colors.red,
+            ),
+          );
+      }
     }
-    navigatorKey.currentState!.popUntil((route) => route.isFirst);
+    // ignore: use_build_context_synchronously
+    Navigator.of(context).pop();
   }
 }

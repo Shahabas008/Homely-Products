@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get_navigation/get_navigation.dart';
 import 'package:nihaljumailamrathaju/additem/additem.dart';
 import 'package:nihaljumailamrathaju/additem/cakelistview.dart';
 import 'package:nihaljumailamrathaju/additem/icecreamitemview.dart';
@@ -12,6 +13,9 @@ import 'package:nihaljumailamrathaju/create_an_account/signupforcustomer.dart';
 import 'package:nihaljumailamrathaju/create_an_account/signupforseller.dart';
 import 'package:nihaljumailamrathaju/create_an_account/signuppage.dart';
 import 'package:nihaljumailamrathaju/homepage/appbar_bottomnav.dart';
+import 'package:nihaljumailamrathaju/homepage/homepagecustomer.dart';
+import 'package:nihaljumailamrathaju/homepage/homepageseller.dart';
+import 'package:get/get.dart';
 
 import 'package:nihaljumailamrathaju/splashscreen/splashscreen2.dart';
 import 'resources/firebase_options.dart';
@@ -33,7 +37,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       navigatorKey: navigatorKey,
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
@@ -47,7 +51,7 @@ class MyApp extends StatelessWidget {
         'loginpage': (context) => const Loginpage(),
         'signuppage': (context) => const Signup(),
         'signupforcustomer': (context) => const Signupforcustomer(),
-        'signupforseller': (context) => const Signupforseller(),
+        'signupforseller': (context) =>  const Signupforseller(),
         'homelayout': (context) => const Homepagelayout(),
         'additem': (context) => const Additempage(),
         "Cakelistview": (context) => const Cakelistview(),
@@ -56,6 +60,8 @@ class MyApp extends StatelessWidget {
         "Icecreamlistview": (context) => const Icecreamlistview(),
         "Pizzalistview": (context) => const Pizzalistview(),
         "Snacklistview": (context) => const Snacklistview(),
+        "homepageseller":(context) => const Homepageseller(),
+        "homepagecustomer":(context) => const HomepageCustomer()
       },
     );
   }

@@ -4,9 +4,11 @@ import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:nihaljumailamrathaju/homepage/appbar_bottomnav.dart';
 import 'package:nihaljumailamrathaju/resources/authpageforadditem.dart';
 import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 import 'package:path/path.dart';
+import 'package:get/get.dart';
 
 List<String> list = <String>[
   'Cake',
@@ -59,9 +61,6 @@ class _AdditempageState extends State<Additempage> {
     });
   }
 
-
-
-
   Future uploadFile() async {
     if (_photo == null) return;
     fileName = basename(_photo!.path);
@@ -70,17 +69,11 @@ class _AdditempageState extends State<Additempage> {
     try {
       final uploadimage = firebase_storage.FirebaseStorage.instance
           .ref(destination)
-          .child('file/');
+          .child('additem/');
       await uploadimage.putFile(_photo!);
-
       downloadUrl = await uploadimage.getDownloadURL();
-      await FirebaseFirestore.instance
-          .collection('Add item')
-          .doc(dropdownValue)
-          .collection('item')
-          .add({"url": downloadUrl, "name": fileName});
-    } catch (e) {
-      print('error occured');
+    } on FirebaseException catch (e) {
+      print(e);
     }
   }
 
@@ -89,198 +82,256 @@ class _AdditempageState extends State<Additempage> {
   final netweight = TextEditingController();
   final bakersdescription = TextEditingController();
   final itemname = TextEditingController();
+  final formkey = GlobalKey<FormState>();
 
   String dropdownValue = list.first;
 
   @override
   Widget build(BuildContext context) {
-   
     return SafeArea(
-        child: Scaffold(
-      backgroundColor: const Color(0xffffafcc),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(15, 50, 15, 0),
-          child: Column(children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Center(
-                    child: GestureDetector(
-                        onTap: () {
-                          _showPicker(context);
-                        },
-                        child: CircleAvatar(
-                          radius: 55,
-                          backgroundColor: const Color.fromARGB(255, 0, 0, 0),
-                          child: _photo != null
-                              ? ClipRRect(
-                                  borderRadius: BorderRadius.zero,
-                                  child: Image.file(
-                                    _photo!,
+        child: Form(
+      key: formkey,
+      child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: const Color(0xff7f4ca5),
+        ),
+        backgroundColor: const Color(0xffffafcc),
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(15, 50, 15, 0),
+            child: Column(children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Center(
+                      child: GestureDetector(
+                          onTap: () {
+                            _showPicker(context);
+                          },
+                          child: CircleAvatar(
+                            radius: 55,
+                            backgroundColor: const Color.fromARGB(255, 0, 0, 0),
+                            child: _photo != null
+                                ? ClipRRect(
+                                    borderRadius: BorderRadius.zero,
+                                    child: Image.file(
+                                      _photo!,
+                                      width: 100,
+                                      height: 100,
+                                      fit: BoxFit.fitHeight,
+                                    ),
+                                  )
+                                : Container(
+                                    decoration: BoxDecoration(
+                                        color: Colors.grey[200],
+                                        borderRadius:
+                                            BorderRadius.circular(50)),
                                     width: 100,
                                     height: 100,
-                                    fit: BoxFit.fitHeight,
+                                    child: Icon(
+                                      Icons.camera_alt,
+                                      color: Colors.grey[800],
+                                    ),
                                   ),
-                                )
-                              : Container(
-                                  decoration: BoxDecoration(
-                                      color: Colors.grey[200],
-                                      borderRadius: BorderRadius.circular(50)),
-                                  width: 100,
-                                  height: 100,
-                                  child: Icon(
-                                    Icons.camera_alt,
-                                    color: Colors.grey[800],
-                                  ),
-                                ),
-                        )))
-              ],
-            ),
-            const SizedBox(
-              height: 50,
-            ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                TextFormField(
-                  controller: itemname,
-                  maxLines: null,
-                  decoration: const InputDecoration(
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                          color: Color.fromARGB(255, 255, 254, 254),
-                          width: 2.0),
-                    ),
-                    labelText: 'Item Name',
-                  ),
-                ),
-                const SizedBox(
-                  height: 30,
-                ),
-                TextFormField(
-                  controller: itemdescription,
-                  maxLines: null,
-                  decoration: const InputDecoration(
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                          color: Color.fromARGB(255, 255, 254, 254),
-                          width: 2.0),
-                    ),
-                    labelText: 'Item Description',
-                  ),
-                ),
-                const SizedBox(
-                  height: 30,
-                ),
-                TextField(
-                  controller: priceofitem,
-                  decoration: const InputDecoration(
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                          color: Color.fromARGB(255, 255, 254, 254),
-                          width: 2.0),
-                    ),
-                    labelText: 'Price of Item',
-                  ),
-                  inputFormatters: <TextInputFormatter>[
-                    CurrencyTextInputFormatter(
-                      locale: 'en',
-                      decimalDigits: 0,
-                      symbol: '₹ ',
-                    ),
-                  ],
-                  keyboardType: TextInputType.number,
-                ),
-                const SizedBox(
-                  height: 30,
-                ),
-                TextFormField(
-                  controller: netweight,
-                  keyboardType: TextInputType.number,
-                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                  decoration: const InputDecoration(
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                          color: Color.fromARGB(255, 255, 254, 254),
-                          width: 2.0),
-                    ),
-                    labelText: 'Net Weight',
-                  ),
-                ),
-                const SizedBox(
-                  height: 30,
-                ),
-                TextFormField(
-                  controller: bakersdescription,
-                  maxLines: null,
-                  decoration: const InputDecoration(
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                          color: Color.fromARGB(255, 255, 254, 254),
-                          width: 2.0),
-                    ),
-                    labelText: 'Baker Description',
-                  ),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                Row(children: [
-                  DropdownButton<String>(
-                    hint: const Text('Select An Item'),
-                    value: dropdownValue,
-                    icon: const Icon(
-                      Icons.arrow_downward,
-                      color: Colors.blue,
-                    ),
-                    elevation: 16,
-                    style: const TextStyle(color: Colors.blue),
-                    underline: Container(
-                      height: 2,
-                      color: Colors.blue,
-                    ),
-                    onChanged: (String? value) {
-                      setState(() {
-                        dropdownValue = value!;
-                      });
+                          )))
+                ],
+              ),
+              const SizedBox(
+                height: 50,
+              ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  TextFormField(
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'The Field is Required';
+                      } else {
+                        return null;
+                      }
                     },
-                    items: list.map<DropdownMenuItem<String>>((String value) {
-                      return DropdownMenuItem<String>(
-                        value: value,
-                        child: Text(value),
-                      );
-                    }).toList(),
+                    controller: itemname,
+                    maxLines: null,
+                    decoration: const InputDecoration(
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                            color: Color.fromARGB(255, 255, 254, 254),
+                            width: 2.0),
+                      ),
+                      labelText: 'Item Name',
+                    ),
                   ),
-                ])
-              ],
-            ),
-            const SizedBox(
-              height: 50,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                ElevatedButton(
-                    onPressed: () async {
-                      String res = await Authmethods3().additem(
-                          itemname :itemname.text,
-                          itemdescription: itemdescription.text,
-                          priceofitem: priceofitem.text,
-                          netweight: netweight.text,
-                          bakersdescription: bakersdescription.text,
-                          dropdownValue: dropdownValue,
-                          fileName: fileName,
-                          downloadUrl: downloadUrl
-                          );
+                  const SizedBox(
+                    height: 30,
+                  ),
+                  TextFormField(
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'The Field is Required';
+                      } else {
+                        return null;
+                      }
+                    },
+                    controller: itemdescription,
+                    maxLines: null,
+                    decoration: const InputDecoration(
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                            color: Color.fromARGB(255, 255, 254, 254),
+                            width: 2.0),
+                      ),
+                      labelText: 'Item Description',
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 30,
+                  ),
+                  TextFormField(
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'The Field is Required';
+                      } else {
+                        return null;
+                      }
+                    },
+                    controller: priceofitem,
+                    decoration: const InputDecoration(
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                            color: Color.fromARGB(255, 255, 254, 254),
+                            width: 2.0),
+                      ),
+                      labelText: 'Price of Item',
+                    ),
+                    inputFormatters: <TextInputFormatter>[
+                      CurrencyTextInputFormatter(
+                        locale: 'en',
+                        decimalDigits: 0,
+                        symbol: '₹ ',
+                      ),
+                    ],
+                    keyboardType: TextInputType.number,
+                  ),
+                  const SizedBox(
+                    height: 30,
+                  ),
+                  TextFormField(
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'The Field is Required';
+                      } else {
+                        return null;
+                      }
+                    },
+                    controller: netweight,
+                    keyboardType: TextInputType.number,
+                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                    decoration: const InputDecoration(
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                            color: Color.fromARGB(255, 255, 254, 254),
+                            width: 2.0),
+                      ),
+                      labelText: 'Net Weight',
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 30,
+                  ),
+                  TextFormField(
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'The Field is Required';
+                      } else {
+                        return null;
+                      }
+                    },
+                    controller: bakersdescription,
+                    maxLines: null,
+                    decoration: const InputDecoration(
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                            color: Color.fromARGB(255, 255, 254, 254),
+                            width: 2.0),
+                      ),
+                      labelText: 'Baker Description',
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Row(children: [
+                    DropdownButton<String>(
+                      hint: const Text('Select An Item'),
+                      value: dropdownValue,
+                      icon: const Icon(
+                        Icons.arrow_downward,
+                        color: Colors.blue,
+                      ),
+                      elevation: 16,
+                      style: const TextStyle(color: Colors.blue),
+                      underline: Container(
+                        height: 2,
+                        color: Colors.blue,
+                      ),
+                      onChanged: (String? value) {
+                        setState(() {
+                          dropdownValue = value!;
+                        });
+                      },
+                      items: list.map<DropdownMenuItem<String>>((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(value),
+                        );
+                      }).toList(),
+                    ),
+                  ])
+                ],
+              ),
+              const SizedBox(
+                height: 50,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  ElevatedButton(
+                      onPressed: () async {
+                        String res = await Authmethods3().additem(
+                            itemname: itemname.text,
+                            itemdescription: itemdescription.text,
+                            priceofitem: priceofitem.text,
+                            netweight: netweight.text,
+                            bakersdescription: bakersdescription.text,
+                            dropdownValue: dropdownValue,
+                            fileName: fileName,
+                            downloadUrl: downloadUrl);
 
-                      debugPrint(res);
-                      push();
-                    },
-                    child: const Text('Submit'))
-              ],
-            )
-          ]),
+                        debugPrint(res);
+                        if (formkey.currentState!.validate()) {
+                           Get.to(()=> const Homepagelayout());
+                          Get.showSnackbar(GetSnackBar(
+                            margin: const EdgeInsets.all(15),
+                            borderRadius: 8,
+                            message: 'Product Added Successfully!',
+                            backgroundColor: Colors.green.shade400,
+                            duration: const Duration(seconds: 3),
+                          ));
+                        } else {
+                          Get.showSnackbar(const GetSnackBar(
+                            margin: EdgeInsets.all(15),
+                            borderRadius: 8,
+                            message: 'Product isn\'t stored',
+                            backgroundColor: Colors.red,
+                            duration: Duration(seconds: 3),
+                          ));
+                        }
+                      },
+                      child: const Text('Submit'))
+                ],
+              )
+            ]),
+          ),
         ),
       ),
     ));
@@ -315,9 +366,5 @@ class _AdditempageState extends State<Additempage> {
             ),
           );
         });
-  }
-
-  void push() {
-    Navigator.pushNamed(this.context, "homelayout");
   }
 }

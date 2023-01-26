@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:nihaljumailamrathaju/homepage/cartpage.dart';
 import 'package:nihaljumailamrathaju/homepage/favourites.dart';
-import 'package:nihaljumailamrathaju/homepage/homepage.dart';
+import 'package:nihaljumailamrathaju/homepage/homepagecustomer.dart';
+import 'package:nihaljumailamrathaju/homepage/homepageseller.dart';
+import 'package:nihaljumailamrathaju/homepage/profilepagecustomer.dart';
+import 'package:nihaljumailamrathaju/homepage/profilepageseller.dart';
 
 class Homepagelayout extends StatefulWidget {
   const Homepagelayout({super.key});
@@ -13,18 +16,27 @@ class Homepagelayout extends StatefulWidget {
 class _HomepagelayoutState extends State<Homepagelayout> {
   int pageIndex = 0;
 
-  final pages = [
-    const Homepage(),
-    const Favoritepage(),
-    const Cartpage (),
-    //const (),
-  ];
+ final sellerPages = [
+const Homepageseller(),
+const Favoritepage(),
+const Cartpage (),
+const Profilepageseller(),
+];
+ final customerPages = [
+const HomepageCustomer(),
+const Favoritepage(),
+const Cartpage (),
+const Profilepagecustomer(),
+];
+
+
+ 
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        body: pages[pageIndex],
+        body:sellerPages[pageIndex],
         backgroundColor: const Color(0xffffafcc),
         bottomNavigationBar: Container(
           height: 60,
@@ -116,4 +128,5 @@ class _HomepagelayoutState extends State<Homepagelayout> {
       ),
     );
   }
+  
 }

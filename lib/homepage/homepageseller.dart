@@ -2,14 +2,14 @@ import 'package:image_card/image_card.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-class Homepage extends StatefulWidget {
-  const Homepage({super.key});
+class Homepageseller extends StatefulWidget {
+  const Homepageseller({super.key});
 
   @override
-  State<Homepage> createState() => _HomepageState();
+  State<Homepageseller> createState() => _HomepagesellerState();
 }
 
-class _HomepageState extends State<Homepage> {
+class _HomepagesellerState extends State<Homepageseller> {
   final user = FirebaseAuth.instance.currentUser;
 
   @override

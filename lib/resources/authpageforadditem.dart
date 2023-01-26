@@ -13,7 +13,7 @@ class Authmethods3 {
        required fileName,
        required downloadUrl,
      }) async {
-    String res = "some Error occured";
+    
     try {
       if (itemdescription.isNotEmpty ||
           priceofitem.isNotEmpty ||
@@ -37,8 +37,8 @@ class Authmethods3 {
         });
       }
     } catch (err) {
-      res = err.toString();
+     print(err);
     }
-    return res;
+    return '';
   }
 }
