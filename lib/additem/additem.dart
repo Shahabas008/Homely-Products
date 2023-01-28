@@ -64,12 +64,12 @@ class _AdditempageState extends State<Additempage> {
   Future uploadFile() async {
     if (_photo == null) return;
     fileName = basename(_photo!.path);
-    final destination = 'files/$fileName';
+    final destination = 'Add Item/$fileName';
 
     try {
       final uploadimage = firebase_storage.FirebaseStorage.instance
           .ref(destination)
-          .child('additem/');
+          .child('add item/');
       await uploadimage.putFile(_photo!);
       downloadUrl = await uploadimage.getDownloadURL();
     } on FirebaseException catch (e) {
@@ -108,31 +108,35 @@ class _AdditempageState extends State<Additempage> {
                           onTap: () {
                             _showPicker(context);
                           },
-                          child: CircleAvatar(
-                            radius: 55,
-                            backgroundColor: const Color.fromARGB(255, 0, 0, 0),
-                            child: _photo != null
-                                ? ClipRRect(
-                                    borderRadius: BorderRadius.zero,
-                                    child: Image.file(
-                                      _photo!,
+                          child: SizedBox(
+                            height: 100,
+                              width: 100,
+                            child: CircleAvatar(
+                              radius: 55,
+                              backgroundColor: const Color.fromARGB(255, 0, 0, 0),
+                              child: _photo != null
+                                  ? ClipRRect(
+                                      borderRadius: BorderRadius.zero,
+                                      child: Image.file(
+                                        _photo!,
+                                        width: 100,
+                                        height: 100,
+                                        fit: BoxFit.fill,
+                                      ),
+                                    )
+                                  : Container(
+                                      decoration: BoxDecoration(
+                                          color:  const Color.fromARGB(255, 255, 255, 255),
+                                          borderRadius:
+                                              BorderRadius.circular(50)),
                                       width: 100,
                                       height: 100,
-                                      fit: BoxFit.fitHeight,
+                                      child:const Icon(
+                                        Icons.camera_alt,
+                                        color: Color.fromARGB(255, 0, 0, 0),
+                                      ),
                                     ),
-                                  )
-                                : Container(
-                                    decoration: BoxDecoration(
-                                        color: Colors.grey[200],
-                                        borderRadius:
-                                            BorderRadius.circular(50)),
-                                    width: 100,
-                                    height: 100,
-                                    child: Icon(
-                                      Icons.camera_alt,
-                                      color: Colors.grey[800],
-                                    ),
-                                  ),
+                            ),
                           )))
                 ],
               ),
@@ -143,6 +147,7 @@ class _AdditempageState extends State<Additempage> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   TextFormField(
+                    textCapitalization: TextCapitalization. words,
                     validator: (value) {
                       if (value!.isEmpty) {
                         return 'The Field is Required';
@@ -296,6 +301,9 @@ class _AdditempageState extends State<Additempage> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   ElevatedButton(
+                   style: ElevatedButton.styleFrom(
+                    backgroundColor:  const Color(0xff7f4ca5),
+                   ),
                       onPressed: () async {
                         String res = await Authmethods3().additem(
                             itemname: itemname.text,
@@ -337,7 +345,7 @@ class _AdditempageState extends State<Additempage> {
     ));
   }
 
-  void _showPicker(context) {
+  void  _showPicker(context) {
     showModalBottomSheet(
         context: context,
         builder: (BuildContext bc) {

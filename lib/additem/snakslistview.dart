@@ -58,9 +58,9 @@ class _SnacklistviewState extends State<Snacklistview> {
                           Expanded(
                             flex: 6,
                             child: Container(
-                              decoration: const BoxDecoration(
+                              decoration:  BoxDecoration(
                                   image: DecorationImage(
-                                      image: AssetImage("assets/cakeimage.jpg"),
+                                      image:   NetworkImage(snap[index]['URl']),
                                       fit: BoxFit.fill)),
                             ),
                           ),

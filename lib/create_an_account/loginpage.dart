@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:nihaljumailamrathaju/create_an_account/reset_password.dart';
 import 'package:nihaljumailamrathaju/create_an_account/signuppage.dart';
 import 'package:nihaljumailamrathaju/homepage/appbar_bottomnav.dart';
 
@@ -103,7 +104,7 @@ class _LoginpageState extends State<Loginpage> {
                         ),
                         TextButton(
                           onPressed: () {
-                            //forgot password screen
+                           Get.to(() => const Resetpasswordpage());
                           },
                           child: const Text(
                             'Forgot Password',
@@ -153,6 +154,7 @@ class _LoginpageState extends State<Loginpage> {
   }
 
   Future signIn() async {
+    final navigator = Navigator.of(context);
     showDialog(
         context: context,
         builder: ((context) {
@@ -164,9 +166,10 @@ class _LoginpageState extends State<Loginpage> {
     _formKey.currentState!.validate();
 
     try {
-      await FirebaseAuth.instance.signInWithEmailAndPassword(
+       await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: emailController.text.trim(),
           password: passwordController.text.trim());
+          
       Get.showSnackbar(GetSnackBar(
         margin: const EdgeInsets.all(15),
         borderRadius: 8,
@@ -174,7 +177,9 @@ class _LoginpageState extends State<Loginpage> {
         message: 'Logged In Successfully',
         duration: const Duration(seconds: 2),
       ));
+      
     } on FirebaseAuthException catch (e) {
+      
       switch (e.code) {
         case "invalid-email":
           return Get.showSnackbar(
@@ -186,7 +191,7 @@ class _LoginpageState extends State<Loginpage> {
               duration: Duration(seconds: 3),
               backgroundColor: Colors.red,
             ),
-          );
+          ); 
 
         case "wrong-password":
           return Get.showSnackbar(
@@ -196,10 +201,13 @@ class _LoginpageState extends State<Loginpage> {
               message: ('The password is invalid for the given email'),
               duration: Duration(seconds: 3),
               backgroundColor: Colors.red,
+               
             ),
+            
           );
-
+ 
         case "user-not-found":
+        
           return Get.showSnackbar(
             const GetSnackBar(
               margin: EdgeInsets.all(15),
@@ -210,8 +218,10 @@ class _LoginpageState extends State<Loginpage> {
             ),
           );
       }
+       
     }
-    // ignore: use_build_context_synchronously
-    Navigator.of(context).pop();
+   
+   navigator.pop();
+    
   }
 }

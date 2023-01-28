@@ -12,6 +12,7 @@ class Authmethods2 {
     required String username,
     required String phonenumber,
     required String downloadUrl,
+    required String platform,
   }) async {
    
     try {
@@ -26,8 +27,6 @@ class Authmethods2 {
         //adding user details to the firestore
         await _firestore
             .collection('Users')
-            .doc("Sellers")
-            .collection("user")
             .doc(email)
             .set({
           "user name": username,
@@ -35,7 +34,7 @@ class Authmethods2 {
           "Phone number": phonenumber,
           "Password": password,
           "uid": cred.user!.uid,
-          "Categorys": 'Seller',
+          "Categorys": platform,
           "Licence Image":downloadUrl,
         });
       }

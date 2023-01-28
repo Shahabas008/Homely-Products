@@ -16,6 +16,8 @@ class Signupforseller extends StatefulWidget {
 }
 
 class _SignupforsellerState extends State<Signupforseller> {
+  final categorys = Get.arguments["categorys"];
+  
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final usernameController = TextEditingController();
@@ -28,6 +30,8 @@ class _SignupforsellerState extends State<Signupforseller> {
   final ImagePicker _picker = ImagePicker();
 
   String downloadUrl = "";
+  
+
   Future imgFromCamera() async {
     final pickedFile = await _picker.pickImage(source: ImageSource.camera);
 
@@ -234,27 +238,49 @@ class _SignupforsellerState extends State<Signupforseller> {
                           ElevatedButton(
                               style: ElevatedButton.styleFrom(
                                 minimumSize: const Size(100, 50),
-                                backgroundColor: const Color(0xffffafcc),
+                                backgroundColor: const Color.fromARGB(255, 226, 119, 158),
                               ),
                               onPressed: () {
                                 _showPicker(context);
                               },
                               child: const Text('Upload YOur License')),
                           SizedBox(
-                              height: 40,
-                              width: 60,
-                              child: Image.network(
-                                downloadUrl,
-                                fit: BoxFit.fill,
-                              ))
-                        ],
+                              height: 100,
+                              width: 100,
+                              child: CircleAvatar(
+                            radius: 0,
+                            backgroundColor: const Color.fromARGB(255, 0, 0, 0),
+                            child: _photo != null
+                                ? ClipRRect(
+                                    borderRadius: BorderRadius.zero,
+                                    child: Image.file(
+                                      _photo!,
+                                      width: 150,
+                                      height: 150,
+                                      fit: BoxFit.fill,
+                                    ),
+                                  )
+                                : Container(
+                                    decoration: BoxDecoration(
+                                        color: Colors.grey[200],
+                                        borderRadius:
+                                            BorderRadius.circular(50)),
+                                    width: 100,
+                                    height: 100,
+                                    child: Icon(
+                                      Icons.camera_alt,
+                                      color: Colors.grey[800],
+                                    ),
+                                  ),
+                          )
+                      )],
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           ElevatedButton(
                               style: ElevatedButton.styleFrom(
-                                  backgroundColor: const Color(0xffffafcc),
+                                  backgroundColor: const Color.fromARGB(255, 226, 119, 158),
                                   minimumSize: const Size(70, 40)),
                               child: const Text('Login'),
                               onPressed: () async {
@@ -263,7 +289,8 @@ class _SignupforsellerState extends State<Signupforseller> {
                                     password: passwordController.text,
                                     username: usernameController.text,
                                     phonenumber: phoneNumberController.text,
-                                    downloadUrl: downloadUrl);
+                                    downloadUrl: downloadUrl,
+                                    platform : categorys);
                                 if (formKey.currentState!.validate()) {
                                   Get.to(const Homepagelayout());
                                   Get.showSnackbar(
@@ -278,6 +305,7 @@ class _SignupforsellerState extends State<Signupforseller> {
                                     ),
                                   );
                                 } else {
+                                  
                                   Get.showSnackbar(
                                     const GetSnackBar(
                                       margin: EdgeInsets.all(15),

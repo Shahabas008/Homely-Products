@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
+
 class Cakedetailspage extends StatefulWidget {
   final String id;
 
@@ -129,8 +130,8 @@ class _CakedetailspageState extends State<Cakedetailspage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     SizedBox(
-                      child: Image.asset(
-                        'assets/cakeimage.jpg',
+                      child: Image.network(
+                        data['URl'],
                         width: 200,
                         height: 200,
                       ),

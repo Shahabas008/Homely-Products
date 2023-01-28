@@ -1,65 +1,44 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:nihaljumailamrathaju/homepage/productpageforsellerdetailed.dart';
 
-class Cartpage extends StatefulWidget {
-  const Cartpage({super.key});
+
+class Productspage extends StatefulWidget {
+  const Productspage({super.key});
 
   @override
-  State<Cartpage> createState() => _CartpageState();
+  State<Productspage> createState() => _ProductspageState();
 }
 
-class _CartpageState extends State<Cartpage> {
+class _ProductspageState extends State<Productspage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return SafeArea(
+      child: Scaffold(
         backgroundColor: const Color(0xffffafcc),
-        appBar: PreferredSize(
-            preferredSize: const Size.fromHeight(80),
-            child: AppBar(
-              backgroundColor: const Color(0xff7f4ca5),
-              leading: IconButton(
-                  color: Colors.white,
-                  onPressed: () {
-                    //navigating to the notification page
-                  },
-                  icon: const Icon(Icons.notifications)),
-              title: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Image.asset(
-                      'assets/homebakery-bgremoved.png',
-                      width: 100,
-                      height: 100,
-                    ),
-                  ]),
-              actions: [
-                IconButton(
-                    color: Colors.white,
-                    onPressed: () {
-                      Navigator.pushNamed(context, "additem");
-                    },
-                    icon: const Icon(Icons.add_box)),
-              ],
-            )),
-        body: StreamBuilder(
-            stream: FirebaseFirestore.instance
-                .collection('User-Cart-Item')
+        appBar: AppBar(
+          title: const Text('Your Products'),
+          backgroundColor:  const Color(0xff7f4ca5),
+        ),
+        body:StreamBuilder(
+          stream: FirebaseFirestore.instance
+                .collection('User-Add Item')
                 .doc(FirebaseAuth.instance.currentUser!.email)
-                .collection("items")
+                .collection('item')
                 .snapshots(),
-            builder:
-                (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-              if (snapshot.hasData) {
+          
+          builder: (BuildContext context, AsyncSnapshot snapshot) {
+             if (snapshot.hasData) {
                 if (snapshot.data == null || snapshot.data!.docs.isEmpty) {
                   return const Center(
                     child: Text(
-                      'YOUR CART IS EMPTY!',
+                      'You Haven\'t Added Any Products',
                       style: TextStyle(
-                        color: Color(0xff7f4ca5),
+                        color:Color(0xff7f4ca5),
                         fontWeight: FontWeight.bold,
-                        fontSize: 20,
+                        fontSize: 25,
                       ),
                     ),
                   );
@@ -85,7 +64,7 @@ class _CartpageState extends State<Cartpage> {
                                   decoration: BoxDecoration(
                                       image: DecorationImage(
                                           image: NetworkImage(
-                                              documentSnapshot['images']),
+                                              documentSnapshot['URl']),
                                           fit: BoxFit.fill)),
                                 ),
                               ),
@@ -101,7 +80,7 @@ class _CartpageState extends State<Cartpage> {
                                         CrossAxisAlignment.start,
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: <Widget>[
-                                      Text(documentSnapshot['name'],
+                                      Text(documentSnapshot['Item Name'],
                                           style: const TextStyle(
                                               fontSize: 20.0,
                                               fontWeight: FontWeight.bold)),
@@ -109,7 +88,7 @@ class _CartpageState extends State<Cartpage> {
                                       Text(
                                           // ignore: prefer_interpolation_to_compose_strings
                                           'Net Weight:   ' +
-                                              documentSnapshot['netweight'],
+                                              documentSnapshot['Net Weight'],
                                           style: const TextStyle(
                                             fontSize: 20.0,
                                           )),
@@ -121,7 +100,7 @@ class _CartpageState extends State<Cartpage> {
                                               MainAxisAlignment.spaceBetween,
                                           children: <Widget>[
                                             Text(
-                                              documentSnapshot['price'],
+                                              documentSnapshot['Price of Item'],
                                               style: const TextStyle(
                                                   fontWeight: FontWeight.w400,
                                                   fontSize: 20),
@@ -130,21 +109,20 @@ class _CartpageState extends State<Cartpage> {
                                               onTap: () {
                                                 FirebaseFirestore.instance
                                                     .collection(
-                                                        'User-Cart-Item')
+                                                        'User-Add Item')
                                                     .doc(FirebaseAuth.instance
                                                         .currentUser!.email)
-                                                    .collection("items")
+                                                    .collection("item")
                                                     .doc(documentSnapshot.id)
                                                     .delete();
                                               },
                                               child: const CircleAvatar(
-                                                backgroundColor: Color.fromARGB(
-                                                    255, 0, 0, 0),
+                                                backgroundColor: Color.fromARGB(255, 255, 255, 255),
                                                 child: Icon(
+                                                  size:30 ,
                                                   Icons
-                                                      .remove_shopping_cart_outlined,
-                                                  color: Color.fromARGB(
-                                                      255, 255, 255, 255),
+                                                      .delete,
+                                                  color: Color.fromARGB(255, 235, 4, 4),
                                                 ),
                                               ),
                                             )
@@ -155,9 +133,19 @@ class _CartpageState extends State<Cartpage> {
                                         children: <Widget>[
                                           TextButton(
                                             onPressed: () {
-                                              //
+                                              Get.to(() => const Productdetailedpage(),
+                                              arguments:[documentSnapshot['Price of Item'],
+                                              documentSnapshot['Net Weight'],
+                                              documentSnapshot['Item Name'],
+                                               documentSnapshot['URl'],
+                                               documentSnapshot['Item Description']
+                                               ] 
+                                              );
                                             },
-                                            child: const Text('Order'),
+                                            child: const Text('Details',
+                                            style: TextStyle(
+                                              color:  Color(0xff7f4ca5),
+                                            ),),
                                           ),
                                           // Text(
                                           //   "barcode",
@@ -177,6 +165,10 @@ class _CartpageState extends State<Cartpage> {
               } else {
                 return const Center(child: CircularProgressIndicator());
               }
-            }));
+          },
+        ),
+        
+      ),
+    );
   }
 }

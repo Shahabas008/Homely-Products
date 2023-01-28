@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:nihaljumailamrathaju/homepage/cartpage.dart';
 import 'package:nihaljumailamrathaju/homepage/favourites.dart';
@@ -14,29 +16,52 @@ class Homepagelayout extends StatefulWidget {
 }
 
 class _HomepagelayoutState extends State<Homepagelayout> {
+  bool isCustomer = false;
+
+  void decider() async {
+    DocumentSnapshot currentUser = await FirebaseFirestore.instance
+        .collection('Users')
+        .doc(FirebaseAuth.instance.currentUser!.email)
+        .get();
+
+    if (currentUser.get("categorys") == "customer") {
+      setState(() {
+        isCustomer = true;
+      });
+
+      return;
+    }
+    setState(() {
+      isCustomer = false;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    decider();
+  }
+
   int pageIndex = 0;
 
- final sellerPages = [
-const Homepageseller(),
-const Favoritepage(),
-const Cartpage (),
-const Profilepageseller(),
-];
- final customerPages = [
-const HomepageCustomer(),
-const Favoritepage(),
-const Cartpage (),
-const Profilepagecustomer(),
-];
-
-
- 
+  final sellerPages = [
+    const Homepageseller(),
+    const Favoritepage(),
+    const Cartpage(),
+    const Profilepageseller(),
+  ];
+  final customerPages = [
+    const HomepageCustomer(),
+    const Favoritepage(),
+    const Cartpage(),
+    const Profilepagecustomer(),
+  ];
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        body:sellerPages[pageIndex],
+        body: isCustomer ? customerPages[pageIndex] : sellerPages[pageIndex],
         backgroundColor: const Color(0xffffafcc),
         bottomNavigationBar: Container(
           height: 60,
@@ -93,7 +118,7 @@ const Profilepagecustomer(),
                 },
                 icon: pageIndex == 2
                     ? const Icon(
-                        Icons.shopping_cart ,
+                        Icons.shopping_cart,
                         color: Colors.white,
                         size: 35,
                       )
@@ -128,5 +153,4 @@ const Profilepagecustomer(),
       ),
     );
   }
-  
 }

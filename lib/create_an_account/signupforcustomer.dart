@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:nihaljumailamrathaju/homepage/appbar_bottomnav.dart';
@@ -11,6 +12,8 @@ class Signupforcustomer extends StatefulWidget {
 }
 
 class _SignupforcustomerState extends State<Signupforcustomer> {
+  final categorys = Get.arguments["categorys"];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -170,21 +173,37 @@ class _SignupforcustomerState extends State<Signupforcustomer> {
                           children: [
                             ElevatedButton(
                                 style: ElevatedButton.styleFrom(
-                                    backgroundColor: const Color(0xffffafcc),
+                                    backgroundColor: const Color.fromARGB(255, 226, 119, 158),
                                     minimumSize: const Size(70, 40)),
                                 child: const Text('Login'),
                                 onPressed: () async {
-                                  String res = await Authmethods1()
-                                      .signUpusercustomer(
-                                          email: emailController.text,
-                                          password: passwordController.text,
-                                          username: usernameController.text,
-                                          phonenumber:
-                                              phoneNumberController.text,
-                                          address: addressController.text);
-                                  debugPrint(res);
+                                  try {
+                                    await Authmethods1().signUpusercustomer(
+                                        email: emailController.text,
+                                        password: passwordController.text,
+                                        username: usernameController.text,
+                                        phonenumber: phoneNumberController.text,
+                                        address: addressController.text,
+                                        platform: categorys);
+                                        Get.to(() => const Homepagelayout());
+                                  } on FirebaseAuthException catch (e) {
+                                    switch (e.code) {
+                                      case 'email-already-in-use':
+                                        Get.showSnackbar(
+                                          const GetSnackBar(
+                                            margin: EdgeInsets.all(15),
+                                            borderRadius: 8,
+                                            message:
+                                                ('There already exists an account with the given email address.'),
+                                            duration: Duration(seconds: 3),
+                                            backgroundColor: Colors.red,
+                                          ),
+                                        );
+                                    }
+                                  }
+
                                   if (formKey.currentState!.validate()) {
-                                    Get.to(const Homepagelayout());
+                                    //Get.to(const Homepagelayout());
                                     Get.showSnackbar(
                                       GetSnackBar(
                                         margin: const EdgeInsets.all(15),

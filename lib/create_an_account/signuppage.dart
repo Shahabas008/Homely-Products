@@ -60,18 +60,30 @@ class Signup extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       ElevatedButton(
+                        
                         style: ElevatedButton.styleFrom(
-                            minimumSize: const Size(130, 100)),
+                          backgroundColor:  const Color(0xff7f4ca5),
+                            minimumSize: const Size(100, 100)),
                         onPressed: () {
-                          Get.to(const Signupforseller());
+                          Get.to(()=>  const Signupforseller(),
+                          arguments: {
+                            "categorys" : 'seller',
+                          });
+
+                          
                         },
                         child: const Text("SELLER"),
                       ),
                       ElevatedButton(
                         style: ElevatedButton.styleFrom(
+                           backgroundColor:  const Color(0xff7f4ca5),
                             minimumSize: const Size(100, 100)),
                         onPressed: () {
-                        Get.to(const Signupforcustomer());
+                          
+                        Get.to(()=> const Signupforcustomer(),
+                        arguments: {
+                          "categorys" : "customer"
+                        });
                         },
                         child: const Text("CUSTOMER"),
                       ),

@@ -132,8 +132,8 @@ class _IcecreamdetailspageState extends State<Icecreamdetailspage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     SizedBox(
-                      child: Image.asset(
-                        'assets/cakeimage.jpg',
+                      child: Image.network(
+                         data['URl'],
                         width: 200,
                         height: 200,
                       ),
