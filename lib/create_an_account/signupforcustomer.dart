@@ -1,7 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:nihaljumailamrathaju/homepage/appbar_bottomnav.dart';
+import 'package:nihaljumailamrathaju/create_an_account/verifyemail.dart';
+
 import 'package:nihaljumailamrathaju/resources/authpagecustomer.dart';
 
 class Signupforcustomer extends StatefulWidget {
@@ -173,11 +174,17 @@ class _SignupforcustomerState extends State<Signupforcustomer> {
                           children: [
                             ElevatedButton(
                                 style: ElevatedButton.styleFrom(
-                                    backgroundColor: const Color.fromARGB(255, 226, 119, 158),
+                                    backgroundColor: const Color.fromARGB(
+                                        255, 226, 119, 158),
                                     minimumSize: const Size(70, 40)),
                                 child: const Text('Login'),
                                 onPressed: () async {
                                   try {
+                                    final FirebaseAuth auth =
+                                        FirebaseAuth.instance;
+                                    await auth.createUserWithEmailAndPassword(
+                                        email: emailController.text,
+                                        password: passwordController.text);
                                     await Authmethods1().signUpusercustomer(
                                         email: emailController.text,
                                         password: passwordController.text,
@@ -185,7 +192,36 @@ class _SignupforcustomerState extends State<Signupforcustomer> {
                                         phonenumber: phoneNumberController.text,
                                         address: addressController.text,
                                         platform: categorys);
-                                        Get.to(() => const Homepagelayout());
+                                       
+                                    if (formKey.currentState!.validate()) {
+                                      Get.to(const Verifyemailpage(),
+                                      arguments: {
+                                        "email":emailController.text,
+                                      });
+                                      Get.showSnackbar(
+                                        GetSnackBar(
+                                          margin: const EdgeInsets.all(15),
+                                          borderRadius: 8,
+                                         
+                                          message:
+                                              'Registration Succeeded',
+                                          duration: const Duration(seconds: 5),
+                                          backgroundColor:
+                                              Colors.green.shade400,
+                                        ),
+                                      );
+                                    } else {
+                                      Get.showSnackbar(
+                                        const GetSnackBar(
+                                          margin: EdgeInsets.all(15),
+                                          borderRadius: 8,
+                                          message: 'Registration Failed!',
+                                          icon: Icon(Icons.error),
+                                          duration: Duration(seconds: 3),
+                                          backgroundColor: Colors.red,
+                                        ),
+                                      );
+                                    }
                                   } on FirebaseAuthException catch (e) {
                                     switch (e.code) {
                                       case 'email-already-in-use':
@@ -200,32 +236,6 @@ class _SignupforcustomerState extends State<Signupforcustomer> {
                                           ),
                                         );
                                     }
-                                  }
-
-                                  if (formKey.currentState!.validate()) {
-                                    //Get.to(const Homepagelayout());
-                                    Get.showSnackbar(
-                                      GetSnackBar(
-                                        margin: const EdgeInsets.all(15),
-                                        borderRadius: 8,
-                                        title: 'Registration Succeeded',
-                                        message:
-                                            'You\'re A Customer, explore the store ',
-                                        duration: const Duration(seconds: 5),
-                                        backgroundColor: Colors.green.shade400,
-                                      ),
-                                    );
-                                  } else {
-                                    Get.showSnackbar(
-                                      const GetSnackBar(
-                                        margin: EdgeInsets.all(15),
-                                        borderRadius: 8,
-                                        message: 'Registration Failed!',
-                                        icon: Icon(Icons.error),
-                                        duration: Duration(seconds: 3),
-                                        backgroundColor: Colors.red,
-                                      ),
-                                    );
                                   }
                                 }),
                           ],

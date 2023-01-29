@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:nihaljumailamrathaju/create_an_account/reset_password.dart';
 import 'package:nihaljumailamrathaju/create_an_account/signuppage.dart';
+
 import 'package:nihaljumailamrathaju/homepage/appbar_bottomnav.dart';
 
 class Loginpage extends StatefulWidget {
@@ -132,7 +133,7 @@ class _LoginpageState extends State<Loginpage> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
-                            const Text('Does not have account?'),
+                            const Text('Doesn\'t have account?'),
                             TextButton(
                               child: const Text(
                                 'Sign UP',

@@ -7,16 +7,21 @@ import 'package:image_picker/image_picker.dart';
 import 'package:nihaljumailamrathaju/create_an_account/loginpage.dart';
 import 'package:nihaljumailamrathaju/homepage/productsforsellerpage.dart';
 
+
 import 'package:path/path.dart';
 
 class Profilepageseller extends StatefulWidget {
   const Profilepageseller ({super.key});
+
+
 
   @override
   State<Profilepageseller> createState() => ProfilepagesellerState();
 }
 
 class ProfilepagesellerState extends State<Profilepageseller > {
+  
+
   File? _image;
   final ImagePicker picker = ImagePicker();
   Future selectOrTakePhoto(ImageSource imageSource) async {
@@ -43,8 +48,8 @@ class ProfilepagesellerState extends State<Profilepageseller > {
           .child('Profile Picture/');
       await uploadimage.putFile(_image!);
 
-      var downloadUrl = await uploadimage.getDownloadURL();
-      print(downloadUrl);
+       var downloadUrl = await uploadimage.getDownloadURL();
+
     } on FirebaseException catch (e) {
       print(e);
     }
@@ -170,18 +175,7 @@ class ProfilepagesellerState extends State<Profilepageseller > {
                 const SizedBox(
                 height: 30,
               ),
-              const Text('Address',
-               style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.w500 ,
-               ),),
-               const Text('address from firestore',
-                style: TextStyle(
-                fontSize: 15,
-                fontWeight: FontWeight.w400 ,
-               ),),
-                const SizedBox(
-                height: 30,),
+             
 
 
                 ElevatedButton(

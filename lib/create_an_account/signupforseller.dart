@@ -1,10 +1,12 @@
 import 'dart:io';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
-import 'package:firebase_storage/firebase_storage.dart';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:nihaljumailamrathaju/homepage/appbar_bottomnav.dart';
+import 'package:nihaljumailamrathaju/create_an_account/verifyemail.dart';
+
 import 'package:nihaljumailamrathaju/resources/authpageseller.dart';
 import 'package:path/path.dart';
 
@@ -17,8 +19,9 @@ class Signupforseller extends StatefulWidget {
 
 class _SignupforsellerState extends State<Signupforseller> {
   final categorys = Get.arguments["categorys"];
-  
+
   final emailController = TextEditingController();
+  final otpcontroller = TextEditingController();
   final passwordController = TextEditingController();
   final usernameController = TextEditingController();
   final phoneNumberController = TextEditingController();
@@ -30,7 +33,6 @@ class _SignupforsellerState extends State<Signupforseller> {
   final ImagePicker _picker = ImagePicker();
 
   String downloadUrl = "";
-  
 
   Future imgFromCamera() async {
     final pickedFile = await _picker.pickImage(source: ImageSource.camera);
@@ -124,6 +126,7 @@ class _SignupforsellerState extends State<Signupforseller> {
         body: Form(
           key: formKey,
           child: SingleChildScrollView(
+            
             child: Column(
               children: <Widget>[
                 Container(
@@ -162,6 +165,7 @@ class _SignupforsellerState extends State<Signupforseller> {
                           labelText: 'User Name',
                         ),
                       ),
+                     
                       TextFormField(
                         keyboardType: TextInputType.number,
                         validator: ((value) {
@@ -181,22 +185,22 @@ class _SignupforsellerState extends State<Signupforseller> {
                         ),
                       ),
                       TextFormField(
-                        keyboardType: TextInputType.emailAddress,
-                        validator: (value) {
-                          if (value!.isEmpty || !value.contains('@')) {
-                            return 'Please enter a valid email address';
-                          }
-                          return null;
-                        },
-                        controller: emailController,
-                        decoration: const InputDecoration(
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                                color: Color(0xffffafcc), width: 2.0),
+                          keyboardType: TextInputType.emailAddress,
+                          controller: emailController,
+                          validator: (value) {
+                            if (value!.isEmpty || !value.contains('@')) {
+                              return 'Please enter a valid email address';
+                            }
+                            return null;
+                          },
+                          decoration: const InputDecoration(
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                  color: Color(0xffffafcc), width: 2.0),
+                            ),
+                            labelText: 'E-Mail',
                           ),
-                          labelText: 'E-Mail',
                         ),
-                      ),
                       TextFormField(
                         validator: ((value) {
                           if (value!.length < 6) {
@@ -238,7 +242,8 @@ class _SignupforsellerState extends State<Signupforseller> {
                           ElevatedButton(
                               style: ElevatedButton.styleFrom(
                                 minimumSize: const Size(100, 50),
-                                backgroundColor: const Color.fromARGB(255, 226, 119, 158),
+                                backgroundColor: const Color.fromARGB(
+                                    255, 226, 119, 158),
                               ),
                               onPressed: () {
                                 _showPicker(context);
@@ -248,74 +253,101 @@ class _SignupforsellerState extends State<Signupforseller> {
                               height: 100,
                               width: 100,
                               child: CircleAvatar(
-                            radius: 0,
-                            backgroundColor: const Color.fromARGB(255, 0, 0, 0),
-                            child: _photo != null
-                                ? ClipRRect(
-                                    borderRadius: BorderRadius.zero,
-                                    child: Image.file(
-                                      _photo!,
-                                      width: 150,
-                                      height: 150,
-                                      fit: BoxFit.fill,
-                                    ),
-                                  )
-                                : Container(
-                                    decoration: BoxDecoration(
-                                        color: Colors.grey[200],
-                                        borderRadius:
-                                            BorderRadius.circular(50)),
-                                    width: 100,
-                                    height: 100,
-                                    child: Icon(
-                                      Icons.camera_alt,
-                                      color: Colors.grey[800],
-                                    ),
-                                  ),
-                          )
-                      )],
+                                radius: 0,
+                                backgroundColor:
+                                    const Color.fromARGB(255, 0, 0, 0),
+                                child: _photo != null
+                                    ? ClipRRect(
+                                        borderRadius: BorderRadius.zero,
+                                        child: Image.file(
+                                          _photo!,
+                                          width: 150,
+                                          height: 150,
+                                          fit: BoxFit.fill,
+                                        ),
+                                      )
+                                    : Container(
+                                        decoration: BoxDecoration(
+                                            color: Colors.grey[200],
+                                            borderRadius:
+                                                BorderRadius.circular(50)),
+                                        width: 100,
+                                        height: 100,
+                                        child: Icon(
+                                          Icons.camera_alt,
+                                          color: Colors.grey[800],
+                                        ),
+                                      ),
+                              ))
+                        ],
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           ElevatedButton(
                               style: ElevatedButton.styleFrom(
-                                  backgroundColor: const Color.fromARGB(255, 226, 119, 158),
+                                  backgroundColor: const Color.fromARGB(
+                                      255, 226, 119, 158),
                                   minimumSize: const Size(70, 40)),
-                              child: const Text('Login'),
+                              child: const Text('Verify E-Mail and Login'),
                               onPressed: () async {
-                                await Authmethods2().signUpuserseller(
-                                    email: emailController.text,
-                                    password: passwordController.text,
-                                    username: usernameController.text,
-                                    phonenumber: phoneNumberController.text,
-                                    downloadUrl: downloadUrl,
-                                    platform : categorys);
-                                if (formKey.currentState!.validate()) {
-                                  Get.to(const Homepagelayout());
-                                  Get.showSnackbar(
-                                    GetSnackBar(
-                                      margin: const EdgeInsets.all(15),
-                                      borderRadius: 8,
-                                      title: 'Registration Succeeded',
-                                      message:
-                                          'You\'re A Seller, Sell good Products.',
-                                      duration: const Duration(seconds: 5),
-                                      backgroundColor: Colors.green.shade400,
-                                    ),
-                                  );
-                                } else {
+                                try {
+                                  final FirebaseAuth auth =
+                                      FirebaseAuth.instance;
+                                  await auth.createUserWithEmailAndPassword(
+                                      email: emailController.text,
+                                      password: passwordController.text);
+                                  await Authmethods2().signUpuserseller(
+                                      email: emailController.text,
+                                      password: passwordController.text,
+                                      username: usernameController.text,
+                                      phonenumber:
+                                          phoneNumberController.text,
+                                      downloadUrl: downloadUrl,
+                                      platform: categorys);
                                   
-                                  Get.showSnackbar(
-                                    const GetSnackBar(
-                                      margin: EdgeInsets.all(15),
-                                      borderRadius: 8,
-                                      message: 'Registration Failed!',
-                                      icon: Icon(Icons.error),
-                                      duration: Duration(seconds: 3),
-                                      backgroundColor: Colors.red,
-                                    ),
-                                  );
+                                  if (formKey.currentState!.validate()) {
+                                    Get.to(const Verifyemailpage(),
+                                    arguments:{"email" : emailController.text});
+                                    Get.showSnackbar(
+                                      GetSnackBar(
+                                        margin: const EdgeInsets.all(15),
+                                        borderRadius: 8,
+                                          
+                                        message:
+                                            'Registration Succeeded',
+                                        duration:
+                                            const Duration(seconds: 5),
+                                        backgroundColor:
+                                            Colors.green.shade400,
+                                      ),
+                                    );
+                                  } else {
+                                    Get.showSnackbar(
+                                      const GetSnackBar(
+                                        margin: EdgeInsets.all(15),
+                                        borderRadius: 8,
+                                        message: 'Registration Failed!',
+                                        icon: Icon(Icons.error),
+                                        duration: Duration(seconds: 3),
+                                        backgroundColor: Colors.red,
+                                      ),
+                                    );
+                                  }
+                                } on FirebaseAuthException catch (e) {
+                                  switch (e.code) {
+                                    case 'email-already-in-use':
+                                      Get.showSnackbar(
+                                        const GetSnackBar(
+                                          margin: EdgeInsets.all(15),
+                                          borderRadius: 8,
+                                          message:
+                                              ('There already exists an account with the given email address.'),
+                                          duration: Duration(seconds: 3),
+                                          backgroundColor: Colors.red,
+                                        ),
+                                      );
+                                  }
                                 }
                               }),
                         ],

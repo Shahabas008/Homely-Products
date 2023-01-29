@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:get/get.dart';
 import 'package:nihaljumailamrathaju/homepage/profilepagecustomer.dart';
 
@@ -7,7 +7,7 @@ import 'package:nihaljumailamrathaju/homepage/profilepagecustomer.dart';
 
 class Authmethods1 {
 
-  final FirebaseAuth _auth = FirebaseAuth.instance;
+ 
   final Profilepagecustomer controller = Get.put(const Profilepagecustomer());
   
 
@@ -29,8 +29,7 @@ class Authmethods1 {
           address.isNotEmpty) {
             print(email);
         //registeration of the user with email and password.
-        UserCredential cred = await _auth.createUserWithEmailAndPassword(
-            email: email, password: password);
+       
 
         //adding user details to the firestore
         await FirebaseFirestore.instance
@@ -42,7 +41,6 @@ class Authmethods1 {
           "Phone number": phonenumber,
           "Address": address,
           "Password": password,
-          "uid": cred.user!.uid,
           "categorys": platform,
           
         });

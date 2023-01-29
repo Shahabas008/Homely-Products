@@ -70,11 +70,12 @@ class _ResetpasswordpageState extends State<Resetpasswordpage> {
   }
 
   void reset() {
+    final emails = emailController.text;
     if (_formKey.currentState!.validate()) {
       FirebaseAuth.instance.sendPasswordResetEmail(email: emailController.text);
       Get.off(() => const Loginpage());
       Get.showSnackbar( GetSnackBar(
-        message: 'An Mail is sent to the given E-Mail address.',
+        message: 'An Mail is sent to the $emails',
         margin:  const EdgeInsets.all(15),
         borderRadius: 8,
         duration:  const Duration(seconds: 5),
