@@ -118,10 +118,12 @@ class _SweetslistviewState extends State<Sweetslistview> {
                                                                   .id,
                                                                   product:snap[index])));
                                             },
-                                            child: const Text("Details")),
-                                        const TextButton(
-                                            onPressed: null,
-                                            child: Icon(Icons.shopping_cart)),
+                                              child: const Text("Details",
+                                            style: TextStyle(
+                                              color:   Color(0xff7f4ca5),
+                                              fontSize: 16,
+                                            ),)),
+                                       
                                       ],
                                     ),
                                   )

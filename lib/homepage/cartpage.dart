@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
+
 class Cartpage extends StatefulWidget {
   const Cartpage({super.key});
 
@@ -10,6 +11,9 @@ class Cartpage extends StatefulWidget {
 }
 
 class _CartpageState extends State<Cartpage> {
+    
+
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -65,20 +69,25 @@ class _CartpageState extends State<Cartpage> {
                   );
                 } else {
                   return ListView.builder(
+                    
                       itemCount: snapshot.data == null
                           ? 0
                           : snapshot.data!.docs.length,
                       itemBuilder: (_, index) {
+                        
                         DocumentSnapshot documentSnapshot =
                             snapshot.data!.docs[index];
+                          
 
                         return Card(
+                          
                           color: const Color.fromARGB(255, 255, 248, 250),
                           margin: const EdgeInsets.all(20),
                           child: Container(
                             height: 140,
                             padding: const EdgeInsets.all(0),
                             child: Row(children: [
+                               
                               Expanded(
                                 flex: 6,
                                 child: Container(
@@ -179,4 +188,6 @@ class _CartpageState extends State<Cartpage> {
               }
             }));
   }
+
+
 }

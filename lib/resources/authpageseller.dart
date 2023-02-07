@@ -1,11 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:get/get.dart';
+import 'package:nihaljumailamrathaju/homepage/profilepageseller.dart';
+import 'package:nihaljumailamrathaju/controllers/profilepagesellercontroller.dart';
 
 
 
 
 class Authmethods2 {
-  
- 
+  final data =  Get.put(TestController());
+
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   Future<String> signUpuserseller({
@@ -31,7 +34,7 @@ class Authmethods2 {
           "Password": password,
           "Categorys": platform,
           "Licence Image": downloadUrl,
-          //"Profile Picture" :controller.downloadUrl,
+        
         });
       }
     } catch (err) {

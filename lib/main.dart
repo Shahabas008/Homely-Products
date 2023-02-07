@@ -10,12 +10,10 @@ import 'package:nihaljumailamrathaju/additem/snakslistview.dart';
 import 'package:nihaljumailamrathaju/additem/sweetslistview.dart';
 import 'package:nihaljumailamrathaju/create_an_account/loginpage.dart';
 import 'package:nihaljumailamrathaju/create_an_account/signuppage.dart';
-
 import 'package:nihaljumailamrathaju/homepage/appbar_bottomnav.dart';
 import 'package:nihaljumailamrathaju/homepage/homepagecustomer.dart';
 import 'package:nihaljumailamrathaju/homepage/homepageseller.dart';
 import 'package:get/get.dart';
-
 import 'package:nihaljumailamrathaju/splashscreen/splashscreen2.dart';
 import 'resources/firebase_options.dart';
 

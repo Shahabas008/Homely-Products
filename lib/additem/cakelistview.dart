@@ -121,12 +121,12 @@ class _CakelistviewState extends State<Cakelistview> {
                                                                   .id,
                                                                   product: snap[index],)));
                                             },
-                                            child: const Text("Details")),
-                                         TextButton(
-                                            onPressed: (){
-                                          
-                                            },
-                                            child: const Icon(Icons.shopping_cart)),
+                                            child: const Text("Details",
+                                            style: TextStyle(
+                                              color:   Color(0xff7f4ca5),
+                                              fontSize: 16,
+                                            ),)),
+                                         
                                       ],
                                     ),
                                   )

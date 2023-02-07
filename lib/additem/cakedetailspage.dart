@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
+import 'package:pay/pay.dart';
 
 class Cakedetailspage extends StatefulWidget {
   final String id;
@@ -14,7 +14,12 @@ class Cakedetailspage extends StatefulWidget {
 }
 
 class _CakedetailspageState extends State<Cakedetailspage> {
-
+  final _paymentItems = [
+    const PaymentItem(
+      label: 'okay',
+      amount: '99.99',
+    )
+  ];
   void addtoCart() async {
     final FirebaseAuth auth = FirebaseAuth.instance;
     final currentuser = auth.currentUser;
@@ -25,7 +30,7 @@ class _CakedetailspageState extends State<Cakedetailspage> {
       "name": widget.product["Item Name"],
       "price": widget.product["Price of Item"],
       "images": widget.product["URl"],
-      "netweight":widget.product["Net Weight"]
+      "netweight": widget.product["Net Weight"]
     }).then((value) => debugPrint("Added to Cart"));
   }
 
@@ -38,7 +43,7 @@ class _CakedetailspageState extends State<Cakedetailspage> {
       "name": widget.product["Item Name"],
       "price": widget.product["Price of Item"],
       "images": widget.product["URl"],
-      "netweight":widget.product["Net Weight"]
+      "netweight": widget.product["Net Weight"]
     }).then((value) => print("Added to favourite"));
   }
 
@@ -79,11 +84,11 @@ class _CakedetailspageState extends State<Cakedetailspage> {
         if (snapshot.connectionState == ConnectionState.done) {
           Map<String, dynamic> data =
               snapshot.data!.data() as Map<String, dynamic>;
+
           return SafeArea(
               child: Scaffold(
             appBar: AppBar(
               backgroundColor: const Color(0xff7f4ca5),
-
               actions: [
                 isUserLoggedIn
                     ? StreamBuilder(
@@ -96,7 +101,6 @@ class _CakedetailspageState extends State<Cakedetailspage> {
                             .snapshots(),
                         builder: (BuildContext context,
                             AsyncSnapshot<QuerySnapshot> snapshot) {
-                         
                           return CircleAvatar(
                             backgroundColor: Colors.red,
                             child: IconButton(
@@ -117,9 +121,7 @@ class _CakedetailspageState extends State<Cakedetailspage> {
                           );
                         },
                       )
-                    : Container(
-                      
-                    ),
+                    : Container(),
               ],
             ),
             backgroundColor: Colors.pink[200],
@@ -211,10 +213,6 @@ class _CakedetailspageState extends State<Cakedetailspage> {
                           },
                           child: const Text('Add to Cart'),
                         ),
-                        ElevatedButton(
-                          onPressed: () {},
-                          child: const Text('Order'),
-                        )
                       ],
                     )
                   ],
