@@ -121,7 +121,7 @@ class _CakedetailspageState extends State<Cakedetailspage> {
                           );
                         },
                       )
-                    : Container(),
+                    : Container()
               ],
             ),
             backgroundColor: Colors.pink[200],
@@ -213,6 +213,12 @@ class _CakedetailspageState extends State<Cakedetailspage> {
                           },
                           child: const Text('Add to Cart'),
                         ),
+                           ElevatedButton(
+                          onPressed: () {
+                          
+                          },
+                          child: const Text('Order'),
+                        )
                       ],
                     )
                   ],

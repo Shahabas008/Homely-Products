@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
-import 'package:nihaljumailamrathaju/homepage/profilepageseller.dart';
 import 'package:nihaljumailamrathaju/controllers/profilepagesellercontroller.dart';
 
 
@@ -16,7 +15,7 @@ class Authmethods2 {
     required String password,
     required String username,
     required String phonenumber,
-    required String downloadUrl,
+    required String downloadUrls,
     required String platform,
   }) async {
     try {
@@ -33,7 +32,7 @@ class Authmethods2 {
           "Phone number": phonenumber,
           "Password": password,
           "Categorys": platform,
-          "Licence Image": downloadUrl,
+          "Licence Image": downloadUrls,
         
         });
       }

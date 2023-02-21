@@ -1,5 +1,5 @@
 import 'dart:io';
-
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:firebase_auth/firebase_auth.dart';
@@ -20,7 +20,39 @@ class Profilepageseller extends StatefulWidget {
 
 class ProfilepagesellerState extends State<Profilepageseller> {
   File? _image;
-   String downloadUrls = ' ';
+  String downloadUrls = ' ';
+  String imageurl = ' ';
+  String username = '';
+  String email = '';
+  String phonenumber = ' ';
+  CollectionReference collectionreference =
+      FirebaseFirestore.instance.collection('Users-Profile-Picture');
+  final currentUser = FirebaseAuth.instance.currentUser!.email;
+
+  @override
+  void initState() {
+    super.initState();
+    collectionreference.doc(currentUser).get().then((value) {
+      setState(() {
+        imageurl = value['Profile Picture'];
+        
+      });
+      collectionreferencedata.doc(currentUser).get().then((value) {
+        setState(() {
+          username = value['user name'];
+          email = value['E-mail'];
+          phonenumber = value['Phone number'];
+        });
+      });
+    });
+  }
+
+  CollectionReference collectionreferencedata = FirebaseFirestore.instance.
+  collection('Users');
+   
+
+
+
   final ImagePicker picker = ImagePicker();
   Future selectOrTakePhoto(ImageSource imageSource) async {
     final pickedFile = await picker.pickImage(source: imageSource);
@@ -29,7 +61,6 @@ class ProfilepagesellerState extends State<Profilepageseller> {
       if (pickedFile != null) {
         _image = File(pickedFile.path());
         uploadFile();
-
       } else {
         print('No photo was selected or taken');
       }
@@ -47,7 +78,7 @@ class ProfilepagesellerState extends State<Profilepageseller> {
           .child('Profile Picture/');
       await uploadimage.putFile(_image!);
 
-       downloadUrls = await uploadimage.getDownloadURL();
+      downloadUrls = await uploadimage.getDownloadURL();
       final auth = FirebaseAuth.instance;
       final user = auth.currentUser!.email;
       await FirebaseFirestore.instance
@@ -96,124 +127,118 @@ class ProfilepagesellerState extends State<Profilepageseller> {
 
   @override
   Widget build(BuildContext context) {
-    
-        return SafeArea(
-          child: Scaffold(
-            backgroundColor: const Color(0xffffafcc),
-            appBar: PreferredSize(
-              preferredSize: const Size.fromHeight(80),
-              child: AppBar(
-                centerTitle: true,
-                title: Image.asset(
-                  'assets/homebakery-bgremoved.png',
-                  width: 100,
-                  height: 100,
-                ),
-                backgroundColor: const Color(0xff7f4ca5),
-              ),
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: const Color(0xffffafcc),
+        appBar: PreferredSize(
+          preferredSize: const Size.fromHeight(80),
+          child: AppBar(
+            centerTitle: true,
+            title: Image.asset(
+              'assets/homebakery-bgremoved.png',
+              width: 100,
+              height: 100,
             ),
-            body: Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
+            backgroundColor: const Color(0xff7f4ca5),
+          ),
+        ),
+        body: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      GestureDetector(
-                        onTap: () {
-                          _showPicker(context);
-                        },
-                        child: SizedBox(
-                          height: 150,
-                          width: 150,
-                          child: _image == null
-                              ? Image.asset(
-                                  'assets/user.jpg') 
-                              
-                               :Image.network(downloadUrls),
-                        ),
-                      ),
-                    ],
+                  GestureDetector(
+                    onTap: () {
+                      _showPicker(context);
+                    },
+                    child: SizedBox(
+                        height: 150,
+                        width: 150,
+                        child: _image == null
+                            ? Image.asset('assets/user.jpg')
+                            : CachedNetworkImage(imageUrl: imageurl)),
                   ),
-                  const SizedBox(
-                    height: 30,
-                  ),
-                  const Text(
-                    'User Name',
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                  const Text(
-                    'username from firestore',
-                    style: TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w400,
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 30,
-                  ),
-                  const Text(
-                    'E-Mail Address',
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                  const Text(
-                    'email from firestore',
-                    style: TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w400,
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 30,
-                  ),
-                  const Text(
-                    'Phone Number',
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                  const Text(
-                    'phonenumber from firestore',
-                    style: TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w400,
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 30,
-                  ),
-                  ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        minimumSize: const Size(200, 40),
-                        backgroundColor: const Color(0xff7f4ca5),
-                      ),
-                      onPressed: () {
-                        Get.to(() => const Productspage());
-                      },
-                      child: const Text('Products')),
-                  ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color(0xff7f4ca5),
-                          minimumSize: const Size(200, 40)),
-                      onPressed: () {
-                        FirebaseAuth.instance.signOut();
-                        Get.to(() => const Loginpage());
-                      },
-                      child: const Text('Log out'))
                 ],
               ),
-            ),
+              const SizedBox(
+                height: 30,
+              ),
+              const Text(
+                'User Name',
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+               Text(
+               username,
+                style:const  TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.w400,
+                ),
+              ),
+              const SizedBox(
+                height: 30,
+              ),
+              const Text(
+                'E-Mail Address',
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+               Text(
+                email,
+                style: const TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.w400,
+                ),
+              ),
+              const SizedBox(
+                height: 30,
+              ),
+              const Text(
+                'Phone Number',
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+               Text(
+               phonenumber,
+                style: const TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.w400,
+                ),
+              ),
+              const SizedBox(
+                height: 30,
+              ),
+              ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    minimumSize: const Size(200, 40),
+                    backgroundColor: const Color(0xff7f4ca5),
+                  ),
+                  onPressed: () {
+                    Get.to(() => const Productspage());
+                  },
+                  child: const Text('Products')),
+              ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xff7f4ca5),
+                      minimumSize: const Size(200, 40)),
+                  onPressed: () {
+                    FirebaseAuth.instance.signOut();
+                    Get.to(() => const Loginpage());
+                  },
+                  child: const Text('Log out'))
+            ],
           ),
-        );
+        ),
+      ),
+    );
   }
-
-  }
-
+}

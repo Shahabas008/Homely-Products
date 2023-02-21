@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:nihaljumailamrathaju/create_an_account/loginpage.dart';
 import 'package:nihaljumailamrathaju/create_an_account/verifyemail.dart';
 
 import 'package:nihaljumailamrathaju/resources/authpagecustomer.dart';
@@ -14,6 +15,20 @@ class Signupforcustomer extends StatefulWidget {
 
 class _SignupforcustomerState extends State<Signupforcustomer> {
   final categorys = Get.arguments["categorys"];
+  bool _obscureText = true;
+  void _toggle() {
+    setState(() {
+      _obscureText = !_obscureText;
+    });
+  }
+
+  final formKey = GlobalKey<FormState>();
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+  final confirmpasswordController = TextEditingController();
+  final usernameController = TextEditingController();
+  final phoneNumberController = TextEditingController();
+  final addressController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -23,14 +38,6 @@ class _SignupforcustomerState extends State<Signupforcustomer> {
   }
 
   Widget body1(BuildContext context) {
-    final formKey = GlobalKey<FormState>();
-    final emailController = TextEditingController();
-    final passwordController = TextEditingController();
-    final confirmpasswordController = TextEditingController();
-    final usernameController = TextEditingController();
-    final phoneNumberController = TextEditingController();
-    final addressController = TextEditingController();
-
     return SafeArea(
       child: Scaffold(
         appBar: PreferredSize(
@@ -74,12 +81,12 @@ class _SignupforcustomerState extends State<Signupforcustomer> {
                           }),
                           controller: usernameController,
                           decoration: const InputDecoration(
-                            focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                  color: Color(0xffffafcc), width: 2.0),
-                            ),
-                            labelText: 'User Name',
-                          ),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Color(0xffffafcc), width: 2.0),
+                              ),
+                              labelText: 'User Name',
+                              prefixIcon: Icon(Icons.account_circle)),
                         ),
                         TextFormField(
                           keyboardType: TextInputType.emailAddress,
@@ -91,12 +98,12 @@ class _SignupforcustomerState extends State<Signupforcustomer> {
                             return null;
                           },
                           decoration: const InputDecoration(
-                            focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                  color: Color(0xffffafcc), width: 2.0),
-                            ),
-                            labelText: 'E-Mail',
-                          ),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Color(0xffffafcc), width: 2.0),
+                              ),
+                              labelText: 'E-Mail',
+                              prefixIcon: Icon(Icons.email)),
                         ),
                         TextFormField(
                           validator: ((value) {
@@ -109,12 +116,12 @@ class _SignupforcustomerState extends State<Signupforcustomer> {
                           keyboardType: TextInputType.number,
                           controller: phoneNumberController,
                           decoration: const InputDecoration(
-                            focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                  color: Color(0xffffafcc), width: 2.0),
-                            ),
-                            labelText: 'Phone Number',
-                          ),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Color(0xffffafcc), width: 2.0),
+                              ),
+                              labelText: 'Phone Number',
+                              prefixIcon: Icon(Icons.phone)),
                         ),
                         TextFormField(
                           validator: ((value) {
@@ -126,12 +133,12 @@ class _SignupforcustomerState extends State<Signupforcustomer> {
                           }),
                           controller: addressController,
                           decoration: const InputDecoration(
-                            focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                  color: Color(0xffffafcc), width: 2.0),
-                            ),
-                            labelText: 'Address',
-                          ),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Color(0xffffafcc), width: 2.0),
+                              ),
+                              labelText: 'Address',
+                              prefixIcon: Icon(Icons.home)),
                         ),
                         TextFormField(
                           validator: ((value) {
@@ -142,14 +149,20 @@ class _SignupforcustomerState extends State<Signupforcustomer> {
                             }
                           }),
                           controller: passwordController,
-                          obscureText: true,
-                          decoration: const InputDecoration(
-                            focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                  color: Color(0xffffafcc), width: 2.0),
-                            ),
-                            labelText: 'Login Password',
-                          ),
+                          obscureText: _obscureText,
+                          decoration: InputDecoration(
+                              focusedBorder: const OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Color(0xffffafcc), width: 2.0),
+                              ),
+                              labelText: 'Login Password',
+                              prefixIcon: const Icon(Icons.password),
+                              suffixIcon: IconButton(
+                                onPressed: _toggle,
+                                icon: _obscureText
+                                    ? const Icon(Icons.visibility)
+                                    : const Icon(Icons.visibility_off),
+                              )),
                         ),
                         TextFormField(
                           controller: confirmpasswordController,
@@ -160,14 +173,20 @@ class _SignupforcustomerState extends State<Signupforcustomer> {
                               return null;
                             }
                           }),
-                          obscureText: true,
-                          decoration: const InputDecoration(
-                            focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                  color: Color(0xffffafcc), width: 2.0),
-                            ),
-                            labelText: 'Confirm \n Login Password',
-                          ),
+                          obscureText: _obscureText,
+                          decoration: InputDecoration(
+                              focusedBorder: const OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Color(0xffffafcc), width: 2.0),
+                              ),
+                              labelText: 'Confirm \n Login Password',
+                              prefixIcon: const Icon(Icons.password),
+                              suffixIcon: IconButton(
+                                onPressed: _toggle,
+                                icon: _obscureText
+                                    ? const Icon(Icons.visibility)
+                                    : const Icon(Icons.visibility_off),
+                              )),
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.end,
@@ -192,19 +211,17 @@ class _SignupforcustomerState extends State<Signupforcustomer> {
                                         phonenumber: phoneNumberController.text,
                                         address: addressController.text,
                                         platform: categorys);
-                                       
+
                                     if (formKey.currentState!.validate()) {
                                       Get.to(const Verifyemailpage(),
-                                      arguments: {
-                                        "email":emailController.text,
-                                      });
+                                          arguments: {
+                                            "email": emailController.text,
+                                          });
                                       Get.showSnackbar(
                                         GetSnackBar(
                                           margin: const EdgeInsets.all(15),
                                           borderRadius: 8,
-                                         
-                                          message:
-                                              'Registration Succeeded',
+                                          message: 'Registration Succeeded',
                                           duration: const Duration(seconds: 5),
                                           backgroundColor:
                                               Colors.green.shade400,
@@ -239,7 +256,23 @@ class _SignupforcustomerState extends State<Signupforcustomer> {
                                   }
                                 }),
                           ],
-                        )
+                        ),
+                         Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children:  [
+                          const Text('Already have an Account?'),
+                          TextButton(onPressed:() {
+                             Get.to(() =>const Loginpage());
+                          }, child: const Text('Sign In',
+                          style: TextStyle(
+                            color:  Color.fromARGB(
+                                    255, 226, 119, 158),
+                                    fontSize: 20
+                          ),))
+
+                        ],
+
+                      )
                       ],
                     ),
                   ),

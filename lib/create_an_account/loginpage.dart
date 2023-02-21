@@ -141,7 +141,7 @@ class _LoginpageState extends State<Loginpage> {
                                     fontSize: 20, color: Colors.black),
                               ),
                               onPressed: () {
-                               Get.to(const Signup());
+                               Get.to(() => const Signup());
                               },
                             )
                           ],

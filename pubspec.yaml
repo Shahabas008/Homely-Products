@@ -56,7 +56,9 @@ dependencies:
   pay_android: ^1.0.9
   http_auth: ^1.0.1
   shared_preferences: ^2.0.17
-  webview_flutter: ^4.0.2
+  cached_network_image: ^3.2.3
+  flutter_sticky_widgets: ^0.0.3
+ 
   
   
   
@@ -99,7 +101,6 @@ flutter:
      - assets/snacksimage.jpg
      - assets/sweetsimage.jpg
      - assets/user.jpg
-     - assets/gpay.json
 
     
       

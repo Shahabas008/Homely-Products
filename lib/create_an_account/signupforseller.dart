@@ -1,3 +1,4 @@
+
 import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
@@ -5,6 +6,7 @@ import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:nihaljumailamrathaju/create_an_account/loginpage.dart';
 import 'package:nihaljumailamrathaju/create_an_account/verifyemail.dart';
 
 import 'package:nihaljumailamrathaju/resources/authpageseller.dart';
@@ -19,7 +21,13 @@ class Signupforseller extends StatefulWidget {
 
 class _SignupforsellerState extends State<Signupforseller> {
   final categorys = Get.arguments["categorys"];
-
+  bool _obscureText = true;
+  
+   void _toggle() {
+    setState(() {
+      _obscureText = !_obscureText;
+    });
+  }
   final emailController = TextEditingController();
   final otpcontroller = TextEditingController();
   final passwordController = TextEditingController();
@@ -71,6 +79,7 @@ class _SignupforsellerState extends State<Signupforseller> {
           .child('Licence Images/');
       await uploadimage.putFile(_photo!);
       downloadUrl = await uploadimage.getDownloadURL();
+      print(downloadUrl);
     } on FirebaseException catch (e) {
       print(e);
     }
@@ -128,6 +137,7 @@ class _SignupforsellerState extends State<Signupforseller> {
           child: SingleChildScrollView(
             
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
                 Container(
                   height: 180,
@@ -163,6 +173,7 @@ class _SignupforsellerState extends State<Signupforseller> {
                                 color: Color(0xffffafcc), width: 2.0),
                           ),
                           labelText: 'User Name',
+                          prefixIcon: Icon(Icons.account_circle)
                         ),
                       ),
                      
@@ -182,6 +193,7 @@ class _SignupforsellerState extends State<Signupforseller> {
                                 color: Color(0xffffafcc), width: 2.0),
                           ),
                           labelText: 'Phone Number',
+                          prefixIcon: Icon(Icons.phone)
                         ),
                       ),
                       TextFormField(
@@ -199,6 +211,7 @@ class _SignupforsellerState extends State<Signupforseller> {
                                   color: Color(0xffffafcc), width: 2.0),
                             ),
                             labelText: 'E-Mail',
+                            prefixIcon: Icon(Icons.email)
                           ),
                         ),
                       TextFormField(
@@ -210,13 +223,18 @@ class _SignupforsellerState extends State<Signupforseller> {
                           }
                         }),
                         controller: passwordController,
-                        obscureText: true,
-                        decoration: const InputDecoration(
-                          focusedBorder: OutlineInputBorder(
+                        obscureText:  _obscureText,
+                        decoration:  InputDecoration(
+                          focusedBorder: const OutlineInputBorder(
                             borderSide: BorderSide(
                                 color: Color(0xffffafcc), width: 2.0),
                           ),
                           labelText: 'Login Password',
+                          prefixIcon: const Icon(Icons.password),
+                          suffixIcon: IconButton(onPressed: _toggle
+                          , icon: _obscureText
+                        ? const Icon(Icons.visibility)
+                        : const Icon(Icons.visibility_off),)
                         ),
                       ),
                       TextFormField(
@@ -227,13 +245,18 @@ class _SignupforsellerState extends State<Signupforseller> {
                             return null;
                           }
                         }),
-                        obscureText: true,
-                        decoration: const InputDecoration(
-                          focusedBorder: OutlineInputBorder(
+                        obscureText: _obscureText,
+                        decoration:  InputDecoration(
+                          focusedBorder: const OutlineInputBorder(
                             borderSide: BorderSide(
                                 color: Color(0xffffafcc), width: 2.0),
                           ),
                           labelText: 'Confirm \n Login Password',
+                          prefixIcon: const Icon(Icons.password) ,
+                           suffixIcon: IconButton(onPressed: _toggle
+                          , icon: _obscureText
+                        ? const Icon(Icons.visibility)
+                        : const Icon(Icons.visibility_off),)
                         ),
                       ),
                       Row(
@@ -248,7 +271,7 @@ class _SignupforsellerState extends State<Signupforseller> {
                               onPressed: () {
                                 _showPicker(context);
                               },
-                              child: const Text('Upload YOur License')),
+                              child: const Text('Upload Yur License')),
                           SizedBox(
                               height: 100,
                               width: 100,
@@ -303,7 +326,7 @@ class _SignupforsellerState extends State<Signupforseller> {
                                       username: usernameController.text,
                                       phonenumber:
                                           phoneNumberController.text,
-                                      downloadUrl: downloadUrl,
+                                      downloadUrls: downloadUrl,
                                       platform: categorys);
                                   
                                   if (formKey.currentState!.validate()) {
@@ -351,6 +374,22 @@ class _SignupforsellerState extends State<Signupforseller> {
                                 }
                               }),
                         ],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children:  [
+                          const Text('Already have an Account?'),
+                          TextButton(onPressed:() {
+                             Get.to(() =>const Loginpage());
+                          }, child: const Text('Sign In',
+                          style: TextStyle(
+                            color:  Color.fromARGB(
+                                    255, 226, 119, 158),
+                                    fontSize: 20
+                          ),))
+
+                        ],
+
                       )
                     ],
                   ),

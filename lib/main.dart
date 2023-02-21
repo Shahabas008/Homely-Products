@@ -14,6 +14,7 @@ import 'package:nihaljumailamrathaju/homepage/appbar_bottomnav.dart';
 import 'package:nihaljumailamrathaju/homepage/homepagecustomer.dart';
 import 'package:nihaljumailamrathaju/homepage/homepageseller.dart';
 import 'package:get/get.dart';
+import 'package:nihaljumailamrathaju/splashscreen/splashscreen.dart';
 import 'package:nihaljumailamrathaju/splashscreen/splashscreen2.dart';
 import 'resources/firebase_options.dart';
 
@@ -42,7 +43,7 @@ class MyApp extends StatelessWidget {
                   borderSide: BorderSide(color: Color(0xffffafcc), width: 2)))),
       initialRoute: 'splashscreen',
       routes: {
-        'splashscreen': (context) =>  const Loginpage(),
+        'splashscreen': (context) =>  const ScreenSplash(),
         "splashscreen2": (context) => const Splashscreen2(),
         'loginpage': (context) => const Loginpage(),
         'signuppage': (context) => const Signup(),

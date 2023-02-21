@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -18,6 +19,29 @@ class Profilepagecustomer extends StatefulWidget {
 class ProfilepagecustomerState extends State<Profilepagecustomer> {
   File? _image;
   final ImagePicker picker = ImagePicker();
+  String username = '  ';
+  String email = '';
+  String phonenumber = '';
+  String address = '';
+
+  CollectionReference collectionreference = FirebaseFirestore.instance.
+  collection('Users-Profile-Picture');
+  final currentuser = FirebaseAuth.instance.currentUser!.email;
+
+  @override
+  void initState() {
+  
+    super.initState();
+    collectionreference.doc(currentuser).get().then((value) {
+      setState(() {
+         username = value['user name'];
+          email = value['E-mail'];
+          phonenumber = value['Phone number'];
+          address = value['Address'];
+      });
+    });
+  }
+
   Future selectOrTakePhoto(ImageSource imageSource) async {
     final pickedFile = await picker.pickImage(source: imageSource);
 
@@ -129,8 +153,8 @@ class ProfilepagecustomerState extends State<Profilepagecustomer> {
                 fontSize: 20,
                 fontWeight: FontWeight.w500 ,
                ),),
-               const Text('username from firestore',
-                style: TextStyle(
+                Text(username,
+                style: const TextStyle(
                 fontSize: 15,
                 fontWeight: FontWeight.w400 ,
                ),),
@@ -144,8 +168,8 @@ class ProfilepagecustomerState extends State<Profilepagecustomer> {
                 fontSize: 20,
                 fontWeight: FontWeight.w500 ,
                ),),
-               const Text('email from firestore',
-                style: TextStyle(
+                Text(email,
+                style:const  TextStyle(
                 fontSize: 15,
                 fontWeight: FontWeight.w400 ,
                ),),
@@ -159,8 +183,8 @@ class ProfilepagecustomerState extends State<Profilepagecustomer> {
                 fontSize: 20,
                 fontWeight: FontWeight.w500 ,
                ),),
-               const Text('phonenumber from firestore',
-                style: TextStyle(
+                Text(phonenumber,
+                style: const TextStyle(
                 fontSize: 15,
                 fontWeight: FontWeight.w400 ,
                ),),
@@ -174,8 +198,8 @@ class ProfilepagecustomerState extends State<Profilepagecustomer> {
                 fontSize: 20,
                 fontWeight: FontWeight.w500 ,
                ),),
-               const Text('address from firestore',
-                style: TextStyle(
+                Text(address,
+                style:const  TextStyle(
                 fontSize: 15,
                 fontWeight: FontWeight.w400 ,
                ),),
