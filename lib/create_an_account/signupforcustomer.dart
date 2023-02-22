@@ -204,6 +204,21 @@ class _SignupforcustomerState extends State<Signupforcustomer> {
                                     await auth.createUserWithEmailAndPassword(
                                         email: emailController.text,
                                         password: passwordController.text);
+                                              } on FirebaseAuthException catch (e) {
+                                    switch (e.code) {
+                                      case 'email-already-in-use':
+                                        Get.showSnackbar(
+                                          const GetSnackBar(
+                                            margin: EdgeInsets.all(15),
+                                            borderRadius: 8,
+                                            message:
+                                                ('There already exists an account with the given email address.'),
+                                            duration: Duration(seconds: 3),
+                                            backgroundColor: Colors.red,
+                                          ),
+                                        );
+                                    }
+                                  }
                                     await Authmethods1().signUpusercustomer(
                                         email: emailController.text,
                                         password: passwordController.text,
@@ -239,21 +254,7 @@ class _SignupforcustomerState extends State<Signupforcustomer> {
                                         ),
                                       );
                                     }
-                                  } on FirebaseAuthException catch (e) {
-                                    switch (e.code) {
-                                      case 'email-already-in-use':
-                                        Get.showSnackbar(
-                                          const GetSnackBar(
-                                            margin: EdgeInsets.all(15),
-                                            borderRadius: 8,
-                                            message:
-                                                ('There already exists an account with the given email address.'),
-                                            duration: Duration(seconds: 3),
-                                            backgroundColor: Colors.red,
-                                          ),
-                                        );
-                                    }
-                                  }
+                            
                                 }),
                           ],
                         ),

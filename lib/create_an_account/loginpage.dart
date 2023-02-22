@@ -65,11 +65,11 @@ class _LoginpageState extends State<Loginpage> {
                           padding: const EdgeInsets.all(10),
                           child: TextFormField(
                             validator: (value) {
-                              if (value!.isEmpty) {
-                                return 'Please enter E-Mail!';
-                              }
-                              return null;
-                            },
+                            if (value!.isEmpty || !value.contains('@')) {
+                              return 'Please enter a valid email address';
+                            }
+                            return null;
+                          },
                             controller: emailController,
                             decoration: const InputDecoration(
                               focusedBorder: OutlineInputBorder(
