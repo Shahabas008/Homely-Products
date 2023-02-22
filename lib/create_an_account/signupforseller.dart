@@ -47,7 +47,7 @@ class _SignupforsellerState extends State<Signupforseller> {
 
     setState(() {
       if (pickedFile != null) {
-        _photo = File(pickedFile.path());
+        _photo = File(pickedFile.path);
         uploadFile();
       } else {
         print('No image selected.');
@@ -60,7 +60,7 @@ class _SignupforsellerState extends State<Signupforseller> {
 
     setState(() {
       if (pickedFile != null) {
-        _photo = File(pickedFile.path());
+        _photo = File(pickedFile.path);
         uploadFile();
       } else {
         print('No image selected.');

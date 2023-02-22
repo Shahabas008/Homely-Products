@@ -40,7 +40,7 @@ class _AdditempageState extends State<Additempage> {
 
     setState(() {
       if (pickedFile != null) {
-        _photo = File(pickedFile.path());
+        _photo = File(pickedFile.path);
         uploadFile();
       } else {
         print('No image selected.');
@@ -53,7 +53,7 @@ class _AdditempageState extends State<Additempage> {
 
     setState(() {
       if (pickedFile != null) {
-        _photo = File(pickedFile.path());
+        _photo = File(pickedFile.path);
         uploadFile();
       } else {
         print('No image selected.');

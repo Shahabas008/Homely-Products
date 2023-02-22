@@ -59,7 +59,7 @@ class ProfilepagesellerState extends State<Profilepageseller> {
 
     setState(() {
       if (pickedFile != null) {
-        _image = File(pickedFile.path());
+        _image = File(pickedFile.path);
         uploadFile();
       } else {
         print('No photo was selected or taken');
