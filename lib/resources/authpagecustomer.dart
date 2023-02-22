@@ -27,7 +27,7 @@ class Authmethods1 {
           username.isNotEmpty ||
           phonenumber.isNotEmpty ||
           address.isNotEmpty) {
-            print(email);
+         
         //registeration of the user with email and password.
        
 
