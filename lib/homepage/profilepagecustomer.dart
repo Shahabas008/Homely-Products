@@ -18,6 +18,8 @@ class Profilepagecustomer extends StatefulWidget {
 
 class ProfilepagecustomerState extends State<Profilepagecustomer> {
   File? _image;
+   String downloadUrls = ' ';
+  String imageurl = '';
   final ImagePicker picker = ImagePicker();
   String username = '  ';
   String email = '';
@@ -29,18 +31,28 @@ class ProfilepagecustomerState extends State<Profilepagecustomer> {
   final currentuser = FirebaseAuth.instance.currentUser!.email;
 
   @override
-  void initState() {
-  
+    void initState() {
     super.initState();
     collectionreference.doc(currentuser).get().then((value) {
       setState(() {
-         username = value['user name'];
+        imageurl = value['Profile Picture'];
+        
+      });
+      collectionreferencedata.doc(currentuser).get().then((value) {
+        setState(() {
+          username = value['user name'];
           email = value['E-mail'];
           phonenumber = value['Phone number'];
           address = value['Address'];
+         
+        });
       });
     });
   }
+  
+  CollectionReference collectionreferencedata = FirebaseFirestore.instance.
+  collection('Users');
+   
 
   Future selectOrTakePhoto(ImageSource imageSource) async {
     final pickedFile = await picker.pickImage(source: imageSource);
@@ -66,8 +78,15 @@ class ProfilepagecustomerState extends State<Profilepagecustomer> {
           .child('Profile Picture/');
       await uploadimage.putFile(_image!);
 
-      var downloadUrl = await uploadimage.getDownloadURL();
-      print(downloadUrl);
+      downloadUrls = await uploadimage.getDownloadURL();
+     final auth = FirebaseAuth.instance;
+      final user = auth.currentUser!.email;
+      await FirebaseFirestore.instance
+          .collection('Users-Profile-Picture')
+          .doc(user)
+          .set({
+        "Profile Picture": downloadUrls,
+      });
     } on FirebaseException catch (e) {
       print(e);
     }
@@ -107,6 +126,7 @@ class ProfilepagecustomerState extends State<Profilepagecustomer> {
 
   @override
   Widget build(BuildContext context) {
+    
     return SafeArea(
       child: Scaffold(
         backgroundColor: const Color(0xffffafcc),
@@ -137,10 +157,10 @@ class ProfilepagecustomerState extends State<Profilepagecustomer> {
                     child: SizedBox(
                       height: 150,
                       width: 150,
-                      child: _image == null
+                      child: imageurl ==  ''
                           ? Image.asset(
                               'assets/user.jpg') // set a placeholder image when no photo is set
-                          : Image.file(_image!),
+                          : Image.network(imageurl),
                     ),
                   ),
                 ],
@@ -163,7 +183,7 @@ class ProfilepagecustomerState extends State<Profilepagecustomer> {
                 const SizedBox(
                 height: 30,
               ),
-              const Text('E-Mail Address',
+              const Text('E-Mail',
                style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.w500 ,

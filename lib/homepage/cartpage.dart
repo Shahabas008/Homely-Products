@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_sticky_widgets/flutter_sticky_widgets.dart';
+
 
 class Cartpage extends StatefulWidget {
   const Cartpage({super.key});
@@ -66,130 +66,147 @@ class _CartpageState extends State<Cartpage> {
                     ),
                   );
                 } else {
-                  return ListView.builder(
-                      itemCount: snapshot.data == null
-                          ? 0
-                          : snapshot.data!.docs.length,
-                      itemBuilder: (_, index) {
-                        DocumentSnapshot documentSnapshot =
-                            snapshot.data!.docs[index];
-
-                        return Card(
-                          color: const Color.fromARGB(255, 255, 248, 250),
-                          margin: const EdgeInsets.all(20),
-                          child: Container(
-                            height: 140,
-                            padding: const EdgeInsets.all(0),
-                            child: Row(children: [
-                              Expanded(
-                                flex: 6,
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                      image: DecorationImage(
-                                          image: NetworkImage(
-                                              documentSnapshot['images']),
-                                          fit: BoxFit.fill)),
-                                ),
-                              ),
-                              const Spacer(
-                                flex: 1,
-                              ),
-                              Expanded(
-                                flex: 14,
-                                child: Container(
-                                  padding: const EdgeInsets.only(top: 5),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: <Widget>[
-                                      Text(documentSnapshot['name'],
-                                          style: const TextStyle(
-                                              fontSize: 20.0,
-                                              fontWeight: FontWeight.bold)),
-                                      // ignore: prefer_interpolation_to_compose_strings
-                                      Text(
-                                          // ignore: prefer_interpolation_to_compose_strings
-                                          'Net Weight:   ' +
-                                              documentSnapshot['netweight'],
-                                          style: const TextStyle(
-                                            fontSize: 20.0,
-                                          )),
-                                      Padding(
-                                        padding: const EdgeInsets.fromLTRB(
-                                            0, 0, 10, 0),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: <Widget>[
-                                            Text(
-                                              documentSnapshot['price'],
-                                              style: const TextStyle(
-                                                  fontWeight: FontWeight.w400,
-                                                  fontSize: 20),
-                                            ),
-                                            GestureDetector(
-                                              onTap: () {
-                                                FirebaseFirestore.instance
-                                                    .collection(
-                                                        'User-Cart-Item')
-                                                    .doc(FirebaseAuth.instance
-                                                        .currentUser!.email)
-                                                    .collection("items")
-                                                    .doc(documentSnapshot.id)
-                                                    .delete();
-                                              },
-                                              child: const CircleAvatar(
-                                                backgroundColor: Color.fromARGB(
-                                                    255, 0, 0, 0),
-                                                child: Icon(
-                                                  Icons
-                                                      .remove_shopping_cart_outlined,
-                                                  color: Color.fromARGB(
-                                                      255, 255, 255, 255),
-                                                ),
-                                              ),
-                                            )
-                                          ],
-                                        ),
-                                      ),
-                                      Row(
+                  return Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      ListView.builder(
+                        shrinkWrap: true,
+                          itemCount: snapshot.data == null
+                              ? 0
+                              : snapshot.data!.docs.length,
+                          itemBuilder: (_, index) {
+                            DocumentSnapshot documentSnapshot =
+                                snapshot.data!.docs[index];
+                  
+                            return Card(
+                              color: const Color.fromARGB(255, 255, 248, 250),
+                              margin: const EdgeInsets.all(20),
+                              child: Container(
+                                height: 140,
+                                padding: const EdgeInsets.all(0),
+                                child: Row(children: [
+                                  Expanded(
+                                    flex: 6,
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                          image: DecorationImage(
+                                              image: NetworkImage(
+                                                  documentSnapshot['images']),
+                                              fit: BoxFit.fill)),
+                                    ),
+                                  ),
+                                  const Spacer(
+                                    flex: 1,
+                                  ),
+                                  Expanded(
+                                    flex: 14,
+                                    child: Container(
+                                      padding: const EdgeInsets.only(top: 5),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        mainAxisAlignment: MainAxisAlignment.start,
                                         children: <Widget>[
-                                          TextButton(
-                                            onPressed: () {
-                                              //
-                                            },
-                                            child: const Text(
-                                              'Order',
-                                              style: TextStyle(
-                                                  color: Colors.purple),
+                                          Text(documentSnapshot['name'],
+                                              style: const TextStyle(
+                                                  fontSize: 20.0,
+                                                  fontWeight: FontWeight.bold)),
+                                          // ignore: prefer_interpolation_to_compose_strings
+                                          Text(
+                                              // ignore: prefer_interpolation_to_compose_strings
+                                              'Net Weight:   ' +
+                                                  documentSnapshot['netweight'],
+                                              style: const TextStyle(
+                                                fontSize: 20.0,
+                                              )),
+                                          Padding(
+                                            padding: const EdgeInsets.fromLTRB(
+                                                0, 0, 10, 0),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.spaceBetween,
+                                              children: <Widget>[
+                                                Text(
+                                                  documentSnapshot['price'],
+                                                  style: const TextStyle(
+                                                      fontWeight: FontWeight.w400,
+                                                      fontSize: 20),
+                                                ),
+                                                GestureDetector(
+                                                  onTap: () {
+                                                    FirebaseFirestore.instance
+                                                        .collection(
+                                                            'User-Cart-Item')
+                                                        .doc(FirebaseAuth.instance
+                                                            .currentUser!.email)
+                                                        .collection("items")
+                                                        .doc(documentSnapshot.id)
+                                                        .delete();
+                                                  },
+                                                  child: const CircleAvatar(
+                                                    backgroundColor: Color.fromARGB(
+                                                        255, 0, 0, 0),
+                                                    child: Icon(
+                                                      Icons
+                                                          .remove_shopping_cart_outlined,
+                                                      color: Color.fromARGB(
+                                                          255, 255, 255, 255),
+                                                    ),
+                                                  ),
+                                                )
+                                              ],
                                             ),
                                           ),
-                                          // Text(
-                                          //   "barcode",
-                                          //   style: TextStyle(fontSize: 15.0),
-                                          // ),
+                                          Row(
+                                            children: <Widget>[
+                                              TextButton(
+                                                onPressed: () {
+                                                  //
+                                                },
+                                                child: const Text(
+                                                  'Order',
+                                                  style: TextStyle(
+                                                      color: Colors.purple),
+                                                ),
+                                              ),
+                                              // Text(
+                                              //   "barcode",
+                                              //   style: TextStyle(fontSize: 15.0),
+                                              // ),
+                                            ],
+                                          ),
                                         ],
                                       ),
-                                      SizedBox(
+                                    ),
+                                    
+                                  ),
+                                  
+                                ]),
+                              ),
+                            );
+                           
+                          }),
+                          SizedBox(
+                            
                                         
                                 child:
-                                  Text(
-                                      '\$${snapshot.data!.docs.isNotEmpty ? snapshot.data!.docs.map<String>((documentSnapshot) => documentSnapshot['price']).reduce((value, element) => value + element) : 0}')
+                                  Center(
+                                    child: Container(
+                                      color: Color.fromARGB(255, 255, 253, 253),
+                                      child: Text(
+                                          'Total Price :${snapshot.data!.docs.isNotEmpty ? snapshot.data!.docs.map<String>((documentSnapshot) =>
+                                           documentSnapshot['price']).reduce((value, element) => value + value) : 0}',
+                                           style:const TextStyle(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.bold
+                                           ),),
+                                    ),
+                                  )
                                
                             
                                       )
-                                    ],
-                                  ),
-                                ),
-                                
-                              ),
-                              
-                            ]),
-                          ),
-                        );
-                       
-                      });
+                    ],
+                  );
                 }
               } else {
                 return const Center(child: CircularProgressIndicator());

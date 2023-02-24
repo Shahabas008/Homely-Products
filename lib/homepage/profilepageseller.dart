@@ -21,7 +21,7 @@ class Profilepageseller extends StatefulWidget {
 class ProfilepagesellerState extends State<Profilepageseller> {
   File? _image;
   String downloadUrls = ' ';
-  String imageurl = ' ';
+  String imageurl = '';
   String username = '';
   String email = '';
   String phonenumber = ' ';
@@ -42,6 +42,7 @@ class ProfilepagesellerState extends State<Profilepageseller> {
           username = value['user name'];
           email = value['E-mail'];
           phonenumber = value['Phone number'];
+         
         });
       });
     });
@@ -87,7 +88,7 @@ class ProfilepagesellerState extends State<Profilepageseller> {
           .set({
         "Profile Picture": downloadUrls,
       });
-      print(downloadUrls);
+     
     } on FirebaseException catch (e) {
       print(e);
     }
@@ -153,13 +154,15 @@ class ProfilepagesellerState extends State<Profilepageseller> {
                   GestureDetector(
                     onTap: () {
                       _showPicker(context);
+                      
                     },
                     child: SizedBox(
                         height: 150,
                         width: 150,
-                        child: _image == null
+                        child: imageurl == ""
                             ? Image.asset('assets/user.jpg')
-                            : CachedNetworkImage(imageUrl: imageurl)),
+                            : Image.network(imageurl)
+                            ),
                   ),
                 ],
               ),
