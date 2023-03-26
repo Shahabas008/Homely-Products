@@ -1,35 +1,117 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:nihaljumailamrathaju/additem/cakedetailspage.dart';
-
-class Cakelistview extends StatefulWidget {
-  const Cakelistview({super.key});
+  List<String> listplace = [
+  'Malappuram',
+  'Manjeri',
+  'Perinthalmanna',
+  'Areacode',
+  'Nilambur',
+  'Anakkayam'
+  ];
+  List<String> listitems = <String>[
+  'Cake',
+  'Pudding',
+  'Snack',
+  'Ice Cream ',
+  'Sweets',
+  'Pizza'
+];
+class Filterpage extends StatefulWidget {
+  const Filterpage({super.key});
 
   @override
-  State<Cakelistview> createState() => _CakelistviewState();
+  State<Filterpage> createState() => FilterpageState();
 }
 
-class _CakelistviewState extends State<Cakelistview> {
+class FilterpageState extends State<Filterpage> {
+
+  String dropdownValue = listitems.first;
+  String dropdownvalueplace = listplace.first;
+
   @override
   Widget build(BuildContext context) {
-    var firestore = FirebaseFirestore.instance;
-    return SafeArea(
-      child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: const Color(0xff7f4ca5),
-        ),
-        backgroundColor: const Color(0xfffcf6f5),
-        floatingActionButton: null,
-        body: StreamBuilder<QuerySnapshot>(
-          stream: firestore
-              .collection('Add item')
-              .doc('Cake')
-              .collection('item')
-              .orderBy('Price of Item', descending: true)
-              .snapshots(),
-          builder:
-              (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-            if (snapshot.hasData) {
+    return SafeArea(child: Scaffold(appBar:
+    AppBar(backgroundColor:  const Color(0xff7f4ca5),
+    title: const Text("Filter"),
+    ) ,
+    body: Form(child:
+    Padding(
+      padding: const EdgeInsets.all(15.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+             DropdownButton<String>(
+                      hint: const Text('Select An Item'),
+                      value: dropdownValue,
+                      icon: const Icon(
+                        Icons.arrow_downward,
+                        color: Colors.blue,
+                      ),
+                      elevation: 16,
+                      style: const TextStyle(color: Colors.blue),
+                      underline: Container(
+                        height: 2,
+                        color: Colors.blue,
+                      ),
+                      onChanged: (String? value) {
+                        setState(() {
+                          dropdownValue = value!;
+                        });
+                      },
+                      items: listitems.map<DropdownMenuItem<String>>((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(value),
+                        );
+                      }).toList(),
+                    ),
+                       DropdownButton<String>(
+                      hint: const Text('Select An Item'),
+                      value: dropdownvalueplace,
+                      icon: const Icon(
+                        Icons.arrow_downward,
+                        color: Colors.blue,
+                      ),
+                      elevation: 16,
+                      style: const TextStyle(color: Colors.blue),
+                      underline: Container(
+                        height: 2,
+                        color: Colors.blue,
+                      ),
+                      onChanged: (String? value) {
+                        setState(() {
+                          dropdownvalueplace = value!;
+                        });
+                      },
+                      items: listplace.map<DropdownMenuItem<String>>((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(value),
+                        );
+                      }).toList(),
+                    ),
+          ElevatedButton(onPressed: () {
+        
+             buildview();
+     
+          }, child:const Text('Sumbit')),
+       
+        ],
+        
+        
+      ),
+    )),
+    )
+    );
+  }
+   Widget buildview(){
+    return StreamBuilder<QuerySnapshot>(
+      stream: FirebaseFirestore.instance.collection('Filter-Location').doc(dropdownvalueplace)
+            .collection(dropdownValue).snapshots(),
+      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+         if (snapshot.hasData) {
               if (snapshot.data!.docs.isEmpty || snapshot.data == null) {
                 return const Center(
                   child: Text(
@@ -86,10 +168,10 @@ class _CakelistviewState extends State<Cakelistview> {
                                     'Barcode : ',
                                     style: TextStyle(fontWeight: FontWeight.bold),
                                   ),*/
-                                  Text(
-                                    snap[index]['place'],
-                                    style:const  TextStyle(fontSize: 15.0),
-                                  ),
+                                  // Text(
+                                  //   snap[index]['place'],
+                                  //   style:const  TextStyle(fontSize: 15.0),
+                                  // ),
                                       ],
                                     ),
                                     Row(
@@ -151,9 +233,7 @@ class _CakelistviewState extends State<Cakelistview> {
                 ),
               );
             }
-          },
-        ),
-      ),
+      },
     );
   }
 }

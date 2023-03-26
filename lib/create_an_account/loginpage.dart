@@ -17,6 +17,12 @@ class _LoginpageState extends State<Loginpage> {
   final _formKey = GlobalKey<FormState>();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+  bool _obscureText = true;
+  void _toggle() {
+    setState(() {
+      _obscureText = !_obscureText;
+    });
+  }
 
   @override
   void dispose() {
@@ -65,11 +71,11 @@ class _LoginpageState extends State<Loginpage> {
                           padding: const EdgeInsets.all(10),
                           child: TextFormField(
                             validator: (value) {
-                            if (value!.isEmpty || !value.contains('@')) {
-                              return 'Please enter a valid email address';
-                            }
-                            return null;
-                          },
+                              if (value!.isEmpty || !value.contains('@')) {
+                                return 'Please enter a valid email address';
+                              }
+                              return null;
+                            },
                             controller: emailController,
                             decoration: const InputDecoration(
                               focusedBorder: OutlineInputBorder(
@@ -89,10 +95,17 @@ class _LoginpageState extends State<Loginpage> {
                               }
                               return null;
                             },
-                            obscureText: true,
+                            obscureText: _obscureText,
                             controller: passwordController,
-                            decoration: const InputDecoration(
-                              focusedBorder: OutlineInputBorder(
+                            decoration: InputDecoration(
+                              prefixIcon: const Icon(Icons.password),
+                              suffixIcon: IconButton(
+                                onPressed: _toggle,
+                                icon: _obscureText
+                                    ? const Icon(Icons.visibility)
+                                    : const Icon(Icons.visibility_off),
+                              ),
+                              focusedBorder: const OutlineInputBorder(
                                 borderSide: BorderSide(
                                     color: Color(0xffffafcc), width: 2.0),
                               ),
@@ -105,7 +118,7 @@ class _LoginpageState extends State<Loginpage> {
                         ),
                         TextButton(
                           onPressed: () {
-                           Get.to(() => const Resetpasswordpage());
+                            Get.to(() => const Resetpasswordpage());
                           },
                           child: const Text(
                             'Forgot Password',
@@ -141,7 +154,7 @@ class _LoginpageState extends State<Loginpage> {
                                     fontSize: 20, color: Colors.black),
                               ),
                               onPressed: () {
-                               Get.to(() => const Signup());
+                                Get.to(() => const Signup());
                               },
                             )
                           ],
@@ -167,10 +180,10 @@ class _LoginpageState extends State<Loginpage> {
     _formKey.currentState!.validate();
 
     try {
-       await FirebaseAuth.instance.signInWithEmailAndPassword(
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: emailController.text.trim(),
           password: passwordController.text.trim());
-          
+
       Get.showSnackbar(GetSnackBar(
         margin: const EdgeInsets.all(15),
         borderRadius: 8,
@@ -178,9 +191,7 @@ class _LoginpageState extends State<Loginpage> {
         message: 'Logged In Successfully',
         duration: const Duration(seconds: 2),
       ));
-      
     } on FirebaseAuthException catch (e) {
-      
       switch (e.code) {
         case "invalid-email":
           return Get.showSnackbar(
@@ -192,7 +203,7 @@ class _LoginpageState extends State<Loginpage> {
               duration: Duration(seconds: 3),
               backgroundColor: Colors.red,
             ),
-          ); 
+          );
 
         case "wrong-password":
           return Get.showSnackbar(
@@ -202,13 +213,10 @@ class _LoginpageState extends State<Loginpage> {
               message: ('The password is invalid for the given email'),
               duration: Duration(seconds: 3),
               backgroundColor: Colors.red,
-               
             ),
-            
           );
- 
+
         case "user-not-found":
-        
           return Get.showSnackbar(
             const GetSnackBar(
               margin: EdgeInsets.all(15),
@@ -219,10 +227,8 @@ class _LoginpageState extends State<Loginpage> {
             ),
           );
       }
-       
     }
-   
-   navigator.pop();
-    
+
+    navigator.pop();
   }
 }

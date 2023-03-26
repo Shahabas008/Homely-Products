@@ -10,13 +10,21 @@ import 'package:currency_text_input_formatter/currency_text_input_formatter.dart
 import 'package:path/path.dart';
 import 'package:get/get.dart';
 
-List<String> list = <String>[
+List<String> listitems = <String>[
   'Cake',
   'Pudding',
   'Snack',
   'Ice Cream ',
   'Sweets',
   'Pizza'
+];
+List<String> listplace = <String>[
+  'Malappuram',
+  'Manjeri',
+  'Perinthalmanna',
+  'Areacode',
+  'Nilambur',
+  'Anakkayam'
 ];
 
 class Additempage extends StatefulWidget {
@@ -84,7 +92,8 @@ class _AdditempageState extends State<Additempage> {
   final itemname = TextEditingController();
   final formkey = GlobalKey<FormState>();
 
-  String dropdownValue = list.first;
+  String dropdownValue = listitems.first;
+  String dropdownvalueplace = listplace.first;
 
   @override
   Widget build(BuildContext context) {
@@ -284,7 +293,37 @@ class _AdditempageState extends State<Additempage> {
                           dropdownValue = value!;
                         });
                       },
-                      items: list.map<DropdownMenuItem<String>>((String value) {
+                      items: listitems.map<DropdownMenuItem<String>>((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(value),
+                        );
+                      }).toList(),
+                    ),
+                  ]),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                   Row(children: [
+                    DropdownButton<String>(
+                      hint: const Text('Select An Item'),
+                      value: dropdownvalueplace,
+                      icon: const Icon(
+                        Icons.arrow_downward,
+                        color: Colors.blue,
+                      ),
+                      elevation: 16,
+                      style: const TextStyle(color: Colors.blue),
+                      underline: Container(
+                        height: 2,
+                        color: Colors.blue,
+                      ),
+                      onChanged: (String? value) {
+                        setState(() {
+                          dropdownvalueplace = value!;
+                        });
+                      },
+                      items: listplace.map<DropdownMenuItem<String>>((String value) {
                         return DropdownMenuItem<String>(
                           value: value,
                           child: Text(value),
@@ -312,6 +351,7 @@ class _AdditempageState extends State<Additempage> {
                             netweight: netweight.text,
                             bakersdescription: bakersdescription.text,
                             dropdownValue: dropdownValue,
+                            productionplace : dropdownvalueplace,
                             fileName: fileName,
                             downloadUrl: downloadUrl);
 

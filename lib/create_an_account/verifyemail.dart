@@ -64,7 +64,7 @@ class VverifyemailpageState extends State<Verifyemailpage> {
               
                 ),
                const  SizedBox(
-                  height: 350,
+                  height: 120,
                 ),
                 const SizedBox(
                   child: Text('Check the entered E-Mail if the Mail hasn\'t received',

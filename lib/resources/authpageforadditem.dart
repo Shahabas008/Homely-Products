@@ -13,6 +13,7 @@ class Authmethods3 {
     required String dropdownValue,
     required fileName,
     required downloadUrl,
+    required String productionplace,
   }) async {
     try {
       if (itemdescription.isNotEmpty ||
@@ -33,6 +34,7 @@ class Authmethods3 {
           "Baker Description": bakersdescription,
           "URl": downloadUrl,
           "Image Name": fileName,
+          'place': productionplace
         });
 
         await _firestore
@@ -47,6 +49,21 @@ class Authmethods3 {
           "Baker Description": bakersdescription,
           "URl": downloadUrl,
           "Image Name": fileName,
+        });
+
+        await _firestore
+            .collection('Filter-Location')
+            .doc(productionplace)
+            .collection(dropdownValue)
+            .add({
+          "Item Name": itemname,
+          "Item Description": itemdescription,
+          "Price of Item": priceofitem,
+          "Net Weight": netweight,
+          "Baker Description": bakersdescription,
+          "URl": downloadUrl,
+          "Image Name": fileName,
+          'place': productionplace
         });
       }
     } catch (err) {

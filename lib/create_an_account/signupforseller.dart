@@ -245,18 +245,14 @@ class _SignupforsellerState extends State<Signupforseller> {
                             return null;
                           }
                         }),
-                        obscureText: _obscureText,
-                        decoration:  InputDecoration(
-                          focusedBorder: const OutlineInputBorder(
+                        obscureText: true,
+                        decoration:  const InputDecoration(
+                          focusedBorder:   OutlineInputBorder(
                             borderSide: BorderSide(
                                 color: Color(0xffffafcc), width: 2.0),
                           ),
                           labelText: 'Confirm \n Login Password',
-                          prefixIcon: const Icon(Icons.password) ,
-                           suffixIcon: IconButton(onPressed: _toggle
-                          , icon: _obscureText
-                        ? const Icon(Icons.visibility)
-                        : const Icon(Icons.visibility_off),)
+                          prefixIcon: Icon(Icons.password) ,
                         ),
                       ),
                       Row(
@@ -271,7 +267,7 @@ class _SignupforsellerState extends State<Signupforseller> {
                               onPressed: () {
                                 _showPicker(context);
                               },
-                              child: const Text('Upload Yur License')),
+                              child: const Text('Upload Your License')),
                           SizedBox(
                               height: 100,
                               width: 100,

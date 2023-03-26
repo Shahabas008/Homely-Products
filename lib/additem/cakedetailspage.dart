@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:pay/pay.dart';
 
 class Cakedetailspage extends StatefulWidget {
   final String id;
@@ -14,12 +13,6 @@ class Cakedetailspage extends StatefulWidget {
 }
 
 class _CakedetailspageState extends State<Cakedetailspage> {
-  final _paymentItems = [
-    const PaymentItem(
-      label: 'okay',
-      amount: '99.99',
-    )
-  ];
   void addtoCart() async {
     final FirebaseAuth auth = FirebaseAuth.instance;
     final currentuser = auth.currentUser;
@@ -101,27 +94,38 @@ class _CakedetailspageState extends State<Cakedetailspage> {
                             .snapshots(),
                         builder: (BuildContext context,
                             AsyncSnapshot<QuerySnapshot> snapshot) {
-                          return CircleAvatar(
-                            backgroundColor: Colors.red,
-                            child: IconButton(
-                              onPressed: () => snapshot.data!.docs.isEmpty
-                                  ? addToFavourite()
-                                  : removeFromFavourite(
-                                      docId: snapshot.data!.docs[0].id),
-                              icon: snapshot.data!.docs.isEmpty
-                                  ? const Icon(
-                                      Icons.favorite_outline,
-                                      color: Colors.white,
-                                    )
-                                  : const Icon(
-                                      Icons.favorite,
-                                      color: Colors.white,
-                                    ),
+                               if (snapshot.data == null) {
+                            return  Container(
+                              
+                            );
+                          }
+                          return Padding(
+                            padding: const EdgeInsets.only(right: 8),
+                            child: CircleAvatar(
+                              backgroundColor: Colors.red,
+                              child: IconButton(
+                                onPressed: () => snapshot.data!.docs.isEmpty
+                                    ? addToFavourite()
+                                    : removeFromFavourite(
+                                        docId: snapshot.data!.docs[0].id),
+                                icon: snapshot.data!.docs.isEmpty
+                                    ? const Icon(
+                                        Icons.favorite_outline,
+                                        color: Colors.white,
+                                      )
+                                    : const Icon(
+                                        Icons.favorite,
+                                        color: Colors.white,
+                                      ),
+                              ),
                             ),
                           );
                         },
                       )
-                    : Container()
+                    : Container(
+                      padding:const EdgeInsets.fromLTRB(200, 200, 200, 200),
+                    ),
+                       
               ],
             ),
             backgroundColor: Colors.pink[200],
@@ -133,7 +137,7 @@ class _CakedetailspageState extends State<Cakedetailspage> {
                   children: [
                     SizedBox(
                       child: Image.network(
-                        data['URl'],
+                        data['URl'] ,
                         width: 200,
                         height: 200,
                       ),
@@ -213,10 +217,8 @@ class _CakedetailspageState extends State<Cakedetailspage> {
                           },
                           child: const Text('Add to Cart'),
                         ),
-                           ElevatedButton(
-                          onPressed: () {
-                          
-                          },
+                        ElevatedButton(
+                          onPressed: () {},
                           child: const Text('Order'),
                         )
                       ],

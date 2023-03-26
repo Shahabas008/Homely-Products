@@ -1,9 +1,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.nihaljumailamrathaju">
    <application
-        android:label="Home Bakery"
+        android:label="Home Bakery" 
         android:name="${applicationName}"
-        android:icon="">
+        android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"
             android:exported="true"

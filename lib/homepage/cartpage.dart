@@ -192,7 +192,8 @@ class _CartpageState extends State<Cartpage> {
                                 child:
                                   Center(
                                     child: Container(
-                                      color:const Color.fromARGB(255, 255, 253, 253),
+                                      
+                                      color: const Color(0xffffafcc),
                                       child: Text(
                                           'Total Price :${snapshot.data!.docs.isNotEmpty ? snapshot.data!.docs.map<String>((documentSnapshot) =>
                                            documentSnapshot['price']).reduce((value, element) => value + value) : 0}',
