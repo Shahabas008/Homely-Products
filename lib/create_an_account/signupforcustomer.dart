@@ -149,7 +149,7 @@ class _SignupforcustomerState extends State<Signupforcustomer> {
                             }
                           }),
                           controller: passwordController,
-                          obscureText: true,
+                          obscureText: _obscureText,
                           decoration: InputDecoration(
                               focusedBorder: const OutlineInputBorder(
                                 borderSide: BorderSide(
@@ -173,7 +173,7 @@ class _SignupforcustomerState extends State<Signupforcustomer> {
                               return null;
                             }
                           }),
-                          obscureText: _obscureText,
+                          obscureText: true,
                           decoration: const InputDecoration(
                               focusedBorder:  OutlineInputBorder(
                                 borderSide: BorderSide(

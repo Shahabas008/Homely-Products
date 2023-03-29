@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:nihaljumailamrathaju/homepage/cartcustomer.dart';
 import 'package:nihaljumailamrathaju/homepage/cartpage.dart';
+import 'package:nihaljumailamrathaju/homepage/favoritescustomer.dart';
 import 'package:nihaljumailamrathaju/homepage/favourites.dart';
 import 'package:nihaljumailamrathaju/homepage/homepagecustomer.dart';
 import 'package:nihaljumailamrathaju/homepage/homepageseller.dart';
@@ -52,8 +54,8 @@ class _HomepagelayoutState extends State<Homepagelayout> {
   ];
   final customerPages = [
     const HomepageCustomer(),
-    const Favoritepage(),
-    const Cartpage(),
+    const Cartcustomerpage(),
+    const Favoritecustomerpage(),
     const Profilepagecustomer(),
   ];
 
