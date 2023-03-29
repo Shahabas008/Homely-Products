@@ -1,6 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:nihaljumailamrathaju/controllers/order.dart';
+import 'package:nihaljumailamrathaju/homepage/search.dart';
 
 class Favoritepage extends StatefulWidget {
   const Favoritepage({super.key});
@@ -10,6 +13,7 @@ class Favoritepage extends StatefulWidget {
 }
 
 class _FavoritepageState extends State<Favoritepage> {
+  final data1 = Get.put(Orderpage());
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -29,6 +33,9 @@ class _FavoritepageState extends State<Favoritepage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
+                    const SizedBox(
+                      width: 40,
+                    ),
                     Image.asset(
                       'assets/homebakery-bgremoved.png',
                       width: 100,
@@ -36,6 +43,9 @@ class _FavoritepageState extends State<Favoritepage> {
                     ),
                   ]),
               actions: [
+                IconButton(onPressed: () {
+                  Get.to(() => const Filterpage());
+                }, icon: const Icon(Icons.filter_alt)),
                 IconButton(
                     color: Colors.white,
                     onPressed: () {
@@ -156,8 +166,13 @@ class _FavoritepageState extends State<Favoritepage> {
                                     Row(
                                       children: <Widget>[
                                         TextButton(
-                                            onPressed: () {},
-                                            child: const Text('Order')),
+                                            onPressed: () {
+                                              data1.order(context);
+                                            },
+                                            child: const Text('Order',
+                                            style: TextStyle(
+                                              color:  Color(0xff7f4ca5)
+                                            ),)),
                                         //       const Text(
                                         //         "barcode",
                                         //         style: TextStyle(fontSize: 15.0),

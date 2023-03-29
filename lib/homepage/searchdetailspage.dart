@@ -4,51 +4,51 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:nihaljumailamrathaju/controllers/order.dart';
 
-class Icecreamdetailspage extends StatefulWidget {
-  final String id;
+class Searchdetailspage extends StatefulWidget {
 
-  const Icecreamdetailspage(this.id, {super.key, required this.product});
-  final QueryDocumentSnapshot product;
+  const Searchdetailspage( {super.key});
+
   @override
-  State<Icecreamdetailspage> createState() => _IcecreamdetailspageState();
+  State<Searchdetailspage> createState() => _SearchdetailspageState();
 }
 
-class _IcecreamdetailspageState extends State<Icecreamdetailspage> {
+class _SearchdetailspageState extends State<Searchdetailspage> {
+    final data = Get.arguments;
   void addtoCart() async {
-    Get.showSnackbar(
-      const GetSnackBar(
+      Get.showSnackbar(const GetSnackBar(
         duration: Duration(seconds: 3),
         padding: EdgeInsets.all(25),
         backgroundColor: Color(0xff7f4ca5),
-        messageText: Text(
-          "The product is added to cart",
-          style: TextStyle(color: Colors.white),
-        ),
-      ),
-    );
+       messageText:  Text("The product is added to cart",
+       style: TextStyle(
+        color: Colors.white
+       ),), 
+       ),
+       );
     final FirebaseAuth auth = FirebaseAuth.instance;
     final currentuser = auth.currentUser;
     CollectionReference collectionRef =
         FirebaseFirestore.instance.collection('User-Cart-Item');
 
     return collectionRef.doc(currentuser!.email).collection("items").doc().set({
-      "name": widget.product["Item Name"],
-      "price": widget.product["Price of Item"],
-      "images": widget.product["URl"],
-      "netweight": widget.product["Net Weight"]
+      "name": data[2],
+      "price": data[0],
+      "images": data[3],
+      "netweight": data[1]
     }).then((value) => debugPrint("Added to Cart"));
   }
 
   Future addToFavourite() async {
+
     final FirebaseAuth auth = FirebaseAuth.instance;
     User? currentUser = auth.currentUser;
     CollectionReference collectionRef =
         FirebaseFirestore.instance.collection("users-favourite-items");
     return collectionRef.doc(currentUser!.email).collection("items").doc().set({
-      "name": widget.product["Item Name"],
-      "price": widget.product["Price of Item"],
-      "images": widget.product["URl"],
-      "netweight": widget.product["Net Weight"]
+      "name": data[2],
+      "price": data[0],
+      "images": data[3],
+      "netweight": data[1]
     }).then((value) => print("Added to favourite"));
   }
 
@@ -67,28 +67,13 @@ class _IcecreamdetailspageState extends State<Icecreamdetailspage> {
 
   @override
   Widget build(BuildContext context) {
-    final data1 = Get.put(Orderpage());
     bool isUserLoggedIn = FirebaseAuth.instance.currentUser != null;
-    CollectionReference users = FirebaseFirestore.instance
-        .collection('Add item')
-        .doc('Ice Cream ')
-        .collection('item');
+    final data1 = Get.put(Orderpage());
 
-    return FutureBuilder<DocumentSnapshot>(
-      future: users.doc(widget.id).get(),
-      builder:
-          (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
-        if (snapshot.hasError) {
-          return const Text("Something went wrong");
-        }
 
-        if (snapshot.hasData && !snapshot.data!.exists) {
-          return const Text("Document does not exist");
-        }
 
-        if (snapshot.connectionState == ConnectionState.done) {
-          Map<String, dynamic> data =
-              snapshot.data!.data() as Map<String, dynamic>;
+  
+
           return SafeArea(
               child: Scaffold(
             appBar: AppBar(
@@ -100,13 +85,13 @@ class _IcecreamdetailspageState extends State<Icecreamdetailspage> {
                             .collection("users-favourite-items")
                             .doc(FirebaseAuth.instance.currentUser!.email)
                             .collection("items")
-                            .where("name",
-                                isEqualTo: widget.product['Item Name'])
                             .snapshots(),
                         builder: (BuildContext context,
                             AsyncSnapshot<QuerySnapshot> snapshot) {
-                          if (snapshot.data == null) {
-                            return Container();
+                               if (snapshot.data == null) {
+                            return  Container(
+                              
+                            );
                           }
                           return Padding(
                             padding: const EdgeInsets.only(right: 8),
@@ -132,8 +117,9 @@ class _IcecreamdetailspageState extends State<Icecreamdetailspage> {
                         },
                       )
                     : Container(
-                        padding: const EdgeInsets.fromLTRB(200, 200, 200, 200),
-                      ),
+                      padding:const EdgeInsets.fromLTRB(200, 200, 200, 200),
+                    ),
+                       
               ],
             ),
             backgroundColor: Colors.pink[200],
@@ -145,7 +131,7 @@ class _IcecreamdetailspageState extends State<Icecreamdetailspage> {
                   children: [
                     SizedBox(
                       child: Image.network(
-                        data['URl'],
+                        data[3] ,
                         width: 200,
                         height: 200,
                       ),
@@ -159,7 +145,7 @@ class _IcecreamdetailspageState extends State<Icecreamdetailspage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      data['Item Name'],
+                      data[2],
                       style: const TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 30,
@@ -169,7 +155,7 @@ class _IcecreamdetailspageState extends State<Icecreamdetailspage> {
                       height: 15,
                     ),
                     Text(
-                      data['Item Description'],
+                      data[4],
                       style: const TextStyle(
                         fontWeight: FontWeight.bold,
                       ),
@@ -183,7 +169,7 @@ class _IcecreamdetailspageState extends State<Icecreamdetailspage> {
                           TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
                     ),
                     Text(
-                      data['Price of Item'],
+                      data[0],
                       style: const TextStyle(
                           fontWeight: FontWeight.bold, fontSize: 15),
                     ),
@@ -196,23 +182,23 @@ class _IcecreamdetailspageState extends State<Icecreamdetailspage> {
                           TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
                     ),
                     Text(
-                      data['Net Weight'],
+                      data[1],
                       style: const TextStyle(
                           fontWeight: FontWeight.bold, fontSize: 15),
                     ),
-                    const SizedBox(
-                      height: 25,
-                    ),
-                    const Text(
-                      'BAKER :',
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-                    ),
-                    Text(
-                      data['Baker Description'],
-                      style: const TextStyle(
-                          fontWeight: FontWeight.bold, fontSize: 15),
-                    ),
+                    // const SizedBox(
+                    //   height: 25,
+                    // ),
+                    // const Text(
+                    //   'BAKER :',
+                    //   style:
+                    //       TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                    // ),
+                    // Text(
+                    //   data['Baker Description'],
+                    //   style: const TextStyle(
+                    //       fontWeight: FontWeight.bold, fontSize: 15),
+                    // ),
                     const SizedBox(
                       height: 30,
                     ),
@@ -220,16 +206,12 @@ class _IcecreamdetailspageState extends State<Icecreamdetailspage> {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                              backgroundColor: const Color(0xff7f4ca5)),
                           onPressed: () {
                             addtoCart();
                           },
                           child: const Text('Add to Cart'),
                         ),
                         ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                              backgroundColor: const Color(0xff7f4ca5)),
                           onPressed: () {
                             data1.order(context);
                           },
@@ -242,12 +224,10 @@ class _IcecreamdetailspageState extends State<Icecreamdetailspage> {
               ]),
             ),
           ));
-        }
+        
 
-        return const Center(
-          child: CircularProgressIndicator(),
-        );
-      },
-    );
+       
+      
+    
   }
 }

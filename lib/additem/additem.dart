@@ -280,13 +280,13 @@ class _AdditempageState extends State<Additempage> {
                       value: dropdownValue,
                       icon: const Icon(
                         Icons.arrow_downward,
-                        color: Colors.blue,
+                        color:   Color(0xff7f4ca5),
                       ),
                       elevation: 16,
-                      style: const TextStyle(color: Colors.blue),
+                      style: const TextStyle(color:  Color(0xff7f4ca5)),
                       underline: Container(
                         height: 2,
-                        color: Colors.blue,
+                        color:const Color(0xff7f4ca5),
                       ),
                       onChanged: (String? value) {
                         setState(() {
@@ -310,13 +310,13 @@ class _AdditempageState extends State<Additempage> {
                       value: dropdownvalueplace,
                       icon: const Icon(
                         Icons.arrow_downward,
-                        color: Colors.blue,
+                        color:   Color(0xff7f4ca5),
                       ),
                       elevation: 16,
-                      style: const TextStyle(color: Colors.blue),
+                      style: const TextStyle(color:  Color(0xff7f4ca5)),
                       underline: Container(
                         height: 2,
-                        color: Colors.blue,
+                        color:const Color(0xff7f4ca5),
                       ),
                       onChanged: (String? value) {
                         setState(() {

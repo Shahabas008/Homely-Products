@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:nihaljumailamrathaju/controllers/order.dart';
 
 class Pizzadetailspage extends StatefulWidget {
   final String id;
@@ -13,8 +15,19 @@ class Pizzadetailspage extends StatefulWidget {
 }
 
 class _PizzadetailspageState extends State<Pizzadetailspage> {
+  final data1 = Get.put(Orderpage());
 
   void addtoCart() async {
+     Get.showSnackbar(const GetSnackBar(
+        duration: Duration(seconds: 3),
+        padding: EdgeInsets.all(25),
+        backgroundColor: Color(0xff7f4ca5),
+       messageText:  Text("The product is added to cart",
+       style: TextStyle(
+        color: Colors.white
+       ),), 
+       ),
+       );
     final FirebaseAuth auth = FirebaseAuth.instance;
     final currentuser = auth.currentUser;
     CollectionReference collectionRef =
@@ -29,6 +42,7 @@ class _PizzadetailspageState extends State<Pizzadetailspage> {
   }
 
   Future addToFavourite() async {
+
     final FirebaseAuth auth = FirebaseAuth.instance;
     User? currentUser = auth.currentUser;
     CollectionReference collectionRef =
@@ -209,14 +223,20 @@ class _PizzadetailspageState extends State<Pizzadetailspage> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        ElevatedButton(
+                        ElevatedButton(  style: ElevatedButton.styleFrom(
+                            backgroundColor: const Color(0xff7f4ca5)
+                          ),
                           onPressed: () {
                             addtoCart();
                           },
                           child: const Text('Add to Cart'),
                         ),
-                        ElevatedButton(
-                          onPressed: () {},
+                        ElevatedButton(  style: ElevatedButton.styleFrom(
+                            backgroundColor: const Color(0xff7f4ca5)
+                          ),
+                          onPressed: () {
+                            data1.order(context);
+                          },
                           child: const Text('Order'),
                         )
                       ],

@@ -1,6 +1,8 @@
+import 'package:get/get.dart';
 import 'package:image_card/image_card.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:nihaljumailamrathaju/homepage/search.dart';
 
 class HomepageCustomer extends StatefulWidget {
   const HomepageCustomer({super.key});
@@ -27,11 +29,22 @@ class _HomepageCustomerState extends State<HomepageCustomer> {
                     //navigating to the notification page
                   },
                   icon: const Icon(Icons.notifications)),
-              title: Image.asset(
-                'assets/homebakery-bgremoved.png',
-                width: 100,
-                height: 100,
-              ),
+              title:Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    const SizedBox(width: 40,),
+                    Image.asset(
+                      'assets/homebakery-bgremoved.png',
+                      width: 100,
+                      height: 100,
+                    ),
+                  ]),
+              actions: [
+                IconButton(onPressed: () {
+                  Get.to(() => const Filterpage());
+                }, icon: const Icon(Icons.filter_alt)),
+              ],
               centerTitle: true,
             )),
         body: Column(

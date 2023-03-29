@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:nihaljumailamrathaju/controllers/order.dart';
 
 class Sweetdetailspage extends StatefulWidget {
   final String id;
@@ -13,8 +15,18 @@ class Sweetdetailspage extends StatefulWidget {
 }
 
 class _SweetdetailspageState extends State<Sweetdetailspage> {
+  final data1 = Get.put(Orderpage());
   void addtoCart() async {
-    final FirebaseAuth auth = FirebaseAuth.instance;
+ Get.showSnackbar(const GetSnackBar(
+        duration: Duration(seconds: 3),
+        padding: EdgeInsets.all(25),
+        backgroundColor: Color(0xff7f4ca5),
+       messageText:  Text("The product is added to cart",
+       style: TextStyle(
+        color: Colors.white
+       ),), 
+       ),
+       );    final FirebaseAuth auth = FirebaseAuth.instance;
     final currentuser = auth.currentUser;
     CollectionReference collectionRef =
         FirebaseFirestore.instance.collection('User-Cart-Item');
@@ -28,6 +40,7 @@ class _SweetdetailspageState extends State<Sweetdetailspage> {
   }
 
   Future addToFavourite() async {
+ 
     final FirebaseAuth auth = FirebaseAuth.instance;
     User? currentUser = auth.currentUser;
     CollectionReference collectionRef =
@@ -206,15 +219,19 @@ class _SweetdetailspageState extends State<Sweetdetailspage> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        ElevatedButton(
+                        ElevatedButton(  style: ElevatedButton.styleFrom(
+                            backgroundColor: const Color(0xff7f4ca5)
+                          ),
                           onPressed: () {
                               addtoCart();
                           },
                           child: const Text('Add to Cart'),
                         ),
-                        ElevatedButton(
+                        ElevatedButton(  style: ElevatedButton.styleFrom(
+                            backgroundColor: const Color(0xff7f4ca5)
+                          ),
                           onPressed: () {
-                            
+                            data1.order(context);
                           },
                           child: const Text('Order'),
                         )
