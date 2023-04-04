@@ -1,5 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:nihaljumailamrathaju/controllers/editproductscontroller.dart';
@@ -13,11 +11,17 @@ class Productdetailedpage extends StatefulWidget {
 
 class _ProductdetailedpageState extends State<Productdetailedpage> {
   final controller = Get.put(Editproductcontroller());
+  final data = Get.arguments;
+  final image = Get.arguments[3];
+  final itemnames = Get.arguments[2];
+  @override
+  void initState() {
+    super.initState();
+    controller.itemnames = itemnames;
+  }
+
   @override
   Widget build(BuildContext context) {
-    final data = Get.arguments;
-    final image = Get.arguments[3];
-
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -33,85 +37,78 @@ class _ProductdetailedpageState extends State<Productdetailedpage> {
         backgroundColor: Colors.pink[200],
         body: Padding(
           padding: const EdgeInsets.all(30.0),
-          child: Column(children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SizedBox(
-                    child: image == ""
-                        ? Image.asset("assets/noimage.png")
-                        : Image.network(
-                            data[3],
-                            width: 200,
-                            height: 200,
-                          )),
-              ],
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  data[2],
-                  style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 30,
+          child: SingleChildScrollView(
+            child: Column(children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(
+                      child: image == ""
+                          ? Image.asset("assets/noimage.png")
+                          : Image.network(
+                              data[3],
+                              width: 200,
+                              height: 200,
+                            )),
+                ],
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    data[2],
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 30,
+                    ),
                   ),
-                ),
-                const SizedBox(
-                  height: 15,
-                ),
-                Text(
-                  data[4],
-                  style: const TextStyle(
-                    fontWeight: FontWeight.bold,
+                  const SizedBox(
+                    height: 15,
                   ),
-                ),
-                const SizedBox(
-                  height: 15,
-                ),
-                const Text(
-                  'PRICE :',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-                ),
-                Text(
-                  data[0],
-                  style: const TextStyle(
-                      fontWeight: FontWeight.bold, fontSize: 15),
-                ),
-                const SizedBox(
-                  height: 25,
-                ),
-                const Text(
-                  'NET WEIGHT (in KG.) :',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-                ),
-                Text(
-                  data[1],
-                  style: const TextStyle(
-                      fontWeight: FontWeight.bold, fontSize: 15),
-                ),
-                const SizedBox(
-                  height: 25,
-                ),
-              ],
-            )
-          ]),
+                  Text(
+                    data[4],
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  const Text(
+                    'PRICE :',
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                  ),
+                  Text(
+                    data[0],
+                    style: const TextStyle(
+                        fontWeight: FontWeight.bold, fontSize: 15),
+                  ),
+                  const SizedBox(
+                    height: 25,
+                  ),
+                  const Text(
+                    'NET WEIGHT (in KG.) :',
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                  ),
+                  Text(
+                    data[1],
+                    style: const TextStyle(
+                        fontWeight: FontWeight.bold, fontSize: 15),
+                  ),
+                  const SizedBox(
+                    height: 25,
+                  ),
+                ],
+              )
+            ]),
+          ),
         ),
       ),
     );
   }
-   //updating the information of the seller items details
-  void updateselleritems() {
-    FirebaseFirestore.instance.collection("User-Add Item").doc(FirebaseAuth.instance.currentUser!.email)
-    .collection("item").doc().update({
-      "Baker Description" : controller.bakersdescription.text,
-      "Item Description" : controller.itemdescription.text,
-      "Item Name" : controller.itemname.text,
-      "Net Weight" : controller.netweight.text,
-      "Price of Item" : controller.pricofitem.text
-    });
-  }
+
+
 }

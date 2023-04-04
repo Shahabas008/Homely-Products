@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -9,6 +11,7 @@ class Editproductcontroller extends GetxController {
   final bakersdescription = TextEditingController();
   final netweight = TextEditingController();
   final pricofitem = TextEditingController();
+  String itemnames = "";
 
   void editproducts(BuildContext context) {
     showDialog(
@@ -16,7 +19,7 @@ class Editproductcontroller extends GetxController {
         builder: (context) {
           return SingleChildScrollView(
             child: AlertDialog(
-              title: const Text("Edit"),
+              title: const Text("Edit Item DEtails"),
               actions: [
                 ElevatedButton(
                     style: ElevatedButton.styleFrom(
@@ -30,7 +33,15 @@ class Editproductcontroller extends GetxController {
                     style: ElevatedButton.styleFrom(
                         backgroundColor:
                             const Color.fromARGB(255, 153, 153, 153)),
-                    onPressed: () {},
+                    onPressed: () {
+                      updateselleritems();
+                      Get.back();
+                      itemname.clear();
+                      itemdescription.clear();
+                      netweight.clear();
+                      pricofitem.clear();
+                      bakersdescription.clear();
+                    },
                     child: const Text('Done')),
               ],
               content: Form(
@@ -51,8 +62,10 @@ class Editproductcontroller extends GetxController {
                           }
                         }),
                         decoration: const InputDecoration(
-                          prefixIcon: Icon(Icons.person),
-                          border: OutlineInputBorder(),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                color: Color(0xffffafcc), width: 2.0),
+                          ),
                           labelText: 'Enter Item Name',
                         ),
                       ),
@@ -70,8 +83,10 @@ class Editproductcontroller extends GetxController {
                           }
                         }),
                         decoration: const InputDecoration(
-                          prefixIcon: Icon(Icons.person),
-                          border: OutlineInputBorder(),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                color: Color(0xffffafcc), width: 2.0),
+                          ),
                           labelText: 'Enter Item description',
                         ),
                       ),
@@ -93,8 +108,10 @@ class Editproductcontroller extends GetxController {
                           }
                         }),
                         decoration: const InputDecoration(
-                          prefixIcon: Icon(Icons.person),
-                          border: OutlineInputBorder(),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                color: Color(0xffffafcc), width: 2.0),
+                          ),
                           labelText: 'Enter Net weight',
                         ),
                       ),
@@ -116,8 +133,10 @@ class Editproductcontroller extends GetxController {
                           }
                         }),
                         decoration: const InputDecoration(
-                          prefixIcon: Icon(Icons.person),
-                          border: OutlineInputBorder(),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                color: Color(0xffffafcc), width: 2.0),
+                          ),
                           labelText: 'Enter Price of Item',
                         ),
                       ),
@@ -135,8 +154,10 @@ class Editproductcontroller extends GetxController {
                           }
                         }),
                         decoration: const InputDecoration(
-                          prefixIcon: Icon(Icons.person),
-                          border: OutlineInputBorder(),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                color: Color(0xffffafcc), width: 2.0),
+                          ),
                           labelText: 'Enter Baker\'s description',
                         ),
                       ),
@@ -147,5 +168,21 @@ class Editproductcontroller extends GetxController {
             ),
           );
         });
+  }
+
+  //updating the information of the seller items details
+  void updateselleritems() {
+    FirebaseFirestore.instance
+        .collection("User-Add Item")
+        .doc(FirebaseAuth.instance.currentUser!.email)
+        .collection("item")
+        .doc(itemnames)
+        .update({
+      "Baker Description": bakersdescription.text,
+      "Item Description": itemdescription.text,
+      "Item Name": itemname.text,
+      "Net Weight": netweight.text,
+      "Price of Item": pricofitem.text
+    });
   }
 }
