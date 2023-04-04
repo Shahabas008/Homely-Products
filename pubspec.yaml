@@ -92,6 +92,8 @@ flutter:
      - assets/sweetsimage.jpg
      - assets/user.jpg
      - assets/noimage.png
+     - assets/sellerimage.png
+     - assets/customerimage.png
 
     
       

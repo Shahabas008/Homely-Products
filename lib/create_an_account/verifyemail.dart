@@ -8,10 +8,10 @@ class Verifyemailpage extends StatefulWidget {
   const Verifyemailpage({super.key});
 
   @override
-  State<Verifyemailpage> createState() => VverifyemailpageState();
+  State<Verifyemailpage> createState() => VerifyemailpageState();
 }
 
-class VverifyemailpageState extends State<Verifyemailpage> {
+class VerifyemailpageState extends State<Verifyemailpage> {
   final email = Get.arguments['email'];
     final auth = FirebaseAuth.instance;
     User? user;

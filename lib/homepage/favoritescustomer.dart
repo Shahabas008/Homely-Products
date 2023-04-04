@@ -33,9 +33,6 @@ class _FavoritecustomerpageState extends State<Favoritecustomerpage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    const SizedBox(
-                      width: 40,
-                    ),
                     Image.asset(
                       'assets/homebakery-bgremoved.png',
                       width: 100,
@@ -43,19 +40,21 @@ class _FavoritecustomerpageState extends State<Favoritecustomerpage> {
                     ),
                   ]),
               actions: [
-                IconButton(onPressed: () {
-                  Get.to(() => const Filterpage());
-                }, icon: const Icon(Icons.filter_alt)),
-             
+                IconButton(
+                    onPressed: () {
+                      Get.to(() => const Filterpage());
+                    },
+                    icon: const Icon(Icons.filter_alt)),
               ],
             )),
-        body: StreamBuilder(
+        body: StreamBuilder<QuerySnapshot>(
           stream: FirebaseFirestore.instance
               .collection('users-favourite-items')
               .doc(FirebaseAuth.instance.currentUser!.email)
               .collection("items")
               .snapshots(),
-          builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+          builder:
+              (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
             if (snapshot.hasError) {
               return const Center(
                 child: Text("Something is wrong"),
@@ -80,7 +79,7 @@ class _FavoritecustomerpageState extends State<Favoritecustomerpage> {
                     itemBuilder: (_, index) {
                       DocumentSnapshot documentSnapshot =
                           snapshot.data!.docs[index];
-    
+
                       return Card(
                         color: const Color.fromARGB(255, 255, 248, 250),
                         margin: const EdgeInsets.all(20),
@@ -89,15 +88,12 @@ class _FavoritecustomerpageState extends State<Favoritecustomerpage> {
                           padding: const EdgeInsets.all(0),
                           child: Row(children: [
                             Expanded(
-                              flex: 6,
-                              child: Container(
-                                decoration: BoxDecoration(
-                                    image: DecorationImage(
-                                        image: NetworkImage(
-                                            documentSnapshot['images']),
-                                        fit: BoxFit.fill)),
-                              ),
-                            ),
+                                flex: 6,
+                                child: documentSnapshot['images']  == ''
+                                    ?Image.asset("assets/noimage.png") 
+                                    :Image.network(documentSnapshot['images'],
+                                    fit: BoxFit.fill,)
+                                     ),
                             const Spacer(
                               flex: 1,
                             ),
@@ -122,8 +118,8 @@ class _FavoritecustomerpageState extends State<Favoritecustomerpage> {
                                           fontSize: 20.0,
                                         )),
                                     Padding(
-                                      padding:
-                                          const EdgeInsets.fromLTRB(0, 0, 10, 0),
+                                      padding: const EdgeInsets.fromLTRB(
+                                          0, 0, 10, 0),
                                       child: Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
@@ -157,17 +153,18 @@ class _FavoritecustomerpageState extends State<Favoritecustomerpage> {
                                         ],
                                       ),
                                     ),
-    
+
                                     Row(
                                       children: <Widget>[
                                         TextButton(
                                             onPressed: () {
                                               data1.order(context);
                                             },
-                                            child: const Text('Order',
-                                            style: TextStyle(
-                                              color:  Color(0xff7f4ca5)
-                                            ),)),
+                                            child: const Text(
+                                              'Order',
+                                              style: TextStyle(
+                                                  color: Color(0xff7f4ca5)),
+                                            )),
                                         //       const Text(
                                         //         "barcode",
                                         //         style: TextStyle(fontSize: 15.0),

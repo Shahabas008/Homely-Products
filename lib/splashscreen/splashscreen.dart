@@ -1,6 +1,8 @@
 
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:nihaljumailamrathaju/splashscreen/splashscreen2.dart';
 
 class ScreenSplash extends StatefulWidget {
   const ScreenSplash({super.key});
@@ -47,7 +49,7 @@ class _ScreenSplashState extends State<ScreenSplash> {
 
   void waitingscreen() {
     Future.delayed(const Duration(seconds: 3), () {
-      Navigator.pushReplacementNamed(context, "splashscreen2");
+      Get.off(() => const Splashscreen2());
     });
   }
 }

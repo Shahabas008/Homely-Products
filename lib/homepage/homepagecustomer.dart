@@ -29,11 +29,10 @@ class _HomepageCustomerState extends State<HomepageCustomer> {
                     //navigating to the notification page
                   },
                   icon: const Icon(Icons.notifications)),
-              title:Row(
+              title: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    const SizedBox(width: 40,),
                     Image.asset(
                       'assets/homebakery-bgremoved.png',
                       width: 100,
@@ -41,9 +40,11 @@ class _HomepageCustomerState extends State<HomepageCustomer> {
                     ),
                   ]),
               actions: [
-                IconButton(onPressed: () {
-                  Get.to(() => const Filterpage());
-                }, icon: const Icon(Icons.filter_alt)),
+                IconButton(
+                    onPressed: () {
+                      Get.to(() => const Filterpage());
+                    },
+                    icon: const Icon(Icons.filter_alt)),
               ],
               centerTitle: true,
             )),

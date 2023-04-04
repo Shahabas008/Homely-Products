@@ -42,7 +42,17 @@ class _PizzadetailspageState extends State<Pizzadetailspage> {
   }
 
   Future addToFavourite() async {
-
+     Get.showSnackbar(
+      const GetSnackBar(
+        duration: Duration(seconds: 3),
+        padding: EdgeInsets.all(25),
+        backgroundColor: Color(0xff7f4ca5),
+        messageText: Text(
+          "The product is added to Favourites",
+          style: TextStyle(color: Colors.white),
+        ),
+      ),
+    );
     final FirebaseAuth auth = FirebaseAuth.instance;
     User? currentUser = auth.currentUser;
     CollectionReference collectionRef =
@@ -148,11 +158,18 @@ class _PizzadetailspageState extends State<Pizzadetailspage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     SizedBox(
-                      child: Image.network(
-                        data['URl'],
-                        width: 200,
-                        height: 200,
-                      ),
+                       // ignore: unrelated_type_equality_checks
+                          child: data['URl'] == ""
+                              ? Image.asset(
+                                  "assets/noimage.png",
+                                  width: 200,
+                                  height: 200,
+                                )
+                              : Image.network(
+                                  data['URl'],
+                                  width: 200,
+                                  height: 200,
+                                )
                     ),
                   ],
                 ),

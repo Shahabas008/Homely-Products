@@ -103,8 +103,10 @@ class _AdditempageState extends State<Additempage> {
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: const Color(0xff7f4ca5),
+          title: const Text("Add Item"),
+          centerTitle: true,
         ),
-        backgroundColor: const Color(0xffffafcc),
+        // backgroundColor: const Color(0xffffafcc),
         body: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.fromLTRB(15, 50, 15, 0),
@@ -119,10 +121,11 @@ class _AdditempageState extends State<Additempage> {
                           },
                           child: SizedBox(
                             height: 100,
-                              width: 100,
+                            width: 100,
                             child: CircleAvatar(
                               radius: 55,
-                              backgroundColor: const Color.fromARGB(255, 0, 0, 0),
+                              backgroundColor:
+                                  const Color.fromARGB(255, 0, 0, 0),
                               child: _photo != null
                                   ? ClipRRect(
                                       borderRadius: BorderRadius.zero,
@@ -135,12 +138,12 @@ class _AdditempageState extends State<Additempage> {
                                     )
                                   : Container(
                                       decoration: BoxDecoration(
-                                          color:  const Color.fromARGB(255, 255, 255, 255),
+                                          color:const  Color.fromARGB(255, 234, 224, 241),
                                           borderRadius:
                                               BorderRadius.circular(50)),
                                       width: 100,
                                       height: 100,
-                                      child:const Icon(
+                                      child: const Icon(
                                         Icons.camera_alt,
                                         color: Color.fromARGB(255, 0, 0, 0),
                                       ),
@@ -156,7 +159,7 @@ class _AdditempageState extends State<Additempage> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   TextFormField(
-                    textCapitalization: TextCapitalization. words,
+                    textCapitalization: TextCapitalization.words,
                     validator: (value) {
                       if (value!.isEmpty) {
                         return 'The Field is Required';
@@ -167,12 +170,18 @@ class _AdditempageState extends State<Additempage> {
                     controller: itemname,
                     maxLines: null,
                     decoration: const InputDecoration(
+                      enabledBorder: OutlineInputBorder(
+                        borderSide:
+                            BorderSide(width: 2, color:Color(0xff7f4ca5)),
+                      ),
                       focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                            color: Color.fromARGB(255, 255, 254, 254),
-                            width: 2.0),
+                        borderSide:
+                            BorderSide(color: Color(0xff7f4ca5), width: 2.0),
                       ),
                       labelText: 'Item Name',
+                      labelStyle: TextStyle(
+                        color: Colors.black,
+                      )
                     ),
                   ),
                   const SizedBox(
@@ -189,12 +198,18 @@ class _AdditempageState extends State<Additempage> {
                     controller: itemdescription,
                     maxLines: null,
                     decoration: const InputDecoration(
+                      enabledBorder: OutlineInputBorder(
+                        borderSide:
+                            BorderSide(width: 2, color:Color(0xff7f4ca5)),
+                      ),
                       focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                            color: Color.fromARGB(255, 255, 254, 254),
-                            width: 2.0),
+                        borderSide:
+                            BorderSide(color: Color(0xff7f4ca5), width: 2.0),
                       ),
                       labelText: 'Item Description',
+                       labelStyle: TextStyle(
+                        color: Colors.black,
+                      )
                     ),
                   ),
                   const SizedBox(
@@ -210,12 +225,18 @@ class _AdditempageState extends State<Additempage> {
                     },
                     controller: priceofitem,
                     decoration: const InputDecoration(
+                      enabledBorder: OutlineInputBorder(
+                        borderSide:
+                            BorderSide(width: 2, color:Color(0xff7f4ca5)),
+                      ),
                       focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                            color: Color.fromARGB(255, 255, 254, 254),
-                            width: 2.0),
+                        borderSide:
+                            BorderSide(color: Color(0xff7f4ca5), width: 2.0),
                       ),
                       labelText: 'Price of Item',
+                      labelStyle: TextStyle(
+                        color: Colors.black,
+                      )
                     ),
                     inputFormatters: <TextInputFormatter>[
                       CurrencyTextInputFormatter(
@@ -241,12 +262,19 @@ class _AdditempageState extends State<Additempage> {
                     keyboardType: TextInputType.number,
                     inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                     decoration: const InputDecoration(
+                      enabledBorder: OutlineInputBorder(
+                        borderSide:
+                            BorderSide(width: 2, color:Color(0xff7f4ca5)),
+                      ),
                       focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                            color: Color.fromARGB(255, 255, 254, 254),
-                            width: 2.0),
+                        
+                        borderSide:
+                            BorderSide(color: Color(0xff7f4ca5), width: 2.0),
                       ),
                       labelText: 'Net Weight',
+                      labelStyle: TextStyle(
+                        color: Colors.black,
+                      )
                     ),
                   ),
                   const SizedBox(
@@ -263,12 +291,18 @@ class _AdditempageState extends State<Additempage> {
                     controller: bakersdescription,
                     maxLines: null,
                     decoration: const InputDecoration(
+                      enabledBorder: OutlineInputBorder(
+                        borderSide:
+                            BorderSide(width: 2, color:Color(0xff7f4ca5)),
+                      ),
                       focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                            color: Color.fromARGB(255, 255, 254, 254),
-                            width: 2.0),
+                        borderSide:
+                            BorderSide(color: Color(0xff7f4ca5), width: 2.0),
                       ),
                       labelText: 'Baker Description',
+                      labelStyle: TextStyle(
+                        color: Colors.black,
+                      )   
                     ),
                   ),
                   const SizedBox(
@@ -280,20 +314,21 @@ class _AdditempageState extends State<Additempage> {
                       value: dropdownValue,
                       icon: const Icon(
                         Icons.arrow_downward,
-                        color:   Color(0xff7f4ca5),
+                        color: Color(0xff7f4ca5),
                       ),
                       elevation: 16,
-                      style: const TextStyle(color:  Color(0xff7f4ca5)),
+                      style: const TextStyle(color: Color(0xff7f4ca5)),
                       underline: Container(
                         height: 2,
-                        color:const Color(0xff7f4ca5),
+                        color: const Color(0xff7f4ca5),
                       ),
                       onChanged: (String? value) {
                         setState(() {
                           dropdownValue = value!;
                         });
                       },
-                      items: listitems.map<DropdownMenuItem<String>>((String value) {
+                      items: listitems
+                          .map<DropdownMenuItem<String>>((String value) {
                         return DropdownMenuItem<String>(
                           value: value,
                           child: Text(value),
@@ -304,26 +339,27 @@ class _AdditempageState extends State<Additempage> {
                   const SizedBox(
                     height: 20,
                   ),
-                   Row(children: [
+                  Row(children: [
                     DropdownButton<String>(
                       hint: const Text('Select An Item'),
                       value: dropdownvalueplace,
                       icon: const Icon(
                         Icons.arrow_downward,
-                        color:   Color(0xff7f4ca5),
+                        color: Color(0xff7f4ca5),
                       ),
                       elevation: 16,
-                      style: const TextStyle(color:  Color(0xff7f4ca5)),
+                      style: const TextStyle(color: Color(0xff7f4ca5)),
                       underline: Container(
                         height: 2,
-                        color:const Color(0xff7f4ca5),
+                        color: const Color(0xff7f4ca5),
                       ),
                       onChanged: (String? value) {
                         setState(() {
                           dropdownvalueplace = value!;
                         });
                       },
-                      items: listplace.map<DropdownMenuItem<String>>((String value) {
+                      items: listplace
+                          .map<DropdownMenuItem<String>>((String value) {
                         return DropdownMenuItem<String>(
                           value: value,
                           child: Text(value),
@@ -340,9 +376,9 @@ class _AdditempageState extends State<Additempage> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   ElevatedButton(
-                   style: ElevatedButton.styleFrom(
-                    backgroundColor:  const Color(0xff7f4ca5),
-                   ),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xff7f4ca5),
+                      ),
                       onPressed: () async {
                         String res = await Authmethods3().additem(
                             itemname: itemname.text,
@@ -351,13 +387,13 @@ class _AdditempageState extends State<Additempage> {
                             netweight: netweight.text,
                             bakersdescription: bakersdescription.text,
                             dropdownValue: dropdownValue,
-                            productionplace : dropdownvalueplace,
+                            productionplace: dropdownvalueplace,
                             fileName: fileName,
                             downloadUrl: downloadUrl);
 
                         debugPrint(res);
                         if (formkey.currentState!.validate()) {
-                           Get.to(()=> const Homepagelayout());
+                          Get.to(() => const Homepagelayout());
                           Get.showSnackbar(GetSnackBar(
                             margin: const EdgeInsets.all(15),
                             borderRadius: 8,
@@ -385,7 +421,7 @@ class _AdditempageState extends State<Additempage> {
     ));
   }
 
-  void  _showPicker(context) {
+  void _showPicker(context) {
     showModalBottomSheet(
         context: context,
         builder: (BuildContext bc) {

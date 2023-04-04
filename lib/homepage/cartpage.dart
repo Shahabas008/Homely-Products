@@ -100,11 +100,10 @@ class _CartpageState extends State<Cartpage> {
                                     Expanded(
                                       flex: 6,
                                       child: Container(
-                                        decoration: BoxDecoration(
-                                            image: DecorationImage(
-                                                image: NetworkImage(
-                                                    documentSnapshot['images']),
-                                                fit: BoxFit.fill)),
+                                        child: documentSnapshot["images"] == ""
+                                        ?Image.asset("assets/noimage.png")
+                                        :Image.network(documentSnapshot["images"],
+                                        fit: BoxFit.fill,),
                                       ),
                                     ),
                                     const Spacer(

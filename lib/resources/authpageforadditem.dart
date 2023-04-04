@@ -40,8 +40,8 @@ class Authmethods3 {
         await _firestore
             .collection('User-Add Item')
             .doc(currentuser)
-            .collection('item')
-            .add({
+            .collection('item').doc(itemname)
+            .set({
           "Item Name": itemname,
           "Item Description": itemdescription,
           "Price of Item": priceofitem,

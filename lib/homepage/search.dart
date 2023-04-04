@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:nihaljumailamrathaju/additem/cakedetailspage.dart';
 import 'package:nihaljumailamrathaju/homepage/searchdetailspage.dart';
 
 List<String> listplace = [
@@ -164,10 +163,10 @@ class FilterpageState extends State<Filterpage> {
                         Expanded(
                           flex: 6,
                           child: Container(
-                            decoration: BoxDecoration(
-                                image: DecorationImage(
-                                    image: NetworkImage(snap[index]['URl']),
-                                    fit: BoxFit.fill)),
+                             child: snap[index]["URl"] == ""
+                                 ?Image.asset("assets/noimage.png")
+                                 :Image.network(snap[index]["URl"],
+                                 fit: BoxFit.fill,)
                           ),
                         ),
                         const Spacer(

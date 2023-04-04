@@ -1,5 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:nihaljumailamrathaju/create_an_account/loginpage.dart';
 import 'package:nihaljumailamrathaju/homepage/appbar_bottomnav.dart';
 
 class Splashscreen2 extends StatelessWidget {
@@ -24,7 +26,7 @@ class Splashscreen2 extends StatelessWidget {
                               fit: BoxFit.fill),
                         )),
                         onTap: () {
-                          Navigator.pushReplacementNamed(context, "loginpage");
+                          Get.off(() => const Loginpage());
                         });
                   }
                 })));

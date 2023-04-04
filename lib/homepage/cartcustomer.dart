@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:nihaljumailamrathaju/additem/additem.dart';
 import 'package:nihaljumailamrathaju/controllers/order.dart';
 import 'package:nihaljumailamrathaju/homepage/search.dart';
 
@@ -33,9 +32,6 @@ class _CartcustomerpageState extends State<Cartcustomerpage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    const SizedBox(
-                      width: 40,
-                    ),
                     Image.asset(
                       'assets/homebakery-bgremoved.png',
                       width: 100,
@@ -48,7 +44,6 @@ class _CartcustomerpageState extends State<Cartcustomerpage> {
                       Get.to(() => const Filterpage());
                     },
                     icon: const Icon(Icons.filter_alt)),
-              
               ],
             )),
         body: StreamBuilder(
@@ -95,11 +90,10 @@ class _CartcustomerpageState extends State<Cartcustomerpage> {
                                     Expanded(
                                       flex: 6,
                                       child: Container(
-                                        decoration: BoxDecoration(
-                                            image: DecorationImage(
-                                                image: NetworkImage(
-                                                    documentSnapshot['images']),
-                                                fit: BoxFit.fill)),
+                                        child: documentSnapshot["images"] == ""
+                                        ?Image.asset("assets/noimage.png")
+                                        :Image.network(documentSnapshot["images"],
+                                        fit: BoxFit.fill,),
                                       ),
                                     ),
                                     const Spacer(
@@ -205,11 +199,13 @@ class _CartcustomerpageState extends State<Cartcustomerpage> {
                           child: Container(
                             color: const Color(0xffffafcc),
                             child: Text(
-'Total Price: \$${snapshot.data!.docs.isNotEmpty ? snapshot.data!.docs.map<int>((documentSnapshot) {
-  final price = int.tryParse(documentSnapshot['price'].trim()) ?? 0;
-  print('Price: $price');
-  return price;
-}).reduce((sum, price) => sum + price) : 0}',
+                              'Total Price: \$${snapshot.data!.docs.isNotEmpty ? snapshot.data!.docs.map<int>((documentSnapshot) {
+                                  final price = int.tryParse(
+                                          documentSnapshot['price'].trim()) ??
+                                      0;
+                                  print('Price: $price');
+                                  return price;
+                                }).reduce((sum, price) => sum + price) : 0}',
                               style: const TextStyle(
                                   fontSize: 20, fontWeight: FontWeight.bold),
                             ),

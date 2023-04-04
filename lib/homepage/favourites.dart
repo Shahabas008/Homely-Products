@@ -43,9 +43,11 @@ class _FavoritepageState extends State<Favoritepage> {
                     ),
                   ]),
               actions: [
-                IconButton(onPressed: () {
-                  Get.to(() => const Filterpage());
-                }, icon: const Icon(Icons.filter_alt)),
+                IconButton(
+                    onPressed: () {
+                      Get.to(() => const Filterpage());
+                    },
+                    icon: const Icon(Icons.filter_alt)),
                 IconButton(
                     color: Colors.white,
                     onPressed: () {
@@ -60,7 +62,8 @@ class _FavoritepageState extends State<Favoritepage> {
               .doc(FirebaseAuth.instance.currentUser!.email)
               .collection("items")
               .snapshots(),
-          builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+          builder:
+              (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
             if (snapshot.hasError) {
               return const Center(
                 child: Text("Something is wrong"),
@@ -85,7 +88,7 @@ class _FavoritepageState extends State<Favoritepage> {
                     itemBuilder: (_, index) {
                       DocumentSnapshot documentSnapshot =
                           snapshot.data!.docs[index];
-    
+
                       return Card(
                         color: const Color.fromARGB(255, 255, 248, 250),
                         margin: const EdgeInsets.all(20),
@@ -96,11 +99,12 @@ class _FavoritepageState extends State<Favoritepage> {
                             Expanded(
                               flex: 6,
                               child: Container(
-                                decoration: BoxDecoration(
-                                    image: DecorationImage(
-                                        image: NetworkImage(
-                                            documentSnapshot['images']),
-                                        fit: BoxFit.fill)),
+                                child: documentSnapshot["images"] == ""
+                                    ? Image.asset("assets/noimage.png")
+                                    : Image.network(
+                                        documentSnapshot["images"],
+                                        fit: BoxFit.fill,
+                                      ),
                               ),
                             ),
                             const Spacer(
@@ -127,8 +131,8 @@ class _FavoritepageState extends State<Favoritepage> {
                                           fontSize: 20.0,
                                         )),
                                     Padding(
-                                      padding:
-                                          const EdgeInsets.fromLTRB(0, 0, 10, 0),
+                                      padding: const EdgeInsets.fromLTRB(
+                                          0, 0, 10, 0),
                                       child: Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
@@ -162,17 +166,18 @@ class _FavoritepageState extends State<Favoritepage> {
                                         ],
                                       ),
                                     ),
-    
+
                                     Row(
                                       children: <Widget>[
                                         TextButton(
                                             onPressed: () {
                                               data1.order(context);
                                             },
-                                            child: const Text('Order',
-                                            style: TextStyle(
-                                              color:  Color(0xff7f4ca5)
-                                            ),)),
+                                            child: const Text(
+                                              'Order',
+                                              style: TextStyle(
+                                                  color: Color(0xff7f4ca5)),
+                                            )),
                                         //       const Text(
                                         //         "barcode",
                                         //         style: TextStyle(fontSize: 15.0),

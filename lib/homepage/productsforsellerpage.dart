@@ -22,14 +22,14 @@ class _ProductspageState extends State<Productspage> {
           title: const Text('Your Products'),
           backgroundColor:  const Color(0xff7f4ca5),
         ),
-        body:StreamBuilder(
+        body:StreamBuilder<QuerySnapshot>(
           stream: FirebaseFirestore.instance
                 .collection('User-Add Item')
                 .doc(FirebaseAuth.instance.currentUser!.email)
                 .collection('item')
                 .snapshots(),
           
-          builder: (BuildContext context, AsyncSnapshot snapshot) {
+          builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
              if (snapshot.hasData) {
                 if (snapshot.data == null || snapshot.data!.docs.isEmpty) {
                   return const Center(
@@ -61,11 +61,10 @@ class _ProductspageState extends State<Productspage> {
                               Expanded(
                                 flex: 6,
                                 child: Container(
-                                  decoration: BoxDecoration(
-                                      image: DecorationImage(
-                                          image: NetworkImage(
-                                              documentSnapshot['URl']),
-                                          fit: BoxFit.fill)),
+                                 child: documentSnapshot["URl"] == ""
+                                 ?Image.asset("assets/noimage.png")
+                                 :Image.network(documentSnapshot["URl"],
+                                 fit: BoxFit.fill,)
                                 ),
                               ),
                               const Spacer(
@@ -171,4 +170,6 @@ class _ProductspageState extends State<Productspage> {
       ),
     );
   }
+
+ 
 }

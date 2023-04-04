@@ -16,16 +16,17 @@ class Cakedetailspage extends StatefulWidget {
 
 class _CakedetailspageState extends State<Cakedetailspage> {
   void addtoCart() async {
-      Get.showSnackbar(const GetSnackBar(
+    Get.showSnackbar(
+      const GetSnackBar(
         duration: Duration(seconds: 3),
         padding: EdgeInsets.all(25),
         backgroundColor: Color(0xff7f4ca5),
-       messageText:  Text("The product is added to cart",
-       style: TextStyle(
-        color: Colors.white
-       ),), 
-       ),
-       );
+        messageText: Text(
+          "The product is added to cart",
+          style: TextStyle(color: Colors.white),
+        ),
+      ),
+    );
     final FirebaseAuth auth = FirebaseAuth.instance;
     final currentuser = auth.currentUser;
     CollectionReference collectionRef =
@@ -36,11 +37,21 @@ class _CakedetailspageState extends State<Cakedetailspage> {
       "price": widget.product["Price of Item"],
       "images": widget.product["URl"],
       "netweight": widget.product["Net Weight"]
-    }).then((value) => debugPrint("Added to Cart"));
+    });
   }
 
   Future addToFavourite() async {
- 
+     Get.showSnackbar(
+      const GetSnackBar(
+        duration: Duration(seconds: 3),
+        padding: EdgeInsets.all(25),
+        backgroundColor: Color(0xff7f4ca5),
+        messageText: Text(
+          "The product is added to Favourites",
+          style: TextStyle(color: Colors.white),
+        ),
+      ),
+    );
     final FirebaseAuth auth = FirebaseAuth.instance;
     User? currentUser = auth.currentUser;
     CollectionReference collectionRef =
@@ -108,10 +119,8 @@ class _CakedetailspageState extends State<Cakedetailspage> {
                             .snapshots(),
                         builder: (BuildContext context,
                             AsyncSnapshot<QuerySnapshot> snapshot) {
-                               if (snapshot.data == null) {
-                            return  Container(
-                              
-                            );
+                          if (snapshot.data == null) {
+                            return Container();
                           }
                           return Padding(
                             padding: const EdgeInsets.only(right: 8),
@@ -137,117 +146,122 @@ class _CakedetailspageState extends State<Cakedetailspage> {
                         },
                       )
                     : Container(
-                      padding:const EdgeInsets.fromLTRB(200, 200, 200, 200),
-                    ),
-                       
+                        padding: const EdgeInsets.fromLTRB(200, 200, 200, 200),
+                      ),
               ],
             ),
             backgroundColor: Colors.pink[200],
-            body: Padding(
-              padding: const EdgeInsets.all(30.0),
-              child: Column(children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    SizedBox(
-                      child: Image.network(
-                        data['URl'] ,
-                        width: 200,
-                        height: 200,
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      data['Item Name'],
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 30,
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 15,
-                    ),
-                    Text(
-                      data['Item Description'],
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 15,
-                    ),
-                    const Text(
-                      'PRICE :',
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-                    ),
-                    Text(
-                      data['Price of Item'],
-                      style: const TextStyle(
-                          fontWeight: FontWeight.bold, fontSize: 15),
-                    ),
-                    const SizedBox(
-                      height: 25,
-                    ),
-                    const Text(
-                      'NET WEIGHT (in KG.) :',
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-                    ),
-                    Text(
-                      data['Net Weight'],
-                      style: const TextStyle(
-                          fontWeight: FontWeight.bold, fontSize: 15),
-                    ),
-                    const SizedBox(
-                      height: 25,
-                    ),
-                    const Text(
-                      'BAKER :',
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-                    ),
-                    Text(
-                      data['Baker Description'],
-                      style: const TextStyle(
-                          fontWeight: FontWeight.bold, fontSize: 15),
-                    ),
-                    const SizedBox(
-                      height: 30,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: const Color(0xff7f4ca5)
-                          ),
-                          onPressed: () {
-                            addtoCart();
-                          },
-                          child: const Text('Add to Cart'),
+            body: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.all(30.0),
+                child: Column(children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                          // ignore: unrelated_type_equality_checks
+                          child: data['URl'] == ""
+                              ? Image.asset(
+                                  "assets/noimage.png",
+                                  width: 200,
+                                  height: 200,
+                                )
+                              : Image.network(
+                                  data['URl'],
+                                  width: 200,
+                                  height: 200,
+                                )),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        data['Item Name'],
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 30,
                         ),
-                        ElevatedButton(
+                      ),
+                      const SizedBox(
+                        height: 15,
+                      ),
+                      Text(
+                        data['Item Description'],
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 15,
+                      ),
+                      const Text(
+                        'PRICE :',
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 20),
+                      ),
+                      Text(
+                        data['Price of Item'],
+                        style: const TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 15),
+                      ),
+                      const SizedBox(
+                        height: 25,
+                      ),
+                      const Text(
+                        'NET WEIGHT (in KG.) :',
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 20),
+                      ),
+                      Text(
+                        data['Net Weight'],
+                        style: const TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 15),
+                      ),
+                      const SizedBox(
+                        height: 25,
+                      ),
+                      const Text(
+                        'BAKER :',
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 20),
+                      ),
+                      Text(
+                        data['Baker Description'],
+                        style: const TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 15),
+                      ),
+                      const SizedBox(
+                        height: 30,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          ElevatedButton(
                             style: ElevatedButton.styleFrom(
-                            backgroundColor: const Color(0xff7f4ca5)
+                                backgroundColor: const Color(0xff7f4ca5)),
+                            onPressed: () {
+                              addtoCart();
+                            },
+                            child: const Text('Add to Cart'),
                           ),
-                          onPressed: () {
-                            data1.order(context);
-                          },
-                          child: const Text('Order'),
-                        )
-                      ],
-                    )
-                  ],
-                )
-              ]),
+                          ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                                backgroundColor: const Color(0xff7f4ca5)),
+                            onPressed: () {
+                              data1.order(context);
+                            },
+                            child: const Text('Order'),
+                          )
+                        ],
+                      )
+                    ],
+                  )
+                ]),
+              ),
             ),
           ));
         }

@@ -16,12 +16,12 @@ class Signup extends StatelessWidget {
   Widget body1(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-         appBar: PreferredSize(
-          preferredSize: const Size.fromHeight(30),
-          child: AppBar(
-            backgroundColor:  const Color(0xff7f4ca5),
-            elevation: 0,
-          )),
+        appBar: PreferredSize(
+            preferredSize: const Size.fromHeight(30),
+            child: AppBar(
+              backgroundColor: const Color(0xff7f4ca5),
+              elevation: 0,
+            )),
         body: Center(
           child: Column(
             children: <Widget>[
@@ -44,7 +44,8 @@ class Signup extends StatelessWidget {
                   children: const [
                     Text(
                       'Choose Your Type',
-                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
                     )
                   ],
                 ),
@@ -54,38 +55,51 @@ class Signup extends StatelessWidget {
                 child: Container(
                   alignment: Alignment.topCenter,
                   width: double.infinity,
-                  height : MediaQuery.of(context).size.height,
+                  height: MediaQuery.of(context).size.height,
                   color: const Color(0xffffafcc),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       ElevatedButton(
-                        
                         style: ElevatedButton.styleFrom(
-                          backgroundColor:  const Color(0xff7f4ca5),
-                            minimumSize: const Size(100, 100)),
+                            backgroundColor: const Color(0xff7f4ca5),
+                            minimumSize: const Size(50, 50)),
                         onPressed: () {
-                          Get.to(()=>  const Signupforseller(),
-                          arguments: {
-                            "categorys" : 'seller',
+                          Get.to(() => const Signupforseller(), arguments: {
+                            "categorys": 'seller',
                           });
-
-                          
                         },
-                        child: const Text("SELLER"),
+                        child:SizedBox(
+                          height: 140,
+                          child: Column(children: [
+                            Image.asset("assets/sellerimage.png",
+                          width: 100,
+                          ),
+                          const Text("Seller"),
+                          ],),
+                        )
+                         
                       ),
                       ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                           backgroundColor:  const Color(0xff7f4ca5),
+                            backgroundColor: const Color(0xff7f4ca5),
                             minimumSize: const Size(100, 100)),
                         onPressed: () {
-                          
-                        Get.to(()=> const Signupforcustomer(),
-                        arguments: {
-                          "categorys" : "customer"
-                        });
+                          Get.to(() => const Signupforcustomer(),
+                              arguments: {"categorys": "customer"});
                         },
-                        child: const Text("CUSTOMER"),
+                        child:  SizedBox(
+                          height: 140,
+                          child: Column(children: [
+                            Image.asset("assets/customerimage.png",
+                          width: 100,
+                          ),
+                         const  SizedBox(
+                            height: 20,
+                          ),
+                          const Text("Customer"),
+                          ],),
+                        )
                       ),
                     ],
                   ),

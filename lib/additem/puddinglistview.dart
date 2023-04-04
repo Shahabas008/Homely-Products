@@ -59,13 +59,10 @@ class _PuddinglistviewState extends State<Puddinglistview> {
                           child: Row(children: [
                             Expanded(
                               flex: 6,
-                              child: Container(
-                                decoration:  BoxDecoration(
-                                    image: DecorationImage(
-                                        image:
-                                            NetworkImage(snap[index]['URl']),
-                                        fit: BoxFit.fill)),
-                              ),
+                               child: snap[index]["URl"] == ""
+                              ?Image.asset("assets/noimage.png")
+                              :Image.network(snap[index]["URl"],
+                              fit: BoxFit.fill,)
                             ),
                             const Spacer(
                               flex: 1,

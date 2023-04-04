@@ -54,8 +54,8 @@ class _HomepagelayoutState extends State<Homepagelayout> {
   ];
   final customerPages = [
     const HomepageCustomer(),
-    const Cartcustomerpage(),
     const Favoritecustomerpage(),
+    const Cartcustomerpage(),
     const Profilepagecustomer(),
   ];
 

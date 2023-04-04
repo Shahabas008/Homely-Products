@@ -7,7 +7,7 @@ import 'package:nihaljumailamrathaju/controllers/order.dart';
 class Sweetdetailspage extends StatefulWidget {
   final String id;
 
-  const Sweetdetailspage(this.id, {super.key,required this.product});
+  const Sweetdetailspage(this.id, {super.key, required this.product});
   final QueryDocumentSnapshot product;
 
   @override
@@ -17,16 +17,18 @@ class Sweetdetailspage extends StatefulWidget {
 class _SweetdetailspageState extends State<Sweetdetailspage> {
   final data1 = Get.put(Orderpage());
   void addtoCart() async {
- Get.showSnackbar(const GetSnackBar(
+    Get.showSnackbar(
+      const GetSnackBar(
         duration: Duration(seconds: 3),
         padding: EdgeInsets.all(25),
         backgroundColor: Color(0xff7f4ca5),
-       messageText:  Text("The product is added to cart",
-       style: TextStyle(
-        color: Colors.white
-       ),), 
-       ),
-       );    final FirebaseAuth auth = FirebaseAuth.instance;
+        messageText: Text(
+          "The product is added to cart",
+          style: TextStyle(color: Colors.white),
+        ),
+      ),
+    );
+    final FirebaseAuth auth = FirebaseAuth.instance;
     final currentuser = auth.currentUser;
     CollectionReference collectionRef =
         FirebaseFirestore.instance.collection('User-Cart-Item');
@@ -35,12 +37,22 @@ class _SweetdetailspageState extends State<Sweetdetailspage> {
       "name": widget.product["Item Name"],
       "price": widget.product["Price of Item"],
       "images": widget.product["URl"],
-      "netweight":widget.product["Net Weight"]
+      "netweight": widget.product["Net Weight"]
     }).then((value) => debugPrint("Added to Cart"));
   }
 
   Future addToFavourite() async {
- 
+    Get.showSnackbar(
+      const GetSnackBar(
+        duration: Duration(seconds: 3),
+        padding: EdgeInsets.all(25),
+        backgroundColor: Color(0xff7f4ca5),
+        messageText: Text(
+          "The product is added to Favourites",
+          style: TextStyle(color: Colors.white),
+        ),
+      ),
+    );
     final FirebaseAuth auth = FirebaseAuth.instance;
     User? currentUser = auth.currentUser;
     CollectionReference collectionRef =
@@ -49,7 +61,7 @@ class _SweetdetailspageState extends State<Sweetdetailspage> {
       "name": widget.product["Item Name"],
       "price": widget.product["Price of Item"],
       "images": widget.product["URl"],
-      "netweight":widget.product["Net Weight"]
+      "netweight": widget.product["Net Weight"]
     }).then((value) => print("Added to favourite"));
   }
 
@@ -65,6 +77,7 @@ class _SweetdetailspageState extends State<Sweetdetailspage> {
         .delete()
         .then((value) => print("Favourites deleted"));
   }
+
   @override
   Widget build(BuildContext context) {
     bool isUserLoggedIn = FirebaseAuth.instance.currentUser != null;
@@ -90,8 +103,8 @@ class _SweetdetailspageState extends State<Sweetdetailspage> {
               snapshot.data!.data() as Map<String, dynamic>;
           return SafeArea(
               child: Scaffold(
-                appBar: AppBar(
-                  backgroundColor: const Color(0xff7f4ca5),
+            appBar: AppBar(
+              backgroundColor: const Color(0xff7f4ca5),
               actions: [
                 isUserLoggedIn
                     ? StreamBuilder(
@@ -105,8 +118,7 @@ class _SweetdetailspageState extends State<Sweetdetailspage> {
                         builder: (BuildContext context,
                             AsyncSnapshot<QuerySnapshot> snapshot) {
                           if (snapshot.data == null) {
-                            return  Container(
-                            );
+                            return Container();
                           }
                           return Padding(
                             padding: const EdgeInsets.only(right: 8),
@@ -132,8 +144,8 @@ class _SweetdetailspageState extends State<Sweetdetailspage> {
                         },
                       )
                     : Container(
-                      padding:const EdgeInsets.fromLTRB(200, 200, 200, 200),
-                    ),
+                        padding: const EdgeInsets.fromLTRB(200, 200, 200, 200),
+                      ),
               ],
             ),
             backgroundColor: Colors.pink[200],
@@ -144,12 +156,18 @@ class _SweetdetailspageState extends State<Sweetdetailspage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     SizedBox(
-                      child: Image.network(
-                        data['URl'],
-                        width: 200,
-                        height: 200,
-                      ),
-                    ),
+                        // ignore: unrelated_type_equality_checks
+                        child: data['URl'] == ""
+                            ? Image.asset(
+                                "assets/noimage.png",
+                                width: 200,
+                                height: 200,
+                              )
+                            : Image.network(
+                                data['URl'],
+                                width: 200,
+                                height: 200,
+                              )),
                   ],
                 ),
                 const SizedBox(
@@ -219,17 +237,17 @@ class _SweetdetailspageState extends State<Sweetdetailspage> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        ElevatedButton(  style: ElevatedButton.styleFrom(
-                            backgroundColor: const Color(0xff7f4ca5)
-                          ),
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: const Color(0xff7f4ca5)),
                           onPressed: () {
-                              addtoCart();
+                            addtoCart();
                           },
                           child: const Text('Add to Cart'),
                         ),
-                        ElevatedButton(  style: ElevatedButton.styleFrom(
-                            backgroundColor: const Color(0xff7f4ca5)
-                          ),
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: const Color(0xff7f4ca5)),
                           onPressed: () {
                             data1.order(context);
                           },
