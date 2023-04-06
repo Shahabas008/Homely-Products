@@ -38,6 +38,10 @@ class _ResetpasswordpageState extends State<Resetpasswordpage> {
                   },
                   controller: emailController,
                   decoration: const InputDecoration(
+                     enabledBorder: OutlineInputBorder(
+                        borderSide:
+                            BorderSide(width: 2, color:Color(0xff7f4ca5)),
+                      ),
                     focusedBorder: OutlineInputBorder(
                       borderSide:
                           BorderSide(color: Color(0xff7f4ca5), width: 2.0),

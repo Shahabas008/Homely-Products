@@ -195,6 +195,7 @@ class _AdditempageState extends State<Additempage> {
                         return null;
                       }
                     },
+                    textCapitalization: TextCapitalization.words,
                     controller: itemdescription,
                     maxLines: null,
                     decoration: const InputDecoration(
@@ -288,6 +289,7 @@ class _AdditempageState extends State<Additempage> {
                         return null;
                       }
                     },
+                    textCapitalization: TextCapitalization.words,
                     controller: bakersdescription,
                     maxLines: null,
                     decoration: const InputDecoration(

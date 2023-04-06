@@ -190,7 +190,7 @@ class _SignupforcustomerState extends State<Signupforcustomer> {
                                     backgroundColor: const Color.fromARGB(
                                         255, 226, 119, 158),
                                     minimumSize: const Size(70, 40)),
-                                child: const Text('Login'),
+                                child: const Text('Verify submit and Login'),
                                 onPressed: () async {
                                   try {
                                     final FirebaseAuth auth =
