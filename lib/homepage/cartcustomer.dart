@@ -67,7 +67,7 @@ class _CartcustomerpageState extends State<Cartcustomerpage> {
                     ),
                   );
                 } else {
-                  return SingleChildScrollView(
+                  return Expanded(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [

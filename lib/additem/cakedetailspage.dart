@@ -41,7 +41,7 @@ class _CakedetailspageState extends State<Cakedetailspage> {
   }
 
   Future addToFavourite() async {
-     Get.showSnackbar(
+    Get.showSnackbar(
       const GetSnackBar(
         duration: Duration(seconds: 3),
         padding: EdgeInsets.all(25),

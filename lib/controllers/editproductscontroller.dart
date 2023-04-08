@@ -19,7 +19,7 @@ class Editproductcontroller extends GetxController {
         builder: (context) {
           return SingleChildScrollView(
             child: AlertDialog(
-              title: const Text("Edit Item DEtails"),
+              title: const Text("Edit Item Details"),
               actions: [
                 ElevatedButton(
                     style: ElevatedButton.styleFrom(

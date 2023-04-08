@@ -39,6 +39,17 @@ class _SearchdetailspageState extends State<Searchdetailspage> {
   }
 
   Future addToFavourite() async {
+    Get.showSnackbar(
+      const GetSnackBar(
+        duration: Duration(seconds: 3),
+        padding: EdgeInsets.all(25),
+        backgroundColor: Color(0xff7f4ca5),
+        messageText: Text(
+          "The product is added to Favourites",
+          style: TextStyle(color: Colors.white),
+        ),
+      ),
+    );
     final FirebaseAuth auth = FirebaseAuth.instance;
     User? currentUser = auth.currentUser;
     CollectionReference collectionRef =

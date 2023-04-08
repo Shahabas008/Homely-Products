@@ -77,7 +77,7 @@ class _CartpageState extends State<Cartpage> {
                     ),
                   );
                 } else {
-                  return SingleChildScrollView(
+                  return Expanded(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
