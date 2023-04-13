@@ -16,3 +16,10 @@ directly through the app. So, whether you're a home baker looking to sell your c
 customer looking for delicious treats, the Home Bakers Selling and Buying Flutter App has
 something for everyone. Download the app today and start exploring the world of homemade
 baked goods!
+
+## Screenshots
+
+![Screenshot 2023-04-13 195624](https://user-images.githubusercontent.com/109640095/231790845-6479444c-711d-4e23-a2da-56ccedb0b216.png)
+![Screenshot 2023-04-13 195641](https://user-images.githubusercontent.com/109640095/231790866-ef2bfa12-6eb6-4879-85e7-03d66ef40533.png)
+![Screenshot 2023-04-13 195656](https://user-images.githubusercontent.com/109640095/231790879-f9a3c290-9418-4912-8e51-aafc98a5aa9b.png)
+![Screenshot 2023-04-13 195604](https://user-images.githubusercontent.com/109640095/231790885-8a9c6572-0bdd-4fec-a2b6-4cc78d2e72ef.png)
